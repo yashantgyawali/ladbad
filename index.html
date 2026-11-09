@@ -86,6 +86,11 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .seg button:first-child{border-left:0}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .err{color:var(--orange);font-weight:700;font-size:16px;min-height:1.4em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:16px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:42px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.chips button.all{border-style:dashed}
+.seg-sm button{font-size:16px;line-height:1.1;padding:4px}
 .in.code::placeholder{color:var(--line)}
 .bar .pill{flex:none;min-height:36px;padding:4px 12px;font-size:14px}
 .score{flex:1;justify-content:flex-end}
@@ -278,6 +283,14 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
         <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
       </div>
       <div class="field">
+        <span class="label" data-t="categories"></span>
+        <div class="chips" id="cat-chips"></div>
+      </div>
+      <div class="field">
+        <span class="label" data-t="difficulty"></span>
+        <div class="seg seg-sm" id="seg-level"><button type="button" data-v="mix" data-t="lvMix"></button><button type="button" data-v="hard" data-t="lvHard"></button><button type="button" data-v="insane" data-t="lvInsane"></button></div>
+      </div>
+      <div class="field">
         <span class="label" data-t="secondsPer"></span>
         <div class="seg" id="seg-time"><button type="button" data-v="30">30</button><button type="button" data-v="45">45</button><button type="button" data-v="60">60</button></div>
       </div>
@@ -286,6 +299,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
     <p class="err" id="lobby-err" role="status"></p>
     <button class="btn primary" id="start" type="button" data-t="start"></button>
     <p class="who" id="lobby-wait"></p>
+    <p class="who" id="lobby-deck"></p>
   </section>
 
   <!-- READY (before each card) -->
@@ -525,13 +539,89 @@ const DECK = [
 ["Do We Doing Gum Ah Coot Ah","Dui dungama khutta","दुई डुंगामा खुट्टा","A foot in two boats","ukhaan",3],
 ["Who Nay Be Roo Ah Co Chill Oh Pot","Hune biruwako chillo paat","हुने बिरुवाको चिल्लो पात","A promising sapling shows shiny leaves","ukhaan",3],
 ["Hottie Eye Oh Hottie Eye Oh Fuss Ah","Hatti aayo hatti aayo phussa","हात्ती आयो हात्ती आयो फुस्सा","All that hype, then nothing","ukhaan",3],
-["Half Ooh Bull Low Tuh Jug Gut Bull Low","Aaphu bhalo ta jagat bhalo","आफू भलो त जगत भलो","Be good and the world is good to you","ukhaan",3]
+["Half Ooh Bull Low Tuh Jug Gut Bull Low","Aaphu bhalo ta jagat bhalo","आफू भलो त जगत भलो","Be good and the world is good to you","ukhaan",3],
+
+/* added: harder cards by category; tier 4 = Impossible. Appended so saved "seen" indexes stay valid. */
+["Coupon Dole","Kupondole","कुपण्डोल","Lalitpur neighbourhood by the bridge","place",1],
+["Thou Lick Hail","Dhulikhel","धुलिखेल","Hill town east of Kathmandu","place",2],
+["Till Itch Oh Tall","Tilicho Tal","तिलिचो ताल","High lake on the Annapurna circuit","place",2],
+["Narrow Young Hut","Narayanghat","नारायणघाट","Chitwan's big bus-stop town","place",2],
+["Sugar, Martha","Sagarmatha","सगरमाथा","Mount Everest","place",2],
+["Lodge 'Im, Pat","Lazimpat","लाजिम्पाट","Embassy-lined Kathmandu area","place",2],
+["Ducks In Cali","Dakshinkali","दक्षिणकाली","Temple south of Kathmandu","place",2],
+["Sir, Wrong Cot!","Sarangkot","सराङकोट","Sunrise viewpoint above Pokhara","place",2],
+["Bonnie Shore","Baneshwor","बानेश्वर","Busy Kathmandu chowk","place",2],
+["My Hen Drowned A Gar","Mahendranagar","महेन्द्रनगर","Far-west city near Mahakali river","place",3],
+["Mitchy, Deck Him, Mohawk Kelly!","Mechidekhi Mahakali","मेचीदेखि महाकाली","East to west, all of Nepal","place",4],
+["Call Lanky Johnny: 'Ow, Nose! Ow, Nose!'","Kalanki jane, aaunus aaunus!","कलंकी जाने, आउनुस् आउनुस्!","Bus conductor: Kalanki riders, come on!","place",4],
+["Tribe Who Won Beeman's Stall","Tribhuvan Bimansthal","त्रिभुवन विमानस्थल","Kathmandu airport","place",4],
+["Match Up, Pooch Ray! He Mauls!","Machhapuchhre Himal","माछापुच्छ्रे हिमाल","Fishtail mountain over Pokhara","place",4],
+["Pushed A Curry","Pustakari","पुस्तकारी","Hard caramel milk sweet","food",2],
+["Cheer, Yak! Can You Hunch, Huh?","Chiya khanu hunchha?","चिया खानु हुन्छ?","Will you have some tea?","food",3],
+["Can A Cheese Obey You?","Khana chiso bhayo","खाना चिसो भयो","The food has gone cold","food",3],
+["Cook, Hurrah! Comma, Sue","Kukhurako masu","कुखुराको मासु","Chicken meat","food",3],
+["The Hitch? You Rock, Ken Eden!","Dahi chiura khane din","दही चिउरा खाने दिन","Curd-and-beaten-rice day (Asar 15)","food",4],
+["Ma! Hush, Tummy!","Mahaashtami","महाअष्टमी","Eighth day of Dashain","fest",2],
+["Brat, A Bun, Duh!","Bratabandha","व्रतबन्ध","Sacred thread coming-of-age rite","fest",2],
+["Johnny, Poor Knee, Ma!","Janai Purnima","जनै पूर्णिमा","Sacred thread full-moon festival","fest",2],
+["Sigh, A Pot Tree","Sayapatri","सयपत्री","Marigold for Tihar garlands","fest",2],
+["They, You See, Buy Low","Deusi Bhailo","देउसी भैलो","Tihar carol singing","fest",3],
+["Uhm, A Comb? Hook Her, Nadine!","Aamako mukh herne din","आमाको मुख हेर्ने दिन","Mother's Day (Mata Tirtha Aunsi)","fest",4],
+["Shoo, Bob! Visa? Yeah, The Sammy.","Shubha Bijaya Dashami","शुभ विजया दशमी","Happy Vijaya Dashami (Dashain greeting)","fest",4],
+["The Shy Nico Sued Back. Come On, Ah!","Dashainko shubhakamana","दशैंको शुभकामना","Happy Dashain wishes","fest",4],
+["Tickle A Goon? A Sight!","Tika lagaune saait","टीका लगाउने साइत","Auspicious moment to put on tika","fest",4],
+["Mo Bile Rack Honey Pod Ha","Mobile rakha ani padha","मोबाइल राख अनि पढ","Put the phone down and study","home",2],
+["But Sell Ice Sock, Yo!","Bhat selaisakyo","भात सेलाइसक्यो","The rice has already gone cold","home",2],
+["Egg Chin Park Ha","Ekchhin parkha","एकछिन पर्ख","Wait a moment","home",2],
+["Tim Row Boo Wally Bun Chew","Timro buwalai bhanchhu","तिम्रो बुवालाई भन्छु","I'll tell your father","home",2],
+["Ajay, keep a cow? Nay.","Aaja ke pakaune?","आज के पकाउने?","What should I cook today?","home",3],
+["Hum! Rope a llama? Yes, to Tiana.","Hamro palama yesto thiyena","हाम्रो पालामा यस्तो थिएन","It wasn't like this in our day","home",4],
+["Our car coach, or a hernia?","Arkako chhora hera na","अर्काको छोरा हेर न","Look at someone else's son, will you","home",4],
+["Kebab, Yo Rah?","Ke bhayo ra?","के भयो र?","So what? What happened?","talk",1],
+["Cure, I Chewed!","Kurai chhod","कुरै छोड","Forget it / don't even ask","talk",1],
+["Ah, Jetta cut a jar. D'oh!","Aaja ta kati jaado","आज त कति जाडो","It's so cold today","talk",3],
+["Keg, our Nala gecko?","Ke garna lageko?","के गर्न लागेको?","What are you about to do?","talk",3],
+["Katie, howdy! Ollie Katie got tuna.","Kati ho dai, alikati ghatau na","कति हो दाइ, अलिकति घटाउ न","How much, brother? Lower it a little","talk",4],
+["Hey Jota, cast a ram? I'll obey, yo!","Hijo ta kasto ramailo bhayo","हिजो त कस्तो रमाइलो भयो","Yesterday was so much fun","talk",4],
+["Been a Zoo","Bhinaju","भिनाजु","Elder sister's husband","family",1],
+["Too Low, Boa!","Thulobuwa","ठूलोबुवा","Father's elder brother","family",1],
+["Saw Sue Boo Harry","Sasu buhari","सासू बुहारी","Mother-in-law and daughter-in-law","family",2],
+["My Lady Dee","Maili didi","माइली दिदी","Second-eldest sister","family",2],
+["Dad, you buy Dee Dee? Buy honey!","Dajubhai didibahini","दाजुभाइ दिदीबहिनी","Brothers and sisters (speech opener)","family",4],
+["Joy, now you cook! Hurrah! Cut!","Jwain aayo, kukhura kaat","ज्वाइँ आयो, कुखुरा काट","Son-in-law's here, kill the chicken","family",4],
+["A cash cop, Hal, on car? Tarry, Ma!","Aakashko phal aankha tari mar","आकाशको फल आँखा तरी मर","Dying while staring at fruit in the sky","ukhaan",3],
+["Gee, you carhop! Okie, yodel, my!","Ghiu kaha pokhiyo, daalmai","घिउ कहाँ पोखियो, दालमै","Where did the ghee spill? In the daal","ukhaan",3],
+["Sonoma cook told Cora.","Sano mukh thulo kura","सानो मुख ठूलो कुरा","Small mouth, big talk","ukhaan",3],
+["Ack, panther! Do we cadge?","Ek pantha dui kaaj","एक पन्थ दुई काज","One trip, two jobs done","ukhaan",3],
+["Go, Ma! Nunchuck char canoe!","Ghaauma nunchuk chharkanu","घाउमा नुनचुक छर्कनु","Rub salt into the wound","ukhaan",3],
+["Ache, Khan? Do we con my Don?","Ek kaan dui kaan maidan","एक कान दुई कान मैदान","A secret spreads ear to ear, to all","ukhaan",3],
+["Ah, go lug a patchy inner can, eh?","Aago lagepachhi inaar khanne","आगो लागेपछि इनार खन्ने","Digging a well after the fire starts","ukhaan",4],
+["Carlo, a shark, buys a barber.","Kalo akshar bhainsi barabar","कालो अक्षर भैंसी बराबर","To the illiterate, black letters are no different from a buffalo","ukhaan",4],
+["Who knew Hardy banter, Ernie?","Hune haar daiba natarne","हुने हार दैव नटार्ने","What is fated, even god can't stop","ukhaan",4],
+["Jabba's Amma's sauce? Tubby's Amma's!","Jabasamma saas, tabasamma aas","जबसम्म सास, तबसम्म आस","While there's breath, there's hope","ukhaan",4],
+["Come, Gurney! Call Uma, Connie, Ballou!","Kaam garne Kalu, maam khaane bhalu","काम गर्ने कालु, माम खाने भालु","Kalu does the work, the bear eats","ukhaan",4],
+["Off, no, Dahlia! Kiss Sally a mellow bun, Dinah!","Aaphno dahilai kasaile amilo bhandaina","आफ्नो दहीलाई कसैले अमिलो भन्दैन","No one calls their own curd sour","ukhaan",4],
+["Come, Cora! A cutter! Come low, Bucky! Timmy, tear!","Kaam kuro ekatir, kumlo boki Thimitir","काम कुरो एकातिर, कुम्लो बोकी थिमीतिर","Ignore the real job, wander off elsewhere","ukhaan",4],
+["Door Punch Ayah","Darpan Chhaya","दर्पण छाया","Blockbuster Nepali film (2001)","song",2],
+["Chuck Cup On Jaw","Chhakka Panja","छक्का पन्जा","Hit Nepali comedy film","song",2],
+["Moo Numb Add On","Muna Madan","मुना मदन","Devkota's epic, also a hit film","song",2],
+["Coo, Sue May Roam All","Kusume Rumal","कुसुमे रुमाल","Classic Nepali romance film (1985)","song",2],
+["Yo, Sam! Jinny Munch, Huh?","Yo Samjhine Mann Chha","यो सम्झिने मन छ","Narayan Gopal classic","song",3],
+["Go On, Go On, But A Hoot, Huh","Gaun Gaunbata Utha","गाउँ गाउँबाट उठ","Rousing song: rise from every village","song",3],
+["Sigh, young thug, a full car, hum me.","Sayaun Thunga Phoolka Hami","सयौँ थुँगा फूलका हामी","National anthem: we are hundreds of flowers","song",4],
+["Full cone? Come, Ma! Fool, I sense, sir.","Phoolko Aankhama Phoolai Sansar","फूलको आँखामा फूलै संसार","Ani Choying's hit: the world in a flower's eye","song",4],
+["Your mum tomorrow? Nap, Polly, ho!","Yo Man Ta Mero Nepali Ho","यो मन त मेरो नेपाली हो","Patriotic song: this heart is Nepali","song",4],
+["Bun a mirror, bayou! They see Ray.","Bhana Mera Bhai Ho Deusi Re","भन मेरा भाइ हो देउसी रे","Deusi chant sung door to door at Tihar","song",4],
+["Teach Cora, hire you barely.","Teejko Rahar Aayo Barilai","तीजको रहर आयो बरिलै","Teej anthem: the Teej longing has come","song",4]
 ];
-const CAT = {place:["Place","ठाउँ"],food:["Food","खानेकुरा"],fest:["Festival","चाडपर्व"],talk:["Everyday talk","बोलीचाली"],home:["Heard at home","घरमा सुनिने कुरा"],family:["Family","नाता"],ukhaan:["Ukhaan","उखान"],song:["Song","गीत"]};
-const TIER = [["Warm-up","सजिलो"],["Slippery","चिप्लो"],["Brain melt","दिमाग पग्लिने"],["Boss round","सबैभन्दा गाह्रो"]];
-const POINTS = [10,20,30,50];
+const CAT = {place:["Places","ठाउँ"],food:["Food","खानेकुरा"],fest:["Festivals","चाडपर्व"],home:["Heard at home","घरमा सुनिने कुरा"],talk:["Everyday talk","बोलीचाली"],family:["Family","नाता"],ukhaan:["Ukhaan","उखान टुक्का"],song:["Songs & movies","गीत र चलचित्र"]};
+const CAT_KEYS = Object.keys(CAT);
+const TIER = [["Warm-up","सजिलो"],["Slippery","चिप्लो"],["Brain melt","दिमाग पग्लिने"],["Boss round","धेरै गाह्रो"],["Impossible","असम्भव"]];
+const POINTS = [10,20,30,50,80];
 /* points a correct card is worth after 0, 1 or 2 hints; every hint costs something */
-const WORTH = [[10,6,3],[20,14,8],[30,20,12],[50,35,20]];
+const WORTH = [[10,6,3],[20,14,8],[30,20,12],[50,35,20],[80,55,30]];
+/* share of cards per tier for each difficulty setting */
+const LEVELS = { mix:[.15,.2,.25,.2,.2], hard:[0,0,.35,.35,.3], insane:[0,0,0,.4,.6] };
 
 /* ---------- words ---------- */
 const T = {
@@ -553,6 +643,8 @@ en:{
   invite:"Invite", copied:"Link copied. Send it to the others.", shareText:"Join my Ladbad room: {c}",
   pickTeam:"Tap a team to join it", tapJoin:"Tap to join", youHere:"You're here", nobodyYet:"Nobody yet",
   teamNames:"Team names", cardsEach:"Cards per team", secondsPer:"Seconds per card",
+  categories:"Categories", allCats:"All", difficulty:"Difficulty", lvMix:"Easy to hard", lvHard:"Hard", lvInsane:"Impossible",
+  playing:"Cards: {c} · {l}",
   start:"Start game", players:"{n} in the room", player1:"1 in the room",
   needTeams:"Each team needs at least one player.", pickYourTeam:"Pick a team first.",
   waitHost:"Waiting for {h} to start the game", teamA:"Momo", teamB:"Chiya",
@@ -594,6 +686,8 @@ ne:{
   invite:"बोलाउनुस्", copied:"लिंक कपी भयो। अरूलाई पठाउनुस्।", shareText:"मेरो Ladbad कोठामा आउनुस्: {c}",
   pickTeam:"टोलीमा छोएर जोडिनुस्", tapJoin:"छोएर जोडिनुस्", youHere:"तपाईं यहाँ", nobodyYet:"अहिले कोही छैन",
   teamNames:"टोलीको नाम", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड",
+  categories:"किसिम", allCats:"सबै", difficulty:"कठिनाइ", lvMix:"सजिलोदेखि गाह्रो", lvHard:"गाह्रो", lvInsane:"असम्भव",
+  playing:"कार्ड: {c} · {l}",
   start:"खेल सुरु", players:"कोठामा {n} जना", player1:"कोठामा १ जना",
   needTeams:"हरेक टोलीमा कम्तीमा एक जना चाहिन्छ।", pickYourTeam:"पहिले टोली छान्नुस्।",
   waitHost:"{h} ले खेल सुरु गर्ने प्रतीक्षा", teamA:"मम", teamB:"चिया",
@@ -666,25 +760,41 @@ function freshGame(){
   return { seq:0, phase:"lobby", hostId:ME.id, hostName:ME.name,
     teams:[{name:null,score:0},{name:null,score:0}],
     perTeam:store.get("perTeam",6), time:store.get("time",45),
+    cats: validCats(store.get("cats", CAT_KEYS)), level: LEVELS[store.get("level","mix")] ? store.get("level","mix") : "mix",
     deck:[], idx:0, reader:null, waitTeam:null, notice:null, hints:0, outcome:null, turns:[0,0], roster:[[],[]], leftMs:0 };
 }
 
 const teamName = i => (G && G.teams[i].name) || t(i ? "teamB" : "teamA");
-/* deck: easy first, ukhaan last. Unplayed cards first; when a tier runs out, reuse the cards played longest ago. */
-function pick(tier, count){
-  const all = DECK.map((c,i)=>i).filter(i => DECK[i][5]===tier);
+function validCats(a){ const v = (Array.isArray(a) ? a : []).filter(k => CAT[k]); return v.length ? v : CAT_KEYS.slice(); }
+/* How many cards of each tier one team gets, for n cards per team (largest remainder, so it always adds up to n). */
+function tierCounts(n, level){
+  const w = LEVELS[level] || LEVELS.mix, raw = w.map(x => x*n), out = raw.map(Math.floor);
+  let left = n - out.reduce((a,b)=>a+b,0);
+  raw.map((x,i)=>[x-out[i],i]).filter(([f,i]) => w[i] > 0).sort((a,b)=>b[0]-a[0]).forEach(([,i]) => { if (left > 0){ out[i]++; left--; } });
+  return out;
+}
+/* Deck: easy first, hardest last, only from the chosen categories. Unplayed cards first, then the
+   ones played longest ago. If a tier runs dry in these categories, borrow from the nearest tier. */
+function buildDeck(n, cats, level){
   const seen = store.get("seen",[]);
-  const fresh = shuffle(all.filter(i => !seen.includes(i)));
-  if (fresh.length >= count) return fresh.slice(0,count);
-  const oldest = seen.filter(i => DECK[i] && DECK[i][5]===tier).slice(0, count - fresh.length);
-  store.set("seen", seen.filter(i => !oldest.includes(i)));
-  return fresh.concat(shuffle(oldest));
+  const queues = [0,1,2,3,4].map(tier => {
+    const pool = DECK.map((c,i)=>i).filter(i => DECK[i][5]===tier && cats.includes(DECK[i][4]));
+    return shuffle(pool.filter(i => !seen.includes(i))).concat(seen.filter(i => pool.includes(i)));
+  });
+  const slots = tierCounts(n, level).flatMap((c,tier) => Array(c*2).fill(tier));
+  const hardFirst = level !== "mix";
+  const deck = [];
+  slots.forEach(tier => {
+    const order = [0,1,2,3,4].sort((a,b) => Math.abs(a-tier) - Math.abs(b-tier) || (hardFirst ? b-a : a-b));
+    const q = order.map(x => queues[x]).find(x => x.length);
+    if (q) deck.push(q.shift());
+  });
+  // keep the two teams' cards side by side in difficulty order; an even count keeps it fair
+  deck.sort((a,b) => DECK[a][5] - DECK[b][5]);
+  if (deck.length % 2) deck.shift();
+  return deck;
 }
-function buildDeck(n){
-  const t1 = Math.round(n*.3), t3 = Math.round(n*.25), t4 = Math.max(1,Math.round(n*.2)), t2 = Math.max(0, n-t1-t3-t4);
-  return [t1,t2,t3,t4].flatMap((c,tier) => pick(tier, c*2));
-}
-function markSeen(i){ const s = store.get("seen",[]); if (!s.includes(i)){ s.push(i); store.set("seen",s); } }
+function markSeen(i){ const s = store.get("seen",[]).filter(x => x !== i); s.push(i); store.set("seen",s); }
 const cardOf = g => DECK[g.deck[g.idx]];
 function worthOf(g){ return WORTH[cardOf(g)[5]][Math.min(2, g.hints)]; }
 function hintCostOf(g){ const w = WORTH[cardOf(g)[5]]; return w[g.hints] - w[Math.min(2, g.hints+1)]; }
@@ -750,7 +860,8 @@ function hostAct(a, fromId){
       if (fromId !== ME.id || G.phase !== "lobby") return;
       if (!teamList(0).length || !teamList(1).length) return;
       G.teams.forEach(tm => tm.score = 0);
-      G.deck = buildDeck(G.perTeam); G.idx = 0; G.turns = [0,0];
+      G.deck = buildDeck(G.perTeam, G.cats, G.level); G.idx = 0; G.turns = [0,0];
+      if (G.deck.length < 2) return;
       G.roster = [teamList(0).map(p => ({id:p.id, name:p.name})), teamList(1).map(p => ({id:p.id, name:p.name}))];
       G.notice = null; hostToReady(); break;
     }
@@ -758,6 +869,8 @@ function hostAct(a, fromId){
       if (fromId !== ME.id || G.phase !== "lobby") return;
       if (a.perTeam) G.perTeam = a.perTeam;
       if (a.time) G.time = a.time;
+      if (a.cats) G.cats = validCats(a.cats);
+      if (a.level && LEVELS[a.level]) G.level = a.level;
       if (a.nameIdx === 0 || a.nameIdx === 1) G.teams[a.nameIdx].name = a.name ? String(a.name).slice(0,14) : null;
       break;
     }
@@ -943,11 +1056,15 @@ function scoreChips(id){
     box.appendChild(c);
   });
 }
+function hintSteps(c){
+  const w = c[2].replace(/[?!।]/g,"").trim().split(/\s+/).length;
+  const first = t("hFirst",{np:Array.from(c[2])[0], ro:c[1][0].toUpperCase()}), words = w===1 ? t("hWord") : t("hWords",{n:w});
+  return (G.cats || CAT_KEYS).length > 1 ? [[CAT[c[4]][li()]], [first, words]] : [[words], [first]];
+}
 function hintsInto(id){
   const c = cardOf(G), box = $(id); box.innerHTML = "";
   const add = s => { const e = document.createElement("span"); e.className = "hint pop"; e.textContent = s; box.appendChild(e); };
-  if (G.hints >= 1) add(CAT[c[4]][li()]);
-  if (G.hints >= 2){ const w = c[2].replace(/[?!।]/g,"").trim().split(/\s+/).length; add(t("hFirst",{np:Array.from(c[2])[0], ro:c[1][0].toUpperCase()})); add(w===1 ? t("hWord") : t("hWords",{n:w})); }
+  hintSteps(c).slice(0, G.hints).flat().forEach(add);
 }
 
 /* which screen this phone should be on, given G */
@@ -996,8 +1113,11 @@ function renderScreen(){
     });
     $("host-settings").hidden = !isHost; $("start").hidden = !isHost;
     $("lobby-wait").hidden = isHost; $("lobby-wait").textContent = t("waitHost",{h:G.hostName});
+    $("lobby-deck").hidden = isHost;
+    $("lobby-deck").textContent = t("playing",{c: G.cats.length === CAT_KEYS.length ? t("allCats") : G.cats.map(k => CAT[k][li()]).join(", "), l: t({mix:"lvMix",hard:"lvHard",insane:"lvInsane"}[G.level])});
     if (isHost){
-      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time);
+      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time); setSeg("seg-level", G.level);
+      paintCats();
       [0,1].forEach(i => { const inp = $("tn-"+i); if (document.activeElement !== inp) inp.value = teamName(i); });
       const ok = teamList(0).length && teamList(1).length;
       $("start").disabled = !ok; $("lobby-err").textContent = ok ? "" : t("needTeams");
@@ -1065,6 +1185,19 @@ function renderScreen(){
   }
   if (s === "flip") paintFlip();
 }
+function paintCats(){
+  const box = $("cat-chips"); box.innerHTML = "";
+  const all = G.cats.length === CAT_KEYS.length;
+  const mk = (label, pressed, onClick, cls) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.setAttribute("aria-pressed", String(pressed)); if (cls) b.className = cls; b.onclick = onClick; box.appendChild(b); };
+  mk(t("allCats"), all, () => setCats(CAT_KEYS.slice()), "all");
+  CAT_KEYS.forEach(k => mk(CAT[k][li()] + " " + num(DECK.filter(c => c[4]===k).length), !all && G.cats.includes(k), () => {
+    // from "all", tapping one category picks just that one; otherwise toggle it
+    let next = all ? [k] : G.cats.includes(k) ? G.cats.filter(x => x !== k) : G.cats.concat(k);
+    if (!next.length) next = CAT_KEYS.slice();
+    setCats(next);
+  }));
+}
+function setCats(cats){ store.set("cats", cats); hostAct({type:"settings", cats}, ME.id); sfx.tap(); }
 function setSeg(id,v){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == v))); }
 function paintTimer(prefix){
   if (!G || G.phase !== "play") return;
@@ -1133,7 +1266,7 @@ async function resume(){
   if (saved.host){
     const hg = store.get("hostgame:"+saved.code, null);
     if (!hg || !hg.G || !hg.G.roster || Date.now() - hg.savedAt > 6*3600*1000) return false;
-    G = hg.G; G.hostName = ME.name;
+    G = hg.G; G.hostName = ME.name; G.cats = validCats(G.cats); if (!LEVELS[G.level]) G.level = "mix";
     if (G.phase === "play"){ endAt = hg.endAt; }
   }
   const p = store.get("team:"+saved.code, null); if (p === 0 || p === 1) ME.team = p;
@@ -1185,6 +1318,7 @@ $("share").onclick = async () => {
   try{ await navigator.clipboard.writeText(text + "\n" + url); toast(t("copied")); }
   catch(e){ toast(url); }
 };
+$("seg-level").querySelectorAll("button").forEach(b => b.onclick = () => { store.set("level", b.dataset.v); hostAct({type:"settings", level:b.dataset.v}, ME.id); sfx.tap(); });
 [["seg-cards","perTeam"],["seg-time","time"]].forEach(([id,key]) => $(id).querySelectorAll("button").forEach(b => b.onclick = () => { const v = Number(b.dataset.v); store.set(key, v); hostAct({type:"settings", [key]: v}, ME.id); sfx.tap(); }));
 [0,1].forEach(i => $("tn-"+i).addEventListener("change", e => {
   const v = e.target.value.trim(), isDefault = !v || v === T.en[i?"teamB":"teamA"] || v === T.ne[i?"teamB":"teamA"];

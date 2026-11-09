@@ -12,9 +12,10 @@ It plays like a real card game: the reader holds the front of the card, everyone
    - the **reader's phone** shows only the gibberish, a timer, Hint and Pass;
    - **every other phone** shows the answer in नेपाली, romanised and in English;
    - the **other team** taps **Got it!** when the reader says it.
-4. Warm-up → Slippery → Brain melt → Boss round (ukhaan). Hints cost points.
+4. The host picks **categories** (Places, Food, Festivals, Heard at home, Everyday talk, Family, Ukhaan, Songs & movies) and a **difficulty**: Easy to hard, Hard, or Impossible.
+5. Cards go Warm-up → Slippery → Brain melt → Boss round → **Impossible** (decoys that read like real English sentences). Hints cost points.
 
-Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 95 cards.
+Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 166 cards.
 
 ## How phones connect
 
@@ -29,7 +30,7 @@ Note: Supabase free projects pause after about a week without use. If rooms stop
 
 ## Edit it
 
-`ladbad.html` is the source. The deck is the `DECK` array: `[decoy, romanised answer, नेपाली answer, meaning, category, tier]`.
+`ladbad.html` is the source. The deck is the `DECK` array: `[decoy, romanised answer, नेपाली answer, meaning, category, tier]` (tier 0-4, 4 = Impossible). Add new cards at the end so saved play history stays valid.
 After editing, run `./build.sh` to regenerate `index.html`.
 
 To test several "phones" in one browser, add `?p=anything` to the URL; each value gets its own identity.
