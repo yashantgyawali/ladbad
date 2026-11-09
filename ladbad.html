@@ -1,0 +1,862 @@
+<title>Ladbad</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#FBF3E6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: one phone-sized column, one screen at a time. Paper ground, ink-outlined cards with offset colour shadows. */
+:root{
+  --paper:#FBF3E6;   /* page */
+  --card:#FFFBF4;    /* card face */
+  --ink:#26170E;     /* text + outlines */
+  --muted:#7C6553;   /* secondary text */
+  --line:#EBDCC6;    /* hairlines, tracks */
+  --orange:#EE5F35;  /* action */
+  --sun:#F5B12E;     /* shadow, highlight */
+  --leaf:#3B8F55;    /* correct */
+  --tint:#FCE3D6;    /* orange wash */
+  --font:'Baloo 2', 'Kohinoor Devanagari', 'Noto Sans Devanagari', ui-rounded, system-ui, sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);
+  font-size:18px;line-height:1.45;overscroll-behavior:none;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}
+input{-webkit-user-select:text;user-select:text}
+.app{max-width:460px;margin:0 auto;height:100%;display:flex;flex-direction:column}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;padding-block:14px 22px;overflow-y:auto}
+.screen.fixed{overflow:hidden}
+h1,h2,h3,p{margin:0}
+h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spacing:-.01em}
+.np{font-weight:600}
+.muted{color:var(--muted)}
+.grow{flex:1}
+.row{display:flex;gap:12px;align-items:center}
+.row > *{min-width:0}
+.between{justify-content:space-between}
+.stack{display:flex;flex-direction:column;gap:12px}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
+.mark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-.02em}
+.mark i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--sun) 0 50%,var(--orange) 50% 100%);display:block;transform:rotate(-6deg)}
+.pill{font:inherit;font-size:15px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.icon{width:44px;height:44px;border-radius:12px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:inherit;font-size:22px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
+
+/* buttons */
+.btn{font:inherit;font-weight:800;font-size:21px;line-height:1.15;border:2.5px solid var(--ink);border-radius:16px;padding:15px 18px;min-height:62px;background:var(--card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;transition:transform .08s ease, box-shadow .08s ease;width:100%}
+.btn small{display:block;font-size:14px;font-weight:600;opacity:.8}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.primary{background:var(--orange);color:#fff;border-color:var(--orange);box-shadow:5px 5px 0 var(--sun)}
+.btn.primary:active{box-shadow:2px 2px 0 var(--sun)}
+.btn.good{background:var(--leaf);border-color:var(--leaf);color:#fff;box-shadow:5px 5px 0 var(--ink)}
+.btn.ghost{box-shadow:none;border-color:var(--line);font-size:18px;min-height:54px}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn .col{display:flex;flex-direction:column;align-items:center}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+/* the card */
+.card{position:relative;background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--sun);padding:22px 20px}
+.card.orange{box-shadow:8px 8px 0 var(--orange)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--tint);border-radius:999px;padding:4px 12px}
+.gib{font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
+
+/* home */
+.hero{position:relative;height:250px;margin:6px 6px 4px}
+.hero .card{position:absolute;width:74%;padding:18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.hero .c1{left:0;top:18px;transform:rotate(-5deg);z-index:2}
+.hero .c2{right:0;top:0;transform:rotate(4deg);box-shadow:8px 8px 0 var(--orange)}
+.hero.flipped .c1{transform:rotate(-9deg) translate(-8px,26px)}
+.hero.flipped .c2{transform:rotate(2deg) translate(0,-6px);z-index:3}
+.hero .tag{align-self:flex-start}
+.hero .gib{font-size:clamp(30px,9vw,40px)}
+.hero .ans{font-size:clamp(30px,9vw,38px);font-weight:800;line-height:1.1}
+.hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
+.title{font-size:clamp(50px,15vw,64px);font-weight:800;line-height:.95;letter-spacing:-.035em}
+.title span{display:block;font-size:.5em;color:var(--orange);letter-spacing:0;margin-top:6px}
+.lede{font-size:19px;line-height:1.4}
+
+/* setup */
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.team-in{font:inherit;font-size:22px;font-weight:800;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px;width:100%;min-height:58px}
+.team-in:focus{outline:none;box-shadow:4px 4px 0 var(--sun)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border:2.5px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--card)}
+.seg button{font:inherit;font-size:20px;font-weight:800;border:0;background:none;color:var(--ink);min-height:54px;cursor:pointer;border-left:2px solid var(--line)}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.vs{display:flex;align-items:center;gap:10px}
+.vs b{font-size:15px;color:var(--muted)}
+.dot{width:14px;height:14px;border-radius:50%;flex:none;border:2px solid var(--ink)}
+.dot.a{background:var(--orange)}.dot.b{background:var(--sun)}
+
+/* play */
+.score{display:flex;gap:8px}
+.chip{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:999px;padding:4px 12px 4px 8px;font-weight:800;font-size:16px;background:var(--card);max-width:46vw}
+.chip .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:24vw}
+.chip.on{border-color:var(--ink)}
+.chip .pts{font-variant-numeric:tabular-nums}
+.playcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;min-height:0}
+.playcard .top{display:flex;justify-content:space-between;align-items:center;gap:8px;position:absolute;left:18px;right:18px;top:16px}
+.worth{font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.timer{height:12px;border-radius:999px;background:var(--line);overflow:hidden;border:2px solid var(--ink)}
+.timer i{display:block;height:100%;background:var(--sun);transform-origin:left;width:100%}
+.timer.low i{background:var(--orange)}
+.secs{font-size:44px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;text-align:center}
+.secs.low{color:var(--orange);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.hints{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:36px}
+.hint{font-size:16px;font-weight:700;background:var(--tint);border-radius:10px;padding:4px 12px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.controls .wide{grid-column:1/-1}
+.peek{touch-action:none}
+.peek.on{background:var(--ink);color:var(--paper)}
+.peekbox{position:absolute;inset:0;border-radius:19px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;z-index:5}
+.peekbox .a{font-size:clamp(34px,10vw,46px);font-weight:800;line-height:1.1}
+.peekbox .r{font-size:20px;font-weight:700;opacity:.8}
+
+/* pass / steal / result */
+.center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
+.big{font-size:clamp(40px,12vw,56px);font-weight:800;line-height:1;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
+.phone{width:82px;height:132px;border:4px solid var(--ink);border-radius:18px;background:var(--card);position:relative;animation:hand 2.2s ease-in-out infinite;box-shadow:6px 6px 0 var(--sun)}
+.phone::after{content:"";position:absolute;left:50%;bottom:9px;width:22px;height:5px;margin-left:-11px;border-radius:9px;background:var(--ink)}
+@keyframes hand{0%,100%{transform:translateX(-26px) rotate(-8deg)}50%{transform:translateX(26px) rotate(8deg)}}
+.answer{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.answer .np-a{font-size:clamp(38px,11vw,52px);font-weight:800;line-height:1.15}
+.answer .ro{font-size:22px;font-weight:700}
+.answer .me{font-size:17px;color:var(--muted)}
+.decoy{font-size:18px;font-weight:700;color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--orange)}
+.banner{font-size:26px;font-weight:800;text-align:center;text-wrap:balance}
+.banner.win{color:var(--leaf)}
+.pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.stealsecs{font-size:72px;font-weight:800;line-height:1;color:var(--orange);font-variant-numeric:tabular-nums}
+
+/* final */
+.podium{display:flex;flex-direction:column;gap:12px;width:100%}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;border:2.5px solid var(--ink);border-radius:16px;padding:12px 16px;background:var(--card);font-weight:800;font-size:24px}
+.prow.first{box-shadow:6px 6px 0 var(--sun)}
+.prow .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .pts{font-variant-numeric:tabular-nums}
+
+/* how */
+.steps{display:flex;flex-direction:column;gap:14px;padding:0;margin:0;list-style:none}
+.steps li{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}
+.steps .n{width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:800}
+.steps p{font-size:18px;line-height:1.35}
+.steps p + p{font-size:16px;color:var(--muted);margin-top:2px}
+.tip{border-left:4px solid var(--sun);padding:4px 0 4px 14px;font-size:17px}
+
+/* sheet */
+.veil{position:fixed;inset:0;background:rgba(38,23,14,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{width:100%;max-width:460px;background:var(--paper);border:3px solid var(--ink);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:8px 8px 0 var(--orange)}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-height:640px){
+  .hero{height:210px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}
+  .secs{font-size:34px}
+}
+</style>
+
+<div class="app" id="app">
+
+  <!-- HOME -->
+  <section class="screen" id="s-home">
+    <div class="bar">
+      <div class="mark"><i></i>Ladbad</div>
+      <button class="pill" id="lang" type="button" aria-label="Switch language"></button>
+    </div>
+    <div class="hero" id="hero" role="button" tabindex="0" aria-label="Flip the example card">
+      <div class="card c1">
+        <span class="tag" data-t="sayIt"></span>
+        <div class="gib">Ill Lamb Bug Jar</div>
+        <div class="cap" data-t="tapFlip"></div>
+      </div>
+      <div class="card c2">
+        <span class="tag" data-t="itsActually"></span>
+        <div class="ans">इलाम बजार</div>
+        <div class="cap">Ilam Bazar</div>
+      </div>
+    </div>
+    <div class="stack">
+      <h1 class="title">लडबड<span data-t="tagline"></span></h1>
+      <p class="lede" data-t="lede"></p>
+    </div>
+    <div class="grow"></div>
+    <div class="stack">
+      <button class="btn primary" id="go-setup" type="button" data-t="play"></button>
+      <div class="row">
+        <button class="btn" id="go-how" type="button" data-t="how"></button>
+        <button class="btn" id="go-flip" type="button" data-t="practice"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO PLAY -->
+  <section class="screen" id="s-how" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-back aria-label="Back">←</button>
+      <h2 data-t="how"></h2>
+      <span style="width:44px"></span>
+    </div>
+    <ol class="steps" id="how-steps"></ol>
+    <p class="tip" data-t="howTip"></p>
+    <div class="grow"></div>
+    <button class="btn primary" type="button" data-goto="setup" data-t="gotIt"></button>
+  </section>
+
+  <!-- SETUP -->
+  <section class="screen" id="s-setup" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-back aria-label="Back">←</button>
+      <h2 data-t="setupTitle"></h2>
+      <span style="width:44px"></span>
+    </div>
+    <div class="field">
+      <span class="label" data-t="teams"></span>
+      <div class="vs"><span class="dot a"></span><input class="team-in" id="team-a" maxlength="16" autocomplete="off"></div>
+      <div class="vs"><span class="dot b"></span><input class="team-in" id="team-b" maxlength="16" autocomplete="off"></div>
+    </div>
+    <div class="field">
+      <span class="label" data-t="cardsEach"></span>
+      <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
+    </div>
+    <div class="field">
+      <span class="label" data-t="secondsPer"></span>
+      <div class="seg" id="seg-time"><button type="button" data-v="30">30</button><button type="button" data-v="45">45</button><button type="button" data-v="60">60</button></div>
+    </div>
+    <div class="field">
+      <span class="label" data-t="sound"></span>
+      <div class="seg" id="seg-sound"><button type="button" data-v="1" data-t="on"></button><button type="button" data-v="0" data-t="off"></button></div>
+    </div>
+    <div class="grow"></div>
+    <button class="btn primary" id="start" type="button" data-t="start"></button>
+  </section>
+
+  <!-- PASS THE PHONE -->
+  <section class="screen fixed" id="s-pass" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
+      <div class="score" id="score-pass"></div>
+    </div>
+    <div class="center">
+      <div class="phone" aria-hidden="true"></div>
+      <span class="tag" id="pass-tier"></span>
+      <p class="muted" data-t="passTo"></p>
+      <div class="big" id="pass-team"></div>
+      <p class="muted" data-t="pickReader"></p>
+    </div>
+    <button class="btn primary" id="ready" type="button" data-t="ready"></button>
+  </section>
+
+  <!-- PLAY -->
+  <section class="screen fixed" id="s-play" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
+      <div class="score" id="score-play"></div>
+    </div>
+    <div class="playcard">
+      <div class="card" id="play-card" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:58px;min-height:0">
+        <div class="top"><span class="tag" id="play-tier"></span><span class="worth" id="play-worth"></span></div>
+        <div class="gib" id="play-gib"></div>
+        <div class="peekbox" id="peekbox" hidden>
+          <div class="a" id="peek-np"></div>
+          <div class="r" id="peek-ro"></div>
+        </div>
+      </div>
+      <div class="hints" id="hints"></div>
+      <div class="stack" style="gap:10px">
+        <div class="secs" id="secs"></div>
+        <div class="timer" id="timer"><i id="timer-fill"></i></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="hint" type="button"></button>
+      <button class="btn peek" id="peek" type="button" data-t="peek"></button>
+      <button class="btn ghost" id="giveup" type="button" data-t="giveUp"></button>
+      <button class="btn good" id="gotit" type="button" data-t="gotItBtn"></button>
+    </div>
+  </section>
+
+  <!-- STEAL -->
+  <section class="screen fixed" id="s-steal" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
+      <div class="score" id="score-steal"></div>
+    </div>
+    <div class="center">
+      <p class="banner" data-t="timeUp"></p>
+      <div class="big" id="steal-team"></div>
+      <p class="lede" id="steal-line"></p>
+      <div class="stealsecs" id="steal-secs"></div>
+      <div class="card" style="width:100%"><div class="gib" id="steal-gib" style="font-size:clamp(28px,8vw,38px)"></div></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="steal-no" type="button" data-t="nope"></button>
+      <button class="btn good" id="steal-yes" type="button" data-t="stolen"></button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen fixed" id="s-result" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
+      <div class="score" id="score-result"></div>
+    </div>
+    <div class="center">
+      <p class="banner pop" id="res-banner"></p>
+      <div class="card orange" style="width:100%">
+        <div class="answer">
+          <span class="decoy" id="res-decoy"></span>
+          <div class="np-a" id="res-np"></div>
+          <div class="ro" id="res-ro"></div>
+          <div class="me" id="res-me"></div>
+        </div>
+      </div>
+      <p class="muted" id="res-left"></p>
+    </div>
+    <button class="btn primary" id="next" type="button"></button>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen" id="s-final" hidden>
+    <div class="center">
+      <span class="tag" data-t="gameOver"></span>
+      <div class="big pop" id="final-win"></div>
+      <div class="podium" id="podium"></div>
+      <p class="muted" id="final-line"></p>
+    </div>
+    <div class="stack">
+      <button class="btn primary" id="again" type="button" data-t="again"></button>
+      <button class="btn ghost" type="button" data-goto="home" data-t="home"></button>
+    </div>
+  </section>
+
+  <!-- PRACTICE (flip cards) -->
+  <section class="screen fixed" id="s-flip" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-back aria-label="Back">←</button>
+      <span class="muted" id="flip-count"></span>
+    </div>
+    <div class="playcard">
+      <div class="card" id="flip-card" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:58px;min-height:0;cursor:pointer">
+        <div class="top"><span class="tag" id="flip-tier"></span><span class="worth" id="flip-cat"></span></div>
+        <div class="gib" id="flip-gib"></div>
+        <div class="answer" id="flip-ans" hidden style="margin-top:22px;padding-top:18px;border-top:2px dashed var(--line)">
+          <div class="np-a" id="flip-np" style="font-size:clamp(32px,9vw,42px)"></div>
+          <div class="ro" id="flip-ro"></div>
+          <div class="me" id="flip-me"></div>
+        </div>
+      </div>
+      <p class="muted" style="text-align:center" data-t="flipTip"></p>
+    </div>
+    <div class="controls">
+      <button class="btn" id="flip-show" type="button" data-t="showAnswer"></button>
+      <button class="btn primary" id="flip-next" type="button" data-t="nextCard"></button>
+    </div>
+  </section>
+</div>
+
+<div class="veil" id="quit-veil" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="quit-q">
+    <h2 id="quit-q" data-t="quitQ"></h2>
+    <p class="muted" data-t="quitSub"></p>
+    <div class="controls">
+      <button class="btn" id="quit-no" type="button" data-t="keepPlaying"></button>
+      <button class="btn primary" id="quit-yes" type="button" data-t="quit"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+/* ---------- the deck ----------
+   [decoy, romanised answer, नेपाली answer, meaning, category, tier]
+   tier 0 warm-up · 1 slippery · 2 brain melt · 3 boss            */
+const DECK = [
+["Cheat One","Chitwan","चितवन","Rhino country","place",0],
+["Yo Marry","Yomari","योमरी","Newari sweet dumpling","food",0],
+["Thumb Ale","Thamel","ठमेल","Kathmandu's busiest streets","place",0],
+["Gee Ow","Jhyau","झ्याउ","Boring, a total drag","talk",0],
+["Chat Potty","Chatpate","चटपटे","Spicy puffed-rice snack","food",0],
+["The Shine","Dashain","दशैं","The big autumn festival","fest",0],
+["Poke Hurrah","Pokhara","पोखरा","The lake city","place",0],
+["Loom Bee Knee","Lumbini","लुम्बिनी","Birthplace of the Buddha","place",0],
+["Done Ya Bud","Dhanyabad","धन्यवाद","Thank you","talk",0],
+["Rum Eye Low","Ramailo","रमाइलो","Fun","talk",0],
+["Sell Row Tea","Sel Roti","सेल रोटी","Ring-shaped rice bread","food",0],
+["Tea Har","Tihar","तिहार","Festival of lights","fest",0],
+["Buy Tea Car","Bhai Tika","भाइटीका","Brothers' day in Tihar","fest",0],
+["Ouch Are","Achar","अचार","Pickle","food",0],
+["Moose Tongue","Mustang","मुस्ताङ","Beyond the Himalaya","place",0],
+["Jump Sun","Jomsom","जोमसोम","Windy town in Mustang","place",0],
+["Laugh Ping","Laphing","लाफिङ","Cold, spicy noodle snack","food",0],
+["Huh Jaw Bah","Hajurba","हजुरबा","Grandpa","family",0],
+["Huh Jaw Ah Ma","Hajur Aama","हजुरआमा","Grandma","family",0],
+["Chew Rah","Chiura","च्युरा","Beaten rice","food",0],
+["Boot Wall","Butwal","बुटवल","City in Rupandehi","place",0],
+["Guy Jot Rah","Gai Jatra","गाईजात्रा","The cow festival","fest",0],
+["Tea Edge","Teej","तीज","Festival of red saris","fest",0],
+["Took Pa","Thukpa","थुक्पा","Noodle soup","food",0],
+["Low Sir","Lhosar","ल्होसार","New Year festival","fest",0],
+["Gore Kah","Gorkha","गोरखा","Prithvi Narayan Shah's home","place",0],
+["Pod Ha!","Padha!","पढ!","Study! (said a thousand times)","home",0],
+["Bob Bull","Babaal","बबाल","Awesome","talk",0],
+
+["Bee Rat Nagger","Biratnagar","विराटनगर","Big city in the east","place",1],
+["Egg Cup Chia","Ek cup chiya","एक कप चिया","One cup of tea","talk",1],
+["Kegger Nay","Ke garne","के गर्ने","What to do","talk",1],
+["Fee What All","Phewa Tal","फेवा ताल","Pokhara's lake","place",1],
+["Pie Saw China","Paisa chhaina","पैसा छैन","No money","home",1],
+["Bucked Up Poor","Bhaktapur","भक्तपुर","City of devotees","place",1],
+["Ma Sack Deena","Ma sakdina","म सक्दिन","I can't","talk",1],
+["Cut Mend Ooh","Kathmandu","काठमाडौं","The capital","place",1],
+["Ill Lamb Bug Jar","Ilam Bazar","इलाम बजार","Tea town market","place",1],
+["Pa Knee Pour E","Panipuri","पानीपुरी","Street snack","food",1],
+["Mom Mug Hurr","Mama ghar","मामाघर","Mum's brother's house","family",1],
+["Hey Toe Dah","Hetauda","हेटौंडा","City in Makwanpur","place",1],
+["Bah Lu What Ah","Baluwatar","बालुवाटार","Where the PM lives","place",1],
+["Car Nack Hi Ow?","Khana khayau?","खाना खायौ?","Did you eat?","home",1],
+["Kay Chuck Our Bar?","Ke chha khabar?","के छ खबर?","What's new?","talk",1],
+["Tick Eye Chuh","Thikai chha","ठिकै छ","It's okay","talk",1],
+["Chit Toe Ow","Chhito aau","छिटो आऊ","Come quickly","home",1],
+["Goon Truck","Gundruk","गुन्द्रुक","Fermented greens","food",1],
+["Zoo Zoo The Ow","Juju Dhau","जुजु धौ","King curd of Bhaktapur","food",1],
+["Sue Cootie","Sukuti","सुकुटी","Dried meat","food",1],
+["Seek Our Knee","Sikarni","सिकर्नी","Sweet spiced yoghurt","food",1],
+["All Ooh Tom Ah","Aalu Tama","आलु तामा","Potato and bamboo shoot curry","food",1],
+["Inn Draw Jot Rah","Indra Jatra","इन्द्रजात्रा","Kumari's chariot festival","fest",1],
+["Biscuit Jot Rah","Bisket Jatra","बिस्केट जात्रा","Bhaktapur's New Year","fest",1],
+["Nug Our Coat","Nagarkot","नगरकोट","Sunrise hill","place",1],
+["Bun Dip Poor","Bandipur","बन्दीपुर","Hilltop bazaar town","place",1],
+["Swim Boo","Swayambhu","स्वयम्भू","The monkey temple","place",1],
+["Lull It Poor","Lalitpur","ललितपुर","Patan","place",1],
+["Clear Tea Poor","Kirtipur","कीर्तिपुर","Hill town next to TU","place",1],
+["Done Coot Ah","Dhankuta","धनकुटा","Eastern hill town","place",1],
+["Sure Kate","Surkhet","सुर्खेत","Karnali's capital","place",1],
+["Tongue Bah","Tongba","तोङ्बा","Millet drink in a wooden pot","food",1],
+["Dee Though","Dhido","ढिंडो","Thick flour porridge","food",1],
+["Some Eye Badge Ee","Samay Baji","समयबजी","Newari feast plate","food",1],
+["Ma Sue But","Masu bhat","मासु भात","Meat and rice","food",1],
+["Choi Ella","Choila","छोयला","Spiced grilled meat","food",1],
+["Zoo Though","Jutho","जुठो","Already eaten from","home",1],
+["Cuckoo Ma Cuckoo","Kutu ma kutu","कुटुमा कुटु","The song everyone danced to","song",1],
+["But Moss","Bhatmas","भटमास","Soybeans","food",1],
+["Quote Tea","Kwati","क्वाटी","Nine-bean soup","food",1],
+
+["Saw Wrong Ghee","Sarangi","सारंगी","Folk fiddle","song",2],
+["Jerry's Wary","Jeri swari","जेरी स्वारी","Jalebi with fried bread","food",2],
+["Tuck Echo Chew","Thakeko chhu","थाकेको छु","I'm tired","talk",2],
+["Posh Ooh Putty Gnat","Pashupatinath","पशुपतिनाथ","Shiva's temple on the Bagmati","place",2],
+["Booze New Buy Yo?","Bujhnu bhayo?","बुझ्नुभयो?","Understood?","home",2],
+["Doll Bought Tar Curry","Dal bhat tarkari","दाल भात तरकारी","Rice, lentils, veg. 24-hour power.","food",2],
+["Race Ham Ferrari","Resham Firiri","रेशम फिरिरी","The folk song","song",2],
+["Ferry Bait Owl Ah","Pheri bhetaula","फेरि भेटौंला","See you again","talk",2],
+["Keen Ah Dealer By Yo?","Kina dhilo bhayo?","किन ढिलो भयो?","Why are you late?","home",2],
+["Car Nut Eye Are By Yo","Khana tayar bhayo","खाना तयार भयो","Food's ready","home",2],
+["Sun Chai Who New Hoon Chuh?","Sanchai hunuhunchha?","सन्चै हुनुहुन्छ?","Are you well?","talk",2],
+["Mall Eye Tar Hah China","Malai thaha chhaina","मलाई थाहा छैन","I don't know","talk",2],
+["Mug Hay Sun Cranky","Maghe Sankranti","माघे संक्रान्ति","Ghee, chaku and sweet potato day","fest",2],
+["Cuddy Bay Lah Are Oo Nay?","Kati bela aaune?","कति बेला आउने?","When are you coming?","home",2],
+["Cook Core Co Pooch Are","Kukur ko puchchhar","कुकुरको पुच्छर","A dog's tail never straightens","ukhaan",2],
+
+["Got A Stop On Ah","Ghatasthapana","घटस्थापना","First day of Dashain","fest",3],
+["Timmy Lie My Agar Chew","Timilai maya garchhu","तिमीलाई माया गर्छु","I love you","talk",3],
+["Their Eye Ma Hung Go By Yo","Dherai mahango bhayo","धेरै महँगो भयो","Way too expensive!","home",3],
+["Bun Dark Oh Hut Ma Narwhal","Bandar ko haat ma nariwal","बाँदरको हातमा नरिवल","A coconut in a monkey's hands","ukhaan",3],
+["Notch Nah Nah John Nay Aunt Gun Ted Oh","Nachna najanne aangan tedho","नाच्न नजान्ने आँगन टेढो","Can't dance, blames the crooked yard","ukhaan",3],
+["Be Hay Car He Lay Gun Nay?","Bihe kahile garne?","बिहे कहिले गर्ने?","So when are you getting married?","home",3],
+["Egg Hot Lay Tally Budge Die Nah","Ek haatle taali bajdaina","एक हातले ताली बज्दैन","One hand can't clap","ukhaan",3],
+["Just Co Lot Tea Who's Co Buy See","Jasko lathi usko bhainsi","जसको लाठी उसको भैंसी","Whoever holds the stick gets the buffalo","ukhaan",3],
+["Do We Doing Gum Ah Coot Ah","Dui dunga ma khutta","दुई डुंगामा खुट्टा","A foot in two boats","ukhaan",3],
+["Who Nay Be Roo Ah Co Chill Oh Pot","Hune biruwako chillo paat","हुने बिरुवाको चिल्लो पात","A promising sapling shows shiny leaves","ukhaan",3],
+["Hottie Eye Oh Hottie Eye Oh Fuss Ah","Hatti aayo hatti aayo phussa","हात्ती आयो हात्ती आयो फुस्सा","All that hype, then nothing","ukhaan",3],
+["Half Ooh Bull Low Tuh Jug Gut Bull Low","Aaphu bhalo ta jagat bhalo","आफू भलो त जगत भलो","Be good and the world is good to you","ukhaan",3]
+];
+
+const CAT = {place:["Place","ठाउँ"],food:["Food","खानेकुरा"],fest:["Festival","चाडपर्व"],talk:["Everyday talk","बोलीचाली"],home:["Heard at home","घरमा सुनिने कुरा"],family:["Family","नाता"],ukhaan:["Ukhaan","उखान"],song:["Song","गीत"]};
+const TIER = [["Warm-up","सजिलो"],["Slippery","चिप्लो"],["Brain melt","दिमाग पग्लिने"],["Boss round","सबैभन्दा गाह्रो"]];
+const POINTS = [10,20,30,50];
+const STEAL_SECS = 10;
+
+/* ---------- words ---------- */
+const T = {
+en:{
+  langBtn:"नेपाली", sayIt:"Say it fast", tapFlip:"Tap to flip", itsActually:"It's actually",
+  tagline:"Ladbad · gibberish", lede:"Read the silly English out loud. Faster. Faster. Your ears will find the Nepali hiding inside.",
+  play:"Play with teams", how:"How to play", practice:"Practice",
+  gotIt:"Got it, let's play",
+  steps:[
+    ["One person reads the card out loud. Their team guesses.","Pass the phone around so everyone gets a turn to read."],
+    ["Say it again and again, faster each time.","Don't think about the English words. Just listen."],
+    ["No explaining, no acting. Only reading.","Repeat, speed up, slow down. That's all."],
+    ["Stuck? Take a hint.","Each hint costs some points."],
+    ["Time's up? The other team gets one guess to steal.","Most points at the end wins."]
+  ],
+  howTip:"The person holding the phone is usually the last to get it. They're staring at the words while everyone else just hears sounds.",
+  setupTitle:"New game", teams:"Teams", cardsEach:"Cards per team", secondsPer:"Seconds per card", sound:"Sound", on:"On", off:"Off",
+  start:"Start", teamA:"Momo", teamB:"Chiya",
+  passTo:"Give the phone to", pickReader:"Pick one reader. Only they look at the screen.", ready:"I'm the reader. Go!",
+  pts:"pts", worth:"{n} pts", hint:"Hint", hintCost:"−{n}", noHints:"No more hints",
+  peek:"Hold to peek", giveUp:"Give up", gotItBtn:"Got it!",
+  hCat:"{c}", hFirst:"Starts with {np} · {ro}", hWords:"{n} words", hWord:"1 word",
+  timeUp:"Time's up!", stealLine:"One guess to steal it. {n} pts.", nope:"Missed", stolen:"Stolen!",
+  winA:"+{n} for {t}!", stoleB:"{t} stole it! +{n}", nobody:"Nobody got it",
+  left:"{n} cards left", leftOne:"Last card next!", next:"Next card", seeResults:"See who won",
+  gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", home:"Home",
+  finalLine:"{n} cards played. Same teams again?",
+  showAnswer:"Show answer", hideAnswer:"Hide answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.",
+  flipCount:"{i} of {n}",
+  quitQ:"Quit this game?", quitSub:"Scores will be lost.", keepPlaying:"Keep playing", quit:"Quit",
+  tierPts:"{tier} · {n} pts"
+},
+ne:{
+  langBtn:"English", sayIt:"छिटो भन्नुस्", tapFlip:"छोएर पल्टाउनुस्", itsActually:"उत्तर",
+  tagline:"Ladbad · अंग्रेजीमा लुकेको नेपाली", lede:"अंग्रेजी शब्दहरू ठूलो स्वरमा पढ्नुस्। अझ छिटो। अझ छिटो। कानले भित्र लुकेको नेपाली भेट्टाउँछ।",
+  play:"टोली बनाएर खेलौं", how:"कसरी खेल्ने?", practice:"अभ्यास",
+  gotIt:"बुझें, खेलौं",
+  steps:[
+    ["एक जनाले कार्ड ठूलो स्वरमा पढ्ने, उसको टोलीले अनुमान गर्ने।","सबैले पढ्ने पालो पाउने गरी फोन घुमाउनुस्।"],
+    ["फेरि फेरि पढ्नुस्, हरेक पटक अझ छिटो।","अंग्रेजी शब्दको अर्थ नसोच्नुस्। सुन्नुस् मात्र।"],
+    ["बुझाउन र अभिनय गर्न पाइँदैन। पढ्ने मात्र।","दोहोर्‍याउन, छिटो वा ढिलो पढ्न पाइन्छ।"],
+    ["अड्कियो? संकेत लिनुस्।","हरेक संकेतले केही अंक घटाउँछ।"],
+    ["समय सकियो? अर्को टोलीलाई एक पटक अनुमान गरेर चोर्ने मौका।","अन्त्यमा धेरै अंक हुने टोली जित्छ।"]
+  ],
+  howTip:"फोन समात्ने मान्छेले प्रायः सबैभन्दा पछि बुझ्छ। ऊ अक्षर हेरिरहेको हुन्छ, अरूले आवाज मात्र सुन्छन्।",
+  setupTitle:"नयाँ खेल", teams:"टोली", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड", sound:"आवाज", on:"खुला", off:"बन्द",
+  start:"सुरु गरौं", teamA:"मम", teamB:"चिया",
+  passTo:"फोन दिनुस्", pickReader:"एक जना पढ्ने छान्नुस्। स्क्रिन उसले मात्र हेर्ने।", ready:"म पढ्छु। सुरु!",
+  pts:"अंक", worth:"{n} अंक", hint:"संकेत", hintCost:"−{n}", noHints:"संकेत सकियो",
+  peek:"थिचेर उत्तर हेर्नुस्", giveUp:"छोडौं", gotItBtn:"मिल्यो!",
+  hCat:"{c}", hFirst:"पहिलो अक्षर {np} · {ro}", hWords:"{n} शब्द", hWord:"१ शब्द",
+  timeUp:"समय सकियो!", stealLine:"एक पटक अनुमान गरेर चोर्नुस्। {n} अंक।", nope:"मिलेन", stolen:"चोर्यो!",
+  winA:"{t} लाई +{n}!", stoleB:"{t} ले चोर्यो! +{n}", nobody:"कसैले भेट्टाएन",
+  left:"{n} कार्ड बाँकी", leftOne:"अब अन्तिम कार्ड!", next:"अर्को कार्ड", seeResults:"को जित्यो हेरौं",
+  gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", home:"सुरुमा",
+  finalLine:"{n} कार्ड खेलियो। उही टोली फेरि?",
+  showAnswer:"उत्तर हेर्नुस्", hideAnswer:"उत्तर लुकाउनुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।",
+  flipCount:"{n} मध्ये {i}",
+  quitQ:"खेल छोड्ने?", quitSub:"अंक हराउँछ।", keepPlaying:"खेलिरहौं", quit:"छोड्ने",
+  tierPts:"{tier} · {n} अंक"
+}};
+
+/* ---------- storage (best effort) ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("ladbad:"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("ladbad:"+k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- state ---------- */
+let S = {
+  lang: store.get("lang","en"),
+  screen:"home", prev:[],
+  teams:null, perTeam:store.get("perTeam",6), time:store.get("time",45), sound:store.get("sound",1),
+  deck:[], idx:0, hints:0, remaining:0, outcome:null,
+  flipDeck:[], flipIdx:0, flipShown:false
+};
+const $ = id => document.getElementById(id);
+const L = () => T[S.lang];
+function t(key, vars){
+  let s = L()[key]; if (s == null) s = T.en[key] || key;
+  if (vars) for (const k in vars) s = s.split("{"+k+"}").join(vars[k]);
+  return s;
+}
+const li = () => S.lang === "ne" ? 1 : 0;
+const card = () => DECK[S.deck[S.idx]];
+const teamOf = i => S.teams[i % 2];
+const curTeam = () => S.idx % 2;
+
+/* ---------- sound + buzz ---------- */
+let AC = null;
+function tone(freq, dur, type, vol, when){
+  if (!S.sound) return;
+  try{
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + (when||0);
+    o.type = type || "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol || .18, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + dur);
+    o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + .02);
+  }catch(e){}
+}
+const sfx = {
+  tick(){ tone(880,.08,"square",.06); },
+  win(){ [523,659,784,1046].forEach((f,i)=>tone(f,.22,"triangle",.16,i*.09)); },
+  buzz(){ tone(150,.5,"sawtooth",.12); tone(110,.6,"sawtooth",.1,.08); },
+  tap(){ tone(520,.05,"sine",.08); }
+};
+function buzz(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
+
+let wake = null;
+async function keepAwake(){ try{ if ("wakeLock" in navigator && !wake){ wake = await navigator.wakeLock.request("screen"); wake.addEventListener("release",()=>{wake=null}); } }catch(e){} }
+document.addEventListener("visibilitychange",()=>{ if (document.visibilityState==="visible" && ["pass","play","steal","result"].includes(S.screen)) keepAwake(); });
+
+/* ---------- navigation ---------- */
+const SCREENS = ["home","how","setup","pass","play","steal","result","final","flip"];
+function go(name, opts){
+  if (!(opts && opts.noHistory) && S.screen !== name && ["home","how","setup","flip"].includes(S.screen)) S.prev.push(S.screen);
+  S.screen = name;
+  SCREENS.forEach(s => $("s-"+s).hidden = s !== name);
+  render();
+  const first = $("s-"+name).querySelector(".btn.primary, .btn");
+  window.scrollTo(0,0);
+}
+function back(){ stopTimer(); const p = S.prev.pop() || "home"; S.screen = p; SCREENS.forEach(s => $("s-"+s).hidden = s !== p); render(); }
+
+/* ---------- static text ---------- */
+function paintText(){
+  document.documentElement.lang = S.lang === "ne" ? "ne" : "en";
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
+  $("lang").textContent = t("langBtn");
+  const ol = $("how-steps"); ol.innerHTML = "";
+  L().steps.forEach((s,i) => {
+    const li_ = document.createElement("li");
+    li_.innerHTML = '<span class="n">'+(i+1)+'</span><div><p></p><p></p></div>';
+    li_.querySelectorAll("p")[0].textContent = s[0];
+    li_.querySelectorAll("p")[1].textContent = s[1];
+    ol.appendChild(li_);
+  });
+}
+
+/* ---------- deck building ---------- */
+function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pick(tier, count){
+  const all = DECK.map((c,i)=>i).filter(i => DECK[i][5]===tier);
+  let seen = store.get("seen",[]);
+  let fresh = all.filter(i => !seen.includes(i));
+  if (fresh.length < count){ seen = seen.filter(i => DECK[i][5]!==tier); store.set("seen",seen); fresh = all.slice(); }
+  return shuffle(fresh).slice(0,count);
+}
+function buildDeck(n){
+  const t4 = Math.max(1, Math.round(n*.2)), t1 = Math.ceil(n*.3), t3 = Math.round(n*.25), t2 = Math.max(1, n - t1 - t3 - t4);
+  const counts = [t1,t2,t3,t4];
+  let out = [];
+  counts.forEach((c,tier) => {
+    const got = pick(tier, c*2);
+    // keep each pair of turns at the same tier so both teams face equal odds
+    out = out.concat(got);
+  });
+  return out;
+}
+function markSeen(i){ const s = store.get("seen",[]); if (!s.includes(i)){ s.push(i); store.set("seen",s); } }
+
+/* ---------- scoring ---------- */
+function worth(){ const base = POINTS[card()[5]]; return Math.max(5, Math.round(base * (1 - .25*S.hints) / 5) * 5); }
+function hintCost(){ const base = POINTS[card()[5]]; return worth() - Math.max(5, Math.round(base * (1 - .25*(S.hints+1)) / 5) * 5); }
+function stealWorth(){ return Math.max(5, Math.round(worth()/2/5)*5); }
+
+/* ---------- gibberish sizing ---------- */
+function fitGib(el, text){
+  el.textContent = text;
+  const n = text.length, longest = Math.max(...text.split(" ").map(w=>w.length));
+  let px = n <= 10 ? 68 : n <= 16 ? 60 : n <= 24 ? 50 : n <= 32 ? 42 : 36;
+  const w = Math.min(window.innerWidth, 460) - 80;
+  px = Math.min(px, w / (longest * .56));
+  el.style.fontSize = Math.round(px) + "px";
+}
+
+/* ---------- timer ---------- */
+let timerId = null, endAt = 0, lastSec = null, stealId = null;
+function stopTimer(){ clearInterval(timerId); timerId = null; clearInterval(stealId); stealId = null; }
+function startTimer(secs){
+  stopTimer(); endAt = Date.now() + secs*1000; lastSec = null;
+  timerId = setInterval(tickTimer, 100); tickTimer();
+}
+function tickTimer(){
+  const ms = Math.max(0, endAt - Date.now()); S.remaining = ms/1000;
+  const sec = Math.ceil(ms/1000), low = sec <= 5;
+  $("secs").textContent = sec; $("secs").classList.toggle("low", low && sec>0);
+  $("timer").classList.toggle("low", low);
+  $("timer-fill").style.transform = "scaleX(" + (ms/(S.time*1000)) + ")";
+  if (sec !== lastSec){ if (low && sec>0 && lastSec!==null) sfx.tick(); lastSec = sec; }
+  if (ms <= 0){ stopTimer(); sfx.buzz(); buzz([200,80,200]); toSteal(); }
+}
+
+/* ---------- renderers ---------- */
+function scoreChips(id){
+  const box = $(id); box.innerHTML = "";
+  S.teams.forEach((tm,i) => {
+    const c = document.createElement("div");
+    c.className = "chip" + (i === curTeam() ? " on" : "");
+    c.innerHTML = '<span class="dot '+(i?'b':'a')+'"></span><span class="nm"></span><span class="pts"></span>';
+    c.querySelector(".nm").textContent = tm.name; c.querySelector(".pts").textContent = tm.score;
+    box.appendChild(c);
+  });
+}
+function render(){
+  paintText();
+  const s = S.screen;
+  if (s === "setup"){
+    const def = [t("teamA"), t("teamB")];
+    if (!$("team-a").value) $("team-a").value = (S.teams && S.teams[0].name) || def[0];
+    if (!$("team-b").value) $("team-b").value = (S.teams && S.teams[1].name) || def[1];
+    setSeg("seg-cards", S.perTeam); setSeg("seg-time", S.time); setSeg("seg-sound", S.sound);
+  }
+  if (s === "pass"){
+    scoreChips("score-pass");
+    $("pass-team").textContent = teamOf(S.idx).name;
+    $("pass-tier").textContent = t("tierPts",{tier:TIER[card()[5]][li()], n:POINTS[card()[5]]});
+  }
+  if (s === "play"){
+    scoreChips("score-play");
+    const c = card();
+    $("play-tier").textContent = TIER[c[5]][li()];
+    $("play-worth").textContent = t("worth",{n:worth()});
+    fitGib($("play-gib"), c[0]);
+    $("peek-np").textContent = c[2]; $("peek-ro").textContent = c[1];
+    paintHints();
+  }
+  if (s === "steal"){
+    scoreChips("score-steal");
+    $("steal-team").textContent = teamOf(S.idx+1).name;
+    $("steal-line").textContent = t("stealLine",{n:stealWorth()});
+    $("steal-gib").textContent = card()[0];
+  }
+  if (s === "result"){
+    scoreChips("score-result");
+    const c = card(), o = S.outcome || {};
+    const b = $("res-banner");
+    b.className = "banner pop" + (o.who != null ? " win" : "");
+    b.textContent = o.who == null ? t("nobody") : o.stole ? t("stoleB",{t:S.teams[o.who].name, n:o.pts}) : t("winA",{t:S.teams[o.who].name, n:o.pts});
+    $("res-decoy").textContent = c[0]; $("res-np").textContent = c[2]; $("res-ro").textContent = c[1]; $("res-me").textContent = c[3];
+    const left = S.deck.length - S.idx - 1;
+    $("res-left").textContent = left === 0 ? "" : left === 1 ? t("leftOne") : t("left",{n:left});
+    $("next").textContent = left === 0 ? t("seeResults") : t("next");
+  }
+  if (s === "final"){
+    const [a,b] = S.teams, ranked = [...S.teams].sort((x,y)=>y.score-x.score);
+    $("final-win").textContent = a.score === b.score ? t("tie") : t("wins",{t:ranked[0].name});
+    const pod = $("podium"); pod.innerHTML = "";
+    ranked.forEach((tm,i) => {
+      const r = document.createElement("div"); r.className = "prow" + (i===0 && a.score!==b.score ? " first" : "");
+      r.innerHTML = '<span class="nm"></span><span class="pts"></span>';
+      r.querySelector(".nm").textContent = tm.name; r.querySelector(".pts").textContent = tm.score + " " + t("pts");
+      pod.appendChild(r);
+    });
+    $("final-line").textContent = t("finalLine",{n:S.deck.length});
+  }
+  if (s === "flip") paintFlip();
+}
+function setSeg(id, v){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == v))); }
+function paintHints(){
+  const c = card(), box = $("hints"); box.innerHTML = "";
+  const add = txt => { const s = document.createElement("span"); s.className = "hint pop"; s.textContent = txt; box.appendChild(s); };
+  if (S.hints >= 1) add(CAT[c[4]][li()]);
+  if (S.hints >= 2){
+    const words = c[1].split(" ").length;
+    add(t("hFirst",{np:Array.from(c[2])[0], ro:c[1][0].toUpperCase()}));
+    add(words === 1 ? t("hWord") : t("hWords",{n:words}));
+  }
+  const h = $("hint");
+  if (S.hints >= 2){ h.disabled = true; h.textContent = t("noHints"); }
+  else { h.disabled = false; h.innerHTML = '<span class="col"><span></span><small></small></span>'; h.querySelector("span span").textContent = t("hint"); h.querySelector("small").textContent = t("hintCost",{n:hintCost()}); }
+}
+function paintFlip(){
+  const c = DECK[S.flipDeck[S.flipIdx]];
+  $("flip-count").textContent = t("flipCount",{i:S.flipIdx+1, n:S.flipDeck.length});
+  $("flip-tier").textContent = TIER[c[5]][li()];
+  $("flip-cat").textContent = S.flipShown ? CAT[c[4]][li()] : "";
+  fitGib($("flip-gib"), c[0]);
+  $("flip-ans").hidden = !S.flipShown;
+  $("flip-np").textContent = c[2]; $("flip-ro").textContent = c[1]; $("flip-me").textContent = c[3];
+  $("flip-show").textContent = S.flipShown ? t("hideAnswer") : t("showAnswer");
+}
+
+/* ---------- game flow ---------- */
+function newGame(){
+  const a = $("team-a").value.trim() || t("teamA"), b = $("team-b").value.trim() || t("teamB");
+  S.teams = [{name:a, score:0},{name:b, score:0}];
+  S.deck = buildDeck(S.perTeam); S.idx = 0; S.hints = 0; S.outcome = null; S.prev = ["home"];
+  keepAwake(); sfx.tap();
+  go("pass",{noHistory:true});
+}
+function beginCard(){ S.hints = 0; go("play",{noHistory:true}); startTimer(S.time); sfx.tap(); }
+function toSteal(){ hidePeek(); go("steal",{noHistory:true}); let n = STEAL_SECS; $("steal-secs").textContent = n;
+  clearInterval(stealId); stealId = setInterval(()=>{ n--; $("steal-secs").textContent = Math.max(0,n); if (n>0 && n<=3) sfx.tick(); if (n<=0){ clearInterval(stealId); stealId=null; } },1000); }
+function finishCard(outcome){
+  stopTimer(); hidePeek(); S.outcome = outcome;
+  if (outcome.who != null){ S.teams[outcome.who].score += outcome.pts; sfx.win(); buzz(60); }
+  markSeen(S.deck[S.idx]);
+  go("result",{noHistory:true});
+}
+function nextCard(){
+  if (S.idx + 1 >= S.deck.length){ stopTimer(); go("final",{noHistory:true}); sfx.win(); return; }
+  S.idx++; S.outcome = null; go("pass",{noHistory:true});
+}
+
+/* ---------- peek (press and hold) ---------- */
+function showPeek(e){ if (e) e.preventDefault(); $("peekbox").hidden = false; $("peek").classList.add("on"); }
+function hidePeek(){ $("peekbox").hidden = true; $("peek").classList.remove("on"); }
+const pk = $("peek");
+pk.addEventListener("pointerdown", e => { pk.setPointerCapture && pk.setPointerCapture(e.pointerId); showPeek(e); });
+["pointerup","pointercancel","lostpointercapture"].forEach(ev => pk.addEventListener(ev, hidePeek));
+pk.addEventListener("contextmenu", e => e.preventDefault());
+pk.addEventListener("keydown", e => { if (e.key===" "||e.key==="Enter") showPeek(e); });
+pk.addEventListener("keyup", hidePeek);
+
+/* ---------- wiring ---------- */
+$("lang").onclick = () => {
+  const old = L(); S.lang = S.lang === "en" ? "ne" : "en"; store.set("lang", S.lang);
+  // swap default team names if the user never changed them
+  [["team-a","teamA"],["team-b","teamB"]].forEach(([id,k]) => { if ($(id).value === old[k]) $(id).value = t(k); });
+  render();
+};
+const hero = $("hero");
+const flipHero = () => { hero.classList.toggle("flipped"); sfx.tap(); };
+hero.onclick = flipHero;
+hero.onkeydown = e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); flipHero(); } };
+$("go-setup").onclick = () => go("setup");
+$("go-how").onclick = () => go("how");
+$("go-flip").onclick = () => { S.flipDeck = shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]); S.flipIdx = 0; S.flipShown = false; go("flip"); };
+document.querySelectorAll("[data-back]").forEach(b => b.onclick = back);
+document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => { stopTimer(); if (b.dataset.goto==="home") S.prev = []; go(b.dataset.goto, b.dataset.goto==="home" ? {noHistory:true} : undefined); });
+[["seg-cards","perTeam"],["seg-time","time"],["seg-sound","sound"]].forEach(([id,key]) => {
+  $(id).querySelectorAll("button").forEach(b => b.onclick = () => { S[key] = Number(b.dataset.v); store.set(key, S[key]); setSeg(id, S[key]); sfx.tap(); });
+});
+$("start").onclick = newGame;
+$("ready").onclick = beginCard;
+$("hint").onclick = () => { if (S.hints < 2){ S.hints++; $("play-worth").textContent = t("worth",{n:worth()}); paintHints(); sfx.tap(); } };
+$("gotit").onclick = () => finishCard({who:curTeam(), pts:worth(), stole:false});
+$("giveup").onclick = () => { stopTimer(); sfx.buzz(); toSteal(); };
+$("steal-yes").onclick = () => finishCard({who:(curTeam()+1)%2, pts:stealWorth(), stole:true});
+$("steal-no").onclick = () => finishCard({who:null});
+$("next").onclick = nextCard;
+$("again").onclick = () => { S.teams.forEach(tm => tm.score = 0); S.deck = buildDeck(S.perTeam); S.idx = 0; S.outcome = null; keepAwake(); go("pass",{noHistory:true}); };
+$("flip-show").onclick = () => { S.flipShown = !S.flipShown; paintFlip(); sfx.tap(); };
+$("flip-card").onclick = () => { S.flipShown = !S.flipShown; paintFlip(); };
+$("flip-next").onclick = () => { S.flipIdx = (S.flipIdx + 1) % S.flipDeck.length; S.flipShown = false; paintFlip(); sfx.tap(); };
+
+/* quit sheet */
+let pausedLeft = null;
+document.querySelectorAll("[data-quit]").forEach(b => b.onclick = () => {
+  if (timerId){ pausedLeft = S.remaining; stopTimer(); } else pausedLeft = null;
+  $("quit-veil").hidden = false;
+});
+$("quit-no").onclick = () => { $("quit-veil").hidden = true; if (pausedLeft != null && S.screen==="play") startTimerFrom(pausedLeft); };
+$("quit-yes").onclick = () => { $("quit-veil").hidden = true; stopTimer(); S.prev = []; go("home",{noHistory:true}); };
+function startTimerFrom(left){ stopTimer(); endAt = Date.now() + left*1000; lastSec = null; timerId = setInterval(tickTimer,100); tickTimer(); }
+
+window.addEventListener("resize", () => { if (S.screen==="play") fitGib($("play-gib"), card()[0]); if (S.screen==="flip") fitGib($("flip-gib"), DECK[S.flipDeck[S.flipIdx]][0]); });
+
+/* ---------- boot (survives live updates) ---------- */
+function start(data){
+  if (data && data.S && data.S.screen){
+    S = Object.assign(S, data.S);
+    if (S.screen === "play"){ SCREENS.forEach(s => $("s-"+s).hidden = s !== "play"); render(); startTimerFrom(Math.max(1, S.remaining || S.time)); return; }
+    if (S.screen === "steal"){ S.outcome = {who:null}; go("result",{noHistory:true}); return; }
+    go(S.screen,{noHistory:true}); return;
+  }
+  go("home",{noHistory:true});
+}
+window.claude?.hot?.snapshot?.(() => ({S}));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
