@@ -28,6 +28,19 @@ The phone that starts the room is the host: it holds the game state, applies eve
 
 Note: Supabase free projects pause after about a week without use. If rooms stop connecting, un-pause the project in the Supabase dashboard.
 
+## Card votes
+
+After each card (and in Practice), every phone can vote **Love it** or **Whack**. One vote per phone per card; tapping the other button changes it.
+
+Votes go to the `ladbad_votes` table in the `akabare-panipuri` Supabase project, through the `ladbad_vote()` function only. The public key cannot read votes.
+
+To see the best and worst prompts, open the Supabase dashboard → Table Editor → `ladbad_card_scores` (sorted best first), or run in the SQL editor:
+
+```sql
+select decoy, answer, loves, whacks, score, love_pct from ladbad_card_scores;            -- best first
+select decoy, answer, loves, whacks, score from ladbad_card_scores order by score asc;   -- the whackest
+```
+
 ## Edit it
 
 `ladbad.html` is the source. The deck is the `DECK` array: `[decoy, romanised answer, नेपाली answer, meaning, category, tier]` (tier 0-4, 4 = Impossible). Add new cards at the end so saved play history stays valid.

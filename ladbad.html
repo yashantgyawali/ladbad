@@ -80,6 +80,13 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .err{color:var(--orange);font-weight:700;font-size:16px;min-height:1.4em}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
+.rate{display:flex;flex-direction:column;gap:8px;width:100%}
+.rate p{font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+.rate div{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rate button{font:inherit;font-size:19px;font-weight:800;border:2.5px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);min-height:52px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.rate button[data-v="1"][aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.rate button[data-v="-1"][aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:#fff}
+.rate button:active{transform:scale(.97)}
 .chips button{font:inherit;font-size:16px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:42px;cursor:pointer}
 .chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .chips button.all{border-style:dashed}
@@ -351,7 +358,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
   </section>
 
   <!-- RESULT -->
-  <section class="screen fixed" id="s-result" hidden>
+  <section class="screen" id="s-result" hidden>
     <div class="bar"><button class="icon" type="button" data-leave aria-label="Leave room">×</button><div class="score" id="score-result"></div><button class="pill" type="button" data-lang></button></div>
     <div class="center">
       <p class="banner pop" id="res-banner"></p>
@@ -363,6 +370,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
           <div class="me" id="res-me"></div>
         </div>
       </div>
+<div class="rate" data-rate="result"><p data-t="rateQ"></p><div><button type="button" data-v="1"><span aria-hidden="true">♥</span><span data-t="love"></span></button><button type="button" data-v="-1"><span aria-hidden="true">✕</span><span data-t="whack"></span></button></div></div>
       <p class="muted" id="res-left"></p>
     </div>
     <button class="btn primary" id="next" type="button"></button>
@@ -407,6 +415,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
       <button class="btn" id="flip-show" type="button"></button>
       <button class="btn primary" id="flip-next" type="button" data-t="nextCard"></button>
     </div>
+    <div class="rate" id="flip-rate" data-rate="flip"><p data-t="rateQ"></p><div><button type="button" data-v="1"><span aria-hidden="true">♥</span><span data-t="love"></span></button><button type="button" data-v="-1"><span aria-hidden="true">✕</span><span data-t="whack"></span></button></div></div>
   </section>
 </div>
 
@@ -638,6 +647,7 @@ en:{
   teamNames:"Team names", cardsEach:"Cards per team", secondsPer:"Seconds per card",
   categories:"Categories", allCats:"All", difficulty:"Difficulty", lvMix:"Easy to hard", lvHard:"Hard", lvInsane:"Impossible",
   playing:"Cards: {c} · {l}",
+  rateQ:"Rate this card", love:"Love it", whack:"Whack", voteFail:"Couldn't save your vote. Check the internet.",
   start:"Start game", players:"{n} in the room", player1:"1 in the room",
   needTeams:"Each team needs at least one player.", pickYourTeam:"Pick a team first.",
   waitHost:"Waiting for {h} to start the game", teamA:"Momo", teamB:"Chiya",
@@ -681,6 +691,7 @@ ne:{
   teamNames:"टोलीको नाम", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड",
   categories:"किसिम", allCats:"सबै", difficulty:"कठिनाइ", lvMix:"सजिलोदेखि गाह्रो", lvHard:"गाह्रो", lvInsane:"असम्भव",
   playing:"कार्ड: {c} · {l}",
+  rateQ:"यो कार्ड कस्तो लाग्यो?", love:"मन पर्‍यो", whack:"झ्याउ", voteFail:"भोट सेभ भएन। इन्टरनेट जाँच्नुस्।",
   start:"खेल सुरु", players:"कोठामा {n} जना", player1:"कोठामा १ जना",
   needTeams:"हरेक टोलीमा कम्तीमा एक जना चाहिन्छ।", pickYourTeam:"पहिले टोली छान्नुस्।",
   waitHost:"{h} ले खेल सुरु गर्ने प्रतीक्षा", teamA:"मम", teamB:"चिया",
@@ -953,7 +964,7 @@ function syncPlayers(){
 function connect(code, asHost){
   return new Promise((resolve) => {
     if (!window.supabase){ resolve("net"); return; }
-    sb = sb || window.supabase.createClient(SB_URL, SB_KEY, {realtime:{params:{eventsPerSecond:20}}});
+    getSb();
     ROOM = code; isHost = asHost;
     if (!store.get("at:"+ROOM, null)) store.set("at:"+ROOM, Date.now());
     ch = sb.channel("ladbad-"+code, {config:{broadcast:{self:false}, presence:{key:ME.id}}});
@@ -1168,6 +1179,7 @@ function renderScreen(){
     const left = G.deck.length - G.idx - 1;
     $("res-left").textContent = left === 0 ? "" : left === 1 ? t("leftOne") : t("left",{n:left});
     $("next").textContent = left === 0 ? t("seeResults") : t("next");
+    paintRate("result", c);
   }
   if (s === "final" && G){
     const [a,bb] = G.teams, ranked = [0,1].sort((x,y) => G.teams[y].score - G.teams[x].score);
@@ -1208,6 +1220,35 @@ function uiTick(){
   else if (!isHost && G && !hostMissingSince && $("netbar").textContent === t("hostGone",{h:G.hostName})) $("netbar").hidden = true;
 }
 
+/* ---------- card votes ----------
+   Each phone votes once per card (it can change its mind). Votes go straight to the
+   database through the ladbad_vote() function; the host is not involved. */
+const myVotes = store.get("votes", {});
+function getSb(){ if (!sb && window.supabase) sb = window.supabase.createClient(SB_URL, SB_KEY, {realtime:{params:{eventsPerSecond:20}}}); return sb; }
+function paintRate(key, card){
+  const box = document.querySelector('[data-rate="'+key+'"]'); if (!box || !card) return;
+  const v = myVotes[card[0]] || 0;
+  box.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.v) === v)));
+}
+async function vote(card, v, key){
+  if (!card) return;
+  const prev = myVotes[card[0]] || 0;
+  myVotes[card[0]] = v; store.set("votes", myVotes); paintRate(key, card); sfx.tap(); if (v === 1) vibe(30);
+  const client = getSb();
+  try{
+    if (!client) throw new Error("offline");
+    const { error } = await client.rpc("ladbad_vote", { p_decoy:card[0], p_answer:card[2], p_roman:card[1], p_category:card[4], p_tier:card[5], p_vote:v, p_voter:ME.id, p_room:ROOM });
+    if (error) throw error;
+  }catch(e){
+    if (prev) myVotes[card[0]] = prev; else delete myVotes[card[0]];
+    store.set("votes", myVotes); paintRate(key, card); toast(t("voteFail"));
+  }
+}
+document.querySelectorAll("[data-rate]").forEach(box => box.querySelectorAll("button").forEach(b => b.onclick = () => {
+  const key = box.dataset.rate, card = key === "flip" ? DECK[FLIP.deck[FLIP.i]] : (G ? cardOf(G) : null);
+  vote(card, Number(b.dataset.v), key);
+}));
+
 /* ---------- practice mode ---------- */
 let FLIP = {deck:[], i:0, shown:false};
 function paintFlip(){
@@ -1219,6 +1260,7 @@ function paintFlip(){
   $("flip-ans").hidden = !FLIP.shown;
   fitNp($("flip-np"), c[2]); $("flip-ro").textContent = c[1]; $("flip-me").textContent = c[3];
   $("flip-show").textContent = FLIP.shown ? t("hideAnswer") : t("showAnswer");
+  $("flip-rate").hidden = !FLIP.shown; paintRate("flip", c);
 }
 
 /* ---------- entering a room ---------- */
