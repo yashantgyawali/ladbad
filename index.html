@@ -16,65 +16,49 @@
 <style>
 /* Layout: one phone-sized column, one screen at a time. Paper ground, ink-outlined cards with offset colour shadows. */
 :root{
-  --paper:#FBF3E6;   /* page */
-  --card:#FFFBF4;    /* card face */
-  --ink:#26170E;     /* text + outlines */
-  --muted:#7C6553;   /* secondary text */
-  --line:#EBDCC6;    /* hairlines, tracks */
-  --orange:#EE5F35;  /* action */
-  --sun:#F5B12E;     /* shadow, highlight */
-  --leaf:#3B8F55;    /* correct */
-  --tint:#FCE3D6;    /* orange wash */
-  --font:'Baloo 2', 'Kohinoor Devanagari', 'Noto Sans Devanagari', ui-rounded, system-ui, sans-serif;
-  color-scheme: light;
+  --paper:#FBF3E6; --card:#FFFBF4; --ink:#26170E; --muted:#7C6553; --line:#EBDCC6;
+  --orange:#EE5F35; --sun:#F5B12E; --leaf:#3B8F55; --tint:#FCE3D6; --sky:#E4F1E8;
+  --font:'Baloo 2','Kohinoor Devanagari','Noto Sans Devanagari',ui-rounded,system-ui,sans-serif;
+  color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{height:100%}
-body{
-  margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);
-  font-size:18px;line-height:1.45;overscroll-behavior:none;
-  padding-left:max(16px, env(safe-area-inset-left, 0px));
-  padding-right:max(16px, env(safe-area-inset-right, 0px));
-  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
-}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.45;overscroll-behavior:none;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input{-webkit-user-select:text;user-select:text}
 .app{max-width:460px;margin:0 auto;height:100%;display:flex;flex-direction:column}
 .screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;padding-block:14px 22px;overflow-y:auto}
 .screen.fixed{overflow:hidden}
 h1,h2,h3,p{margin:0}
 h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spacing:-.01em}
-.np{font-weight:600}
 .muted{color:var(--muted)}
 .grow{flex:1}
 .row{display:flex;gap:12px;align-items:center}
-.row > *{min-width:0}
-.between{justify-content:space-between}
+.row>*{min-width:0}
 .stack{display:flex;flex-direction:column;gap:12px}
-
-/* top bar */
 .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
 .mark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-.02em}
 .mark i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--sun) 0 50%,var(--orange) 50% 100%);display:block;transform:rotate(-6deg)}
 .pill{font:inherit;font-size:15px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
-.icon{width:44px;height:44px;border-radius:12px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:inherit;font-size:22px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
-
-/* buttons */
-.btn{font:inherit;font-weight:800;font-size:21px;line-height:1.15;border:2.5px solid var(--ink);border-radius:16px;padding:15px 18px;min-height:62px;background:var(--card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;transition:transform .08s ease, box-shadow .08s ease;width:100%}
-.btn small{display:block;font-size:14px;font-weight:600;opacity:.8}
+.icon{width:44px;height:44px;flex:none;border-radius:12px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:inherit;font-size:22px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
+.btn{font:inherit;font-weight:800;font-size:21px;line-height:1.15;border:2.5px solid var(--ink);border-radius:16px;padding:15px 18px;min-height:62px;background:var(--card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;transition:transform .08s ease,box-shadow .08s ease;width:100%}
+.btn small{display:block;font-size:14px;font-weight:600;opacity:.85}
 .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
 .btn.primary{background:var(--orange);color:#fff;border-color:var(--orange);box-shadow:5px 5px 0 var(--sun)}
 .btn.primary:active{box-shadow:2px 2px 0 var(--sun)}
 .btn.good{background:var(--leaf);border-color:var(--leaf);color:#fff;box-shadow:5px 5px 0 var(--ink)}
+.btn.huge{min-height:96px;font-size:30px}
 .btn.ghost{box-shadow:none;border-color:var(--line);font-size:18px;min-height:54px}
 .btn[disabled]{opacity:.4;pointer-events:none}
 .btn .col{display:flex;flex-direction:column;align-items:center}
+.link{font:inherit;font-weight:700;font-size:16px;color:var(--muted);background:none;border:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px;align-self:center}
 :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
-
-/* the card */
 .card{position:relative;background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--sun);padding:22px 20px}
 .card.orange{box-shadow:8px 8px 0 var(--orange)}
-.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--tint);border-radius:999px;padding:4px 12px}
+.tag{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--tint);border-radius:999px;padding:4px 12px}
+.center .tag{align-self:center}
 .gib{font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
 
 /* home */
@@ -84,7 +68,6 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .hero .c2{right:0;top:0;transform:rotate(4deg);box-shadow:8px 8px 0 var(--orange)}
 .hero.flipped .c1{transform:rotate(-9deg) translate(-8px,26px)}
 .hero.flipped .c2{transform:rotate(2deg) translate(0,-6px);z-index:3}
-.hero .tag{align-self:flex-start}
 .hero .gib{font-size:clamp(30px,9vw,40px)}
 .hero .ans{font-size:clamp(30px,9vw,38px);font-weight:800;line-height:1.1}
 .hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
@@ -92,53 +75,74 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .title span{display:block;font-size:.5em;color:var(--orange);letter-spacing:0;margin-top:6px}
 .lede{font-size:19px;line-height:1.4}
 
-/* setup */
+/* forms */
 .field{display:flex;flex-direction:column;gap:8px}
 .label{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.team-in{font:inherit;font-size:22px;font-weight:800;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px;width:100%;min-height:58px}
-.team-in:focus{outline:none;box-shadow:4px 4px 0 var(--sun)}
+.in{font:inherit;font-size:22px;font-weight:800;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px;width:100%;min-height:58px}
+.in:focus{outline:none;box-shadow:4px 4px 0 var(--sun)}
+.in.code{font-size:34px;letter-spacing:.3em;text-transform:uppercase;text-align:center}
 .seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border:2.5px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--card)}
-.seg button{font:inherit;font-size:20px;font-weight:800;border:0;background:none;color:var(--ink);min-height:54px;cursor:pointer;border-left:2px solid var(--line)}
+.seg button{font:inherit;font-size:20px;font-weight:800;border:0;background:none;color:var(--ink);min-height:50px;cursor:pointer;border-left:2px solid var(--line)}
 .seg button:first-child{border-left:0}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.vs{display:flex;align-items:center;gap:10px}
-.vs b{font-size:15px;color:var(--muted)}
+.err{color:var(--orange);font-weight:700;font-size:16px;min-height:1.4em}
+.in.code::placeholder{color:var(--line)}
+.bar .pill{flex:none;min-height:36px;padding:4px 12px;font-size:14px}
+.score{flex:1;justify-content:flex-end}
+
+/* lobby */
+.roomcode{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.roomcode .code{font-size:46px;font-weight:800;letter-spacing:.14em;line-height:1}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.team{border:2.5px solid var(--ink);border-radius:18px;background:var(--card);padding:12px;display:flex;flex-direction:column;gap:8px;cursor:pointer;min-width:0;text-align:left;font:inherit;color:var(--ink)}
+.team.mine{box-shadow:5px 5px 0 var(--sun)}
+.team.t1.mine{box-shadow:5px 5px 0 var(--orange)}
+.team .tn{font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px;min-width:0}
+.team .tn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.team ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;min-height:64px}
+.team li{font-size:17px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.team li.me{font-weight:800}
+.team .join{font-size:14px;font-weight:800;color:var(--orange)}
 .dot{width:14px;height:14px;border-radius:50%;flex:none;border:2px solid var(--ink)}
 .dot.a{background:var(--orange)}.dot.b{background:var(--sun)}
+.tnames{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tnames .in{font-size:18px;min-height:50px}
 
 /* play */
-.score{display:flex;gap:8px}
-.chip{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:999px;padding:4px 12px 4px 8px;font-weight:800;font-size:16px;background:var(--card);max-width:46vw}
+.score{display:flex;gap:8px;min-width:0}
+.chip{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:999px;padding:4px 12px 4px 8px;font-weight:800;font-size:16px;background:var(--card);min-width:0}
 .chip .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:24vw}
 .chip.on{border-color:var(--ink)}
 .chip .pts{font-variant-numeric:tabular-nums}
-.playcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;min-height:0}
-.playcard .top{display:flex;justify-content:space-between;align-items:center;gap:8px;position:absolute;left:18px;right:18px;top:16px}
+.playcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0}
+.bigcard{flex:1 0 auto;display:flex;flex-direction:column;gap:10px;padding:16px 18px 20px}
+.bigcard .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
+.bigcard .body{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.hints:empty{min-height:0}
 .worth{font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
 .timer{height:12px;border-radius:999px;background:var(--line);overflow:hidden;border:2px solid var(--ink)}
 .timer i{display:block;height:100%;background:var(--sun);transform-origin:left;width:100%}
 .timer.low i{background:var(--orange)}
-.secs{font-size:44px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;text-align:center}
+.tline{display:flex;align-items:center;gap:12px}
+.tline .timer{flex:1}
+.secs{font-size:36px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;min-width:2ch;text-align:right}
 .secs.low{color:var(--orange);animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{50%{transform:scale(1.12)}}
-.hints{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:36px}
+.hints{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:34px}
 .hint{font-size:16px;font-weight:700;background:var(--tint);border-radius:10px;padding:4px 12px}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .controls .wide{grid-column:1/-1}
-.peek{touch-action:none}
-.peek.on{background:var(--ink);color:var(--paper)}
-.peekbox{position:absolute;inset:0;border-radius:19px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;z-index:5}
-.peekbox .a{font-size:clamp(34px,10vw,46px);font-weight:800;line-height:1.1}
-.peekbox .r{font-size:20px;font-weight:700;opacity:.8}
+.who{font-size:17px;font-weight:700;color:var(--muted);text-align:center}
+.who b{color:var(--ink)}
+.reads{font-size:17px;font-weight:700;color:var(--muted)}
+.reads b{display:block;font-size:22px;color:var(--ink);line-height:1.15}
+.shh{background:var(--sky);border-radius:16px;padding:14px 16px;font-weight:700;font-size:18px;text-align:center}
 
-/* pass / steal / result */
-.center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
-.big{font-size:clamp(40px,12vw,56px);font-weight:800;line-height:1;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
-.phone{width:82px;height:132px;border:4px solid var(--ink);border-radius:18px;background:var(--card);position:relative;animation:hand 2.2s ease-in-out infinite;box-shadow:6px 6px 0 var(--sun)}
-.phone::after{content:"";position:absolute;left:50%;bottom:9px;width:22px;height:5px;margin-left:-11px;border-radius:9px;background:var(--ink)}
-@keyframes hand{0%,100%{transform:translateX(-26px) rotate(-8deg)}50%{transform:translateX(26px) rotate(8deg)}}
+/* centered states */
+.center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px}
+.big{font-size:clamp(38px,12vw,54px);font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
 .answer{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
-.answer .np-a{font-size:clamp(38px,11vw,52px);font-weight:800;line-height:1.15}
+.answer .np-a{font-size:clamp(34px,11vw,52px);font-weight:800;line-height:1.15;text-wrap:balance;overflow-wrap:anywhere}
 .answer .ro{font-size:22px;font-weight:700}
 .answer .me{font-size:17px;color:var(--muted)}
 .decoy{font-size:18px;font-weight:700;color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--orange)}
@@ -146,9 +150,10 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .banner.win{color:var(--leaf)}
 .pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
 @keyframes pop{from{transform:scale(.6);opacity:0}}
-.stealsecs{font-size:72px;font-weight:800;line-height:1;color:var(--orange);font-variant-numeric:tabular-nums}
-
-/* final */
+.flipcard{width:150px;height:200px;position:relative;animation:wob 2.4s ease-in-out infinite}
+.flipcard div{position:absolute;inset:0;border:3px solid var(--ink);border-radius:16px;background:var(--card);box-shadow:6px 6px 0 var(--sun);display:grid;place-items:center;font-weight:800;font-size:26px;padding:10px}
+.flipcard div:last-child{transform:rotate(8deg) translate(16px,6px);background:var(--orange);color:#fff;box-shadow:6px 6px 0 var(--ink);z-index:-1}
+@keyframes wob{50%{transform:rotate(-4deg)}}
 .podium{display:flex;flex-direction:column;gap:12px;width:100%}
 .prow{display:flex;align-items:center;justify-content:space-between;gap:12px;border:2.5px solid var(--ink);border-radius:16px;padding:12px 16px;background:var(--card);font-weight:800;font-size:24px}
 .prow.first{box-shadow:6px 6px 0 var(--sun)}
@@ -160,18 +165,17 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .steps li{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}
 .steps .n{width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:800}
 .steps p{font-size:18px;line-height:1.35}
-.steps p + p{font-size:16px;color:var(--muted);margin-top:2px}
+.steps p+p{font-size:16px;color:var(--muted);margin-top:2px}
 .tip{border-left:4px solid var(--sun);padding:4px 0 4px 14px;font-size:17px}
 
-/* sheet */
+/* overlays */
 .veil{position:fixed;inset:0;background:rgba(38,23,14,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .sheet{width:100%;max-width:460px;background:var(--paper);border:3px solid var(--ink);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:8px 8px 0 var(--orange)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);font-weight:700;font-size:16px;border-radius:999px;padding:10px 18px;z-index:60;max-width:calc(100% - 32px);text-align:center}
+.netbar{position:fixed;left:0;right:0;top:0;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;background:var(--orange);color:#fff;font-weight:800;font-size:15px;text-align:center;z-index:40}
 
-@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
-@media (max-height:640px){
-  .hero{height:210px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}
-  .secs{font-size:34px}
-}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-height:640px){.hero{height:210px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}.btn.huge{min-height:76px}.secs{font-size:30px}}
 </style>
 
 <div class="app" id="app">
@@ -180,7 +184,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
   <section class="screen" id="s-home">
     <div class="bar">
       <div class="mark"><i></i>Ladbad</div>
-      <button class="pill" id="lang" type="button" aria-label="Switch language"></button>
+      <button class="pill" id="lang" type="button" data-lang aria-label="Switch language"></button>
     </div>
     <div class="hero" id="hero" role="button" tabindex="0" aria-label="Flip the example card">
       <div class="card c1">
@@ -200,125 +204,148 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
     </div>
     <div class="grow"></div>
     <div class="stack">
-      <button class="btn primary" id="go-setup" type="button" data-t="play"></button>
-      <div class="row">
-        <button class="btn" id="go-how" type="button" data-t="how"></button>
-        <button class="btn" id="go-flip" type="button" data-t="practice"></button>
+      <button class="btn primary" id="go-create" type="button" data-t="create"></button>
+      <button class="btn" id="go-join" type="button" data-t="join"></button>
+      <div class="row" style="justify-content:center;gap:4px">
+        <button class="link" id="go-how" type="button" data-t="how"></button>
+        <span class="muted">·</span>
+        <button class="link" id="go-flip" type="button" data-t="practice"></button>
       </div>
     </div>
   </section>
 
-  <!-- HOW TO PLAY -->
+  <!-- HOW -->
   <section class="screen" id="s-how" hidden>
     <div class="bar">
-      <button class="icon" type="button" data-back aria-label="Back">←</button>
+      <button class="icon" type="button" data-home aria-label="Back">←</button>
       <h2 data-t="how"></h2>
       <span style="width:44px"></span>
     </div>
     <ol class="steps" id="how-steps"></ol>
     <p class="tip" data-t="howTip"></p>
     <div class="grow"></div>
-    <button class="btn primary" type="button" data-goto="setup" data-t="gotIt"></button>
+    <button class="btn primary" type="button" id="how-go" data-t="create"></button>
   </section>
 
-  <!-- SETUP -->
-  <section class="screen" id="s-setup" hidden>
+  <!-- NAME / CODE -->
+  <section class="screen" id="s-me" hidden>
     <div class="bar">
-      <button class="icon" type="button" data-back aria-label="Back">←</button>
-      <h2 data-t="setupTitle"></h2>
+      <button class="icon" type="button" data-home aria-label="Back">←</button>
+      <h2 id="me-title"></h2>
       <span style="width:44px"></span>
     </div>
     <div class="field">
-      <span class="label" data-t="teams"></span>
-      <div class="vs"><span class="dot a"></span><input class="team-in" id="team-a" maxlength="16" autocomplete="off"></div>
-      <div class="vs"><span class="dot b"></span><input class="team-in" id="team-b" maxlength="16" autocomplete="off"></div>
+      <label class="label" for="my-name" data-t="yourName"></label>
+      <input class="in" id="my-name" maxlength="14" autocomplete="off" enterkeyhint="next">
+    </div>
+    <div class="field" id="code-field">
+      <label class="label" for="room-code" data-t="roomCode"></label>
+      <input class="in code" id="room-code" placeholder="ABCD" maxlength="4" autocomplete="off" autocapitalize="characters" inputmode="text" enterkeyhint="go">
+    </div>
+    <p class="err" id="me-err" role="alert"></p>
+    <div class="grow"></div>
+    <button class="btn primary" id="me-go" type="button"></button>
+  </section>
+
+  <!-- LOBBY -->
+  <section class="screen" id="s-lobby" hidden>
+    <div class="bar">
+      <button class="icon" type="button" data-leave aria-label="Leave room">×</button>
+      <span class="muted" id="lobby-count"></span>
+      <button class="pill" id="lang2" type="button" data-lang></button>
+    </div>
+    <div class="card roomcode">
+      <div class="stack" style="gap:2px;min-width:0">
+        <span class="label" data-t="roomCode"></span>
+        <span class="code" id="lobby-code"></span>
+      </div>
+      <button class="pill" id="share" type="button" data-t="invite"></button>
     </div>
     <div class="field">
-      <span class="label" data-t="cardsEach"></span>
-      <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
+      <span class="label" data-t="pickTeam"></span>
+      <div class="teams">
+        <button class="team t0" id="team-0" type="button"><span class="tn"><span class="dot a"></span><span></span></span><ul></ul><span class="join"></span></button>
+        <button class="team t1" id="team-1" type="button"><span class="tn"><span class="dot b"></span><span></span></span><ul></ul><span class="join"></span></button>
+      </div>
     </div>
-    <div class="field">
-      <span class="label" data-t="secondsPer"></span>
-      <div class="seg" id="seg-time"><button type="button" data-v="30">30</button><button type="button" data-v="45">45</button><button type="button" data-v="60">60</button></div>
-    </div>
-    <div class="field">
-      <span class="label" data-t="sound"></span>
-      <div class="seg" id="seg-sound"><button type="button" data-v="1" data-t="on"></button><button type="button" data-v="0" data-t="off"></button></div>
+    <div class="stack" id="host-settings">
+      <div class="field">
+        <span class="label" data-t="teamNames"></span>
+        <div class="tnames"><input class="in" id="tn-0" maxlength="14" autocomplete="off"><input class="in" id="tn-1" maxlength="14" autocomplete="off"></div>
+      </div>
+      <div class="field">
+        <span class="label" data-t="cardsEach"></span>
+        <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
+      </div>
+      <div class="field">
+        <span class="label" data-t="secondsPer"></span>
+        <div class="seg" id="seg-time"><button type="button" data-v="30">30</button><button type="button" data-v="45">45</button><button type="button" data-v="60">60</button></div>
+      </div>
     </div>
     <div class="grow"></div>
+    <p class="err" id="lobby-err" role="status"></p>
     <button class="btn primary" id="start" type="button" data-t="start"></button>
+    <p class="who" id="lobby-wait"></p>
   </section>
 
-  <!-- PASS THE PHONE -->
-  <section class="screen fixed" id="s-pass" hidden>
-    <div class="bar">
-      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
-      <div class="score" id="score-pass"></div>
-    </div>
+  <!-- READY (before each card) -->
+  <section class="screen fixed" id="s-ready" hidden>
+    <div class="bar"><button class="icon" type="button" data-leave aria-label="Leave room">×</button><div class="score" id="score-ready"></div><button class="pill" type="button" data-lang></button></div>
     <div class="center">
-      <div class="phone" aria-hidden="true"></div>
-      <span class="tag" id="pass-tier"></span>
-      <p class="muted" data-t="passTo"></p>
-      <div class="big" id="pass-team"></div>
-      <p class="muted" data-t="pickReader"></p>
+      <div class="flipcard" aria-hidden="true"><div id="ready-mini">?</div><div></div></div>
+      <span class="tag" id="ready-tier"></span>
+      <div class="big" id="ready-big"></div>
+      <p class="lede" id="ready-line"></p>
     </div>
-    <button class="btn primary" id="ready" type="button" data-t="ready"></button>
+    <button class="btn primary huge" id="ready-go" type="button" data-t="flipIt"></button>
+    <p class="who" id="ready-wait"></p>
+    <button class="link" id="ready-skip" type="button" data-t="skipReader"></button>
+    <button class="btn ghost" id="ready-end" type="button" data-t="endGame"></button>
   </section>
 
-  <!-- PLAY -->
-  <section class="screen fixed" id="s-play" hidden>
-    <div class="bar">
-      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
-      <div class="score" id="score-play"></div>
-    </div>
+  <!-- PLAY: reader view -->
+  <section class="screen" id="s-read" hidden>
+    <div class="bar"><button class="icon" type="button" data-leave aria-label="Leave room">×</button><div class="score" id="score-read"></div></div>
     <div class="playcard">
-      <div class="card" id="play-card" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:58px;min-height:0">
-        <div class="top"><span class="tag" id="play-tier"></span><span class="worth" id="play-worth"></span></div>
-        <div class="gib" id="play-gib"></div>
-        <div class="peekbox" id="peekbox" hidden>
-          <div class="a" id="peek-np"></div>
-          <div class="r" id="peek-ro"></div>
+      <div class="card bigcard">
+        <div class="top"><span class="tag" data-t="youRead"></span><span class="worth" id="read-worth"></span></div>
+        <div class="body"><div class="gib" id="read-gib"></div></div>
+      </div>
+      <div class="hints" id="read-hints"></div>
+      <div class="tline"><div class="timer" id="read-timer"><i></i></div><div class="secs" id="read-secs"></div></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="read-hint" type="button"></button>
+      <button class="btn ghost" id="read-pass" type="button" data-t="pass"></button>
+    </div>
+  </section>
+
+  <!-- PLAY: everyone else -->
+  <section class="screen" id="s-watch" hidden>
+    <div class="bar"><button class="icon" type="button" data-leave aria-label="Leave room">×</button><div class="score" id="score-watch"></div></div>
+    <div class="playcard">
+      <div class="card orange bigcard">
+        <div class="top"><span class="tag" data-t="answerTag"></span><span class="worth" id="watch-worth"></span></div>
+        <div class="body">
+          <div class="answer">
+            <div class="np-a" id="watch-np"></div>
+            <div class="ro" id="watch-ro"></div>
+            <div class="me" id="watch-me"></div>
+          </div>
+          <div class="reads" id="watch-reads"></div>
         </div>
       </div>
-      <div class="hints" id="hints"></div>
-      <div class="stack" style="gap:10px">
-        <div class="secs" id="secs"></div>
-        <div class="timer" id="timer"><i id="timer-fill"></i></div>
-      </div>
+      <div class="hints" id="watch-hints"></div>
+      <div class="tline"><div class="timer" id="watch-timer"><i></i></div><div class="secs" id="watch-secs"></div></div>
     </div>
-    <div class="controls">
-      <button class="btn" id="hint" type="button"></button>
-      <button class="btn peek" id="peek" type="button" data-t="peek"></button>
-      <button class="btn ghost" id="giveup" type="button" data-t="giveUp"></button>
-      <button class="btn good" id="gotit" type="button" data-t="gotItBtn"></button>
-    </div>
-  </section>
-
-  <!-- STEAL -->
-  <section class="screen fixed" id="s-steal" hidden>
-    <div class="bar">
-      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
-      <div class="score" id="score-steal"></div>
-    </div>
-    <div class="center">
-      <p class="banner" data-t="timeUp"></p>
-      <div class="big" id="steal-team"></div>
-      <p class="lede" id="steal-line"></p>
-      <div class="stealsecs" id="steal-secs"></div>
-      <div class="card" style="width:100%"><div class="gib" id="steal-gib" style="font-size:clamp(28px,8vw,38px)"></div></div>
-    </div>
-    <div class="controls">
-      <button class="btn" id="steal-no" type="button" data-t="nope"></button>
-      <button class="btn good" id="steal-yes" type="button" data-t="stolen"></button>
-    </div>
+    <button class="btn good huge" id="watch-got" type="button" data-t="gotIt"></button>
+    <p class="shh" id="watch-shh"></p>
+    <button class="link" id="watch-skip" type="button" data-t="skipReader"></button>
   </section>
 
   <!-- RESULT -->
   <section class="screen fixed" id="s-result" hidden>
-    <div class="bar">
-      <button class="icon" type="button" data-quit aria-label="Quit game">×</button>
-      <div class="score" id="score-result"></div>
-    </div>
+    <div class="bar"><button class="icon" type="button" data-leave aria-label="Leave room">×</button><div class="score" id="score-result"></div><button class="pill" type="button" data-lang></button></div>
     <div class="center">
       <p class="banner pop" id="res-banner"></p>
       <div class="card orange" style="width:100%">
@@ -336,56 +363,67 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 
   <!-- FINAL -->
   <section class="screen" id="s-final" hidden>
+    <div class="bar"><span></span><button class="pill" type="button" data-lang></button></div>
     <div class="center">
       <span class="tag" data-t="gameOver"></span>
       <div class="big pop" id="final-win"></div>
       <div class="podium" id="podium"></div>
-      <p class="muted" id="final-line"></p>
     </div>
     <div class="stack">
       <button class="btn primary" id="again" type="button" data-t="again"></button>
-      <button class="btn ghost" type="button" data-goto="home" data-t="home"></button>
+      <p class="who" id="final-wait"></p>
+      <button class="btn ghost" type="button" data-leave data-t="leave"></button>
     </div>
   </section>
 
-  <!-- PRACTICE (flip cards) -->
-  <section class="screen fixed" id="s-flip" hidden>
+  <!-- PRACTICE -->
+  <section class="screen" id="s-flip" hidden>
     <div class="bar">
-      <button class="icon" type="button" data-back aria-label="Back">←</button>
+      <button class="icon" type="button" data-home aria-label="Back">←</button>
       <span class="muted" id="flip-count"></span>
     </div>
     <div class="playcard">
-      <div class="card" id="flip-card" style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:58px;min-height:0;cursor:pointer">
+      <div class="card bigcard" id="flip-card" style="cursor:pointer">
         <div class="top"><span class="tag" id="flip-tier"></span><span class="worth" id="flip-cat"></span></div>
-        <div class="gib" id="flip-gib"></div>
-        <div class="answer" id="flip-ans" hidden style="margin-top:22px;padding-top:18px;border-top:2px dashed var(--line)">
-          <div class="np-a" id="flip-np" style="font-size:clamp(32px,9vw,42px)"></div>
-          <div class="ro" id="flip-ro"></div>
-          <div class="me" id="flip-me"></div>
+        <div class="body">
+          <div class="gib" id="flip-gib"></div>
+          <div class="answer" id="flip-ans" hidden style="padding-top:16px;border-top:2px dashed var(--line)">
+            <div class="np-a" id="flip-np"></div>
+            <div class="ro" id="flip-ro"></div>
+            <div class="me" id="flip-me"></div>
+          </div>
         </div>
       </div>
       <p class="muted" style="text-align:center" data-t="flipTip"></p>
     </div>
     <div class="controls">
-      <button class="btn" id="flip-show" type="button" data-t="showAnswer"></button>
+      <button class="btn" id="flip-show" type="button"></button>
       <button class="btn primary" id="flip-next" type="button" data-t="nextCard"></button>
     </div>
   </section>
 </div>
 
-<div class="veil" id="quit-veil" hidden>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="quit-q">
-    <h2 id="quit-q" data-t="quitQ"></h2>
-    <p class="muted" data-t="quitSub"></p>
+<div class="netbar" id="netbar" hidden></div>
+<div class="toast" id="toast" hidden></div>
+<div class="veil" id="leave-veil" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="leave-q">
+    <h2 id="leave-q" data-t="leaveQ"></h2>
+    <p class="muted" id="leave-sub"></p>
     <div class="controls">
-      <button class="btn" id="quit-no" type="button" data-t="keepPlaying"></button>
-      <button class="btn primary" id="quit-yes" type="button" data-t="quit"></button>
+      <button class="btn" id="leave-no" type="button" data-t="stay"></button>
+      <button class="btn primary" id="leave-yes" type="button" data-t="leave"></button>
     </div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function(){
+"use strict";
+/* ---------- connection (Supabase Realtime only: broadcast + presence, no tables) ---------- */
+const SB_URL = "https://ibayovdptlrvoepwrqpz.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliYXlvdmRwdGxydm9lcHdycXB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTk2NjUsImV4cCI6MjEwNjI3NTY2NX0.v2LV5a77EC3peBOlE1a-X3Msana7PyYMxgdy8b_awKs"; // public anon key: Realtime only, no tables are exposed
+
 /* ---------- the deck ----------
    [decoy, romanised answer, नेपाली answer, meaning, category, tier]
    tier 0 warm-up · 1 slippery · 2 brain melt · 3 boss            */
@@ -402,16 +440,16 @@ const DECK = [
 ["Rum Eye Low","Ramailo","रमाइलो","Fun","talk",0],
 ["Sell Row Tea","Sel Roti","सेल रोटी","Ring-shaped rice bread","food",0],
 ["Tea Har","Tihar","तिहार","Festival of lights","fest",0],
-["Buy Tea Car","Bhai Tika","भाइटीका","Brothers' day in Tihar","fest",0],
+["Buy Tea Car","Bhaitika","भाइटीका","Brothers' day in Tihar","fest",0],
 ["Ouch Are","Achar","अचार","Pickle","food",0],
 ["Moose Tongue","Mustang","मुस्ताङ","Beyond the Himalaya","place",0],
 ["Jump Sun","Jomsom","जोमसोम","Windy town in Mustang","place",0],
 ["Laugh Ping","Laphing","लाफिङ","Cold, spicy noodle snack","food",0],
 ["Huh Jaw Bah","Hajurba","हजुरबा","Grandpa","family",0],
-["Huh Jaw Ah Ma","Hajur Aama","हजुरआमा","Grandma","family",0],
+["Huh Jaw Ah Ma","Hajuraama","हजुरआमा","Grandma","family",0],
 ["Chew Rah","Chiura","च्युरा","Beaten rice","food",0],
 ["Boot Wall","Butwal","बुटवल","City in Rupandehi","place",0],
-["Guy Jot Rah","Gai Jatra","गाईजात्रा","The cow festival","fest",0],
+["Guy Jot Rah","Gaijatra","गाईजात्रा","The cow festival","fest",0],
 ["Tea Edge","Teej","तीज","Festival of red saris","fest",0],
 ["Took Pa","Thukpa","थुक्पा","Noodle soup","food",0],
 ["Low Sir","Lhosar","ल्होसार","New Year festival","fest",0],
@@ -429,7 +467,7 @@ const DECK = [
 ["Cut Mend Ooh","Kathmandu","काठमाडौं","The capital","place",1],
 ["Ill Lamb Bug Jar","Ilam Bazar","इलाम बजार","Tea town market","place",1],
 ["Pa Knee Pour E","Panipuri","पानीपुरी","Street snack","food",1],
-["Mom Mug Hurr","Mama ghar","मामाघर","Mum's brother's house","family",1],
+["Mom Mug Hurr","Mamaghar","मामाघर","Mum's brother's house","family",1],
 ["Hey Toe Dah","Hetauda","हेटौंडा","City in Makwanpur","place",1],
 ["Bah Lu What Ah","Baluwatar","बालुवाटार","Where the PM lives","place",1],
 ["Car Nack Hi Ow?","Khana khayau?","खाना खायौ?","Did you eat?","home",1],
@@ -441,7 +479,7 @@ const DECK = [
 ["Sue Cootie","Sukuti","सुकुटी","Dried meat","food",1],
 ["Seek Our Knee","Sikarni","सिकर्नी","Sweet spiced yoghurt","food",1],
 ["All Ooh Tom Ah","Aalu Tama","आलु तामा","Potato and bamboo shoot curry","food",1],
-["Inn Draw Jot Rah","Indra Jatra","इन्द्रजात्रा","Kumari's chariot festival","fest",1],
+["Inn Draw Jot Rah","Indrajatra","इन्द्रजात्रा","Kumari's chariot festival","fest",1],
 ["Biscuit Jot Rah","Bisket Jatra","बिस्केट जात्रा","Bhaktapur's New Year","fest",1],
 ["Nug Our Coat","Nagarkot","नगरकोट","Sunrise hill","place",1],
 ["Bun Dip Poor","Bandipur","बन्दीपुर","Hilltop bazaar town","place",1],
@@ -452,11 +490,11 @@ const DECK = [
 ["Sure Kate","Surkhet","सुर्खेत","Karnali's capital","place",1],
 ["Tongue Bah","Tongba","तोङ्बा","Millet drink in a wooden pot","food",1],
 ["Dee Though","Dhido","ढिंडो","Thick flour porridge","food",1],
-["Some Eye Badge Ee","Samay Baji","समयबजी","Newari feast plate","food",1],
+["Some Eye Badge Ee","Samaybaji","समयबजी","Newari feast plate","food",1],
 ["Ma Sue But","Masu bhat","मासु भात","Meat and rice","food",1],
 ["Choi Ella","Choila","छोयला","Spiced grilled meat","food",1],
 ["Zoo Though","Jutho","जुठो","Already eaten from","home",1],
-["Cuckoo Ma Cuckoo","Kutu ma kutu","कुटुमा कुटु","The song everyone danced to","song",1],
+["Cuckoo Ma Cuckoo","Kutuma kutu","कुटुमा कुटु","The song everyone danced to","song",1],
 ["But Moss","Bhatmas","भटमास","Soybeans","food",1],
 ["Quote Tea","Kwati","क्वाटी","Nine-bean soup","food",1],
 
@@ -464,7 +502,7 @@ const DECK = [
 ["Jerry's Wary","Jeri swari","जेरी स्वारी","Jalebi with fried bread","food",2],
 ["Tuck Echo Chew","Thakeko chhu","थाकेको छु","I'm tired","talk",2],
 ["Posh Ooh Putty Gnat","Pashupatinath","पशुपतिनाथ","Shiva's temple on the Bagmati","place",2],
-["Booze New Buy Yo?","Bujhnu bhayo?","बुझ्नुभयो?","Understood?","home",2],
+["Booze New Buy Yo?","Bujhnubhayo?","बुझ्नुभयो?","Understood?","home",2],
 ["Doll Bought Tar Curry","Dal bhat tarkari","दाल भात तरकारी","Rice, lentils, veg. 24-hour power.","food",2],
 ["Race Ham Ferrari","Resham Firiri","रेशम फिरिरी","The folk song","song",2],
 ["Ferry Bait Owl Ah","Pheri bhetaula","फेरि भेटौंला","See you again","talk",2],
@@ -474,397 +512,714 @@ const DECK = [
 ["Mall Eye Tar Hah China","Malai thaha chhaina","मलाई थाहा छैन","I don't know","talk",2],
 ["Mug Hay Sun Cranky","Maghe Sankranti","माघे संक्रान्ति","Ghee, chaku and sweet potato day","fest",2],
 ["Cuddy Bay Lah Are Oo Nay?","Kati bela aaune?","कति बेला आउने?","When are you coming?","home",2],
-["Cook Core Co Pooch Are","Kukur ko puchchhar","कुकुरको पुच्छर","A dog's tail never straightens","ukhaan",2],
+["Cook Core Co Pooch Are","Kukurko puchchhar","कुकुरको पुच्छर","A dog's tail never straightens","ukhaan",2],
 
 ["Got A Stop On Ah","Ghatasthapana","घटस्थापना","First day of Dashain","fest",3],
 ["Timmy Lie My Agar Chew","Timilai maya garchhu","तिमीलाई माया गर्छु","I love you","talk",3],
 ["Their Eye Ma Hung Go By Yo","Dherai mahango bhayo","धेरै महँगो भयो","Way too expensive!","home",3],
-["Bun Dark Oh Hut Ma Narwhal","Bandar ko haat ma nariwal","बाँदरको हातमा नरिवल","A coconut in a monkey's hands","ukhaan",3],
+["Bun Dark Oh Hut Ma Narwhal","Bandarko haatma nariwal","बाँदरको हातमा नरिवल","A coconut in a monkey's hands","ukhaan",3],
 ["Notch Nah Nah John Nay Aunt Gun Ted Oh","Nachna najanne aangan tedho","नाच्न नजान्ने आँगन टेढो","Can't dance, blames the crooked yard","ukhaan",3],
 ["Be Hay Car He Lay Gun Nay?","Bihe kahile garne?","बिहे कहिले गर्ने?","So when are you getting married?","home",3],
 ["Egg Hot Lay Tally Budge Die Nah","Ek haatle taali bajdaina","एक हातले ताली बज्दैन","One hand can't clap","ukhaan",3],
 ["Just Co Lot Tea Who's Co Buy See","Jasko lathi usko bhainsi","जसको लाठी उसको भैंसी","Whoever holds the stick gets the buffalo","ukhaan",3],
-["Do We Doing Gum Ah Coot Ah","Dui dunga ma khutta","दुई डुंगामा खुट्टा","A foot in two boats","ukhaan",3],
+["Do We Doing Gum Ah Coot Ah","Dui dungama khutta","दुई डुंगामा खुट्टा","A foot in two boats","ukhaan",3],
 ["Who Nay Be Roo Ah Co Chill Oh Pot","Hune biruwako chillo paat","हुने बिरुवाको चिल्लो पात","A promising sapling shows shiny leaves","ukhaan",3],
 ["Hottie Eye Oh Hottie Eye Oh Fuss Ah","Hatti aayo hatti aayo phussa","हात्ती आयो हात्ती आयो फुस्सा","All that hype, then nothing","ukhaan",3],
 ["Half Ooh Bull Low Tuh Jug Gut Bull Low","Aaphu bhalo ta jagat bhalo","आफू भलो त जगत भलो","Be good and the world is good to you","ukhaan",3]
 ];
-
 const CAT = {place:["Place","ठाउँ"],food:["Food","खानेकुरा"],fest:["Festival","चाडपर्व"],talk:["Everyday talk","बोलीचाली"],home:["Heard at home","घरमा सुनिने कुरा"],family:["Family","नाता"],ukhaan:["Ukhaan","उखान"],song:["Song","गीत"]};
 const TIER = [["Warm-up","सजिलो"],["Slippery","चिप्लो"],["Brain melt","दिमाग पग्लिने"],["Boss round","सबैभन्दा गाह्रो"]];
 const POINTS = [10,20,30,50];
-const STEAL_SECS = 10;
+/* points a correct card is worth after 0, 1 or 2 hints; every hint costs something */
+const WORTH = [[10,6,3],[20,14,8],[30,20,12],[50,35,20]];
 
 /* ---------- words ---------- */
 const T = {
 en:{
   langBtn:"नेपाली", sayIt:"Say it fast", tapFlip:"Tap to flip", itsActually:"It's actually",
-  tagline:"Ladbad · gibberish", lede:"Read the silly English out loud. Faster. Faster. Your ears will find the Nepali hiding inside.",
-  play:"Play with teams", how:"How to play", practice:"Practice",
-  gotIt:"Got it, let's play",
+  tagline:"Ladbad · gibberish", lede:"One phone shows silly English. Every other phone shows the real Nepali. The reader is the only one who doesn't know.",
+  create:"Start a room", join:"Join a room", how:"How to play", practice:"Practice alone",
   steps:[
-    ["One person reads the card out loud. Their team guesses.","Pass the phone around so everyone gets a turn to read."],
-    ["Say it again and again, faster each time.","Don't think about the English words. Just listen."],
-    ["No explaining, no acting. Only reading.","Repeat, speed up, slow down. That's all."],
-    ["Stuck? Take a hint.","Each hint costs some points."],
-    ["Time's up? The other team gets one guess to steal.","Most points at the end wins."]
+    ["Everyone opens Ladbad on their own phone and joins one room.","One person starts the room and shares the 4-letter code."],
+    ["Pick a team. Two phones is enough, more is better.","Teams take turns. Each turn, one player is the reader."],
+    ["The reader's phone shows only the gibberish.","Read it out loud, faster and faster, until you hear the Nepali."],
+    ["Every other phone shows the answer.","Watch the reader struggle. No telling!"],
+    ["When the reader says it, the other team taps Got it.","Hints cost points. Most points at the end wins."]
   ],
-  howTip:"The person holding the phone is usually the last to get it. They're staring at the words while everyone else just hears sounds.",
-  setupTitle:"New game", teams:"Teams", cardsEach:"Cards per team", secondsPer:"Seconds per card", sound:"Sound", on:"On", off:"Off",
-  start:"Start", teamA:"Momo", teamB:"Chiya",
-  passTo:"Give the phone to", pickReader:"Pick one reader. Only they look at the screen.", ready:"I'm the reader. Go!",
-  pts:"pts", worth:"{n} pts", hint:"Hint", hintCost:"−{n}", noHints:"No more hints",
-  peek:"Hold to peek", giveUp:"Give up", gotItBtn:"Got it!",
-  hCat:"{c}", hFirst:"Starts with {np} · {ro}", hWords:"{n} words", hWord:"1 word",
-  timeUp:"Time's up!", stealLine:"One guess to steal it. {n} pts.", nope:"Missed", stolen:"Stolen!",
-  winA:"+{n} for {t}!", stoleB:"{t} stole it! +{n}", nobody:"Nobody got it",
+  howTip:"Like a real card game: the reader holds the front, everyone else sees the back.",
+  createTitle:"Start a room", joinTitle:"Join a room", yourName:"Your name", roomCode:"Room code",
+  makeRoom:"Make the room", joinRoom:"Join", needName:"Type your name first.", needCode:"Type the 4-letter code in English letters, like ABCD.",
+  connecting:"Connecting…", noRoom:"No room {c} found. Check the code with the person who started it.", netErr:"Can't connect. Check your internet and try again.",
+  invite:"Invite", copied:"Link copied. Send it to the others.", shareText:"Join my Ladbad room: {c}",
+  pickTeam:"Tap a team to join it", tapJoin:"Tap to join", youHere:"You're here", nobodyYet:"Nobody yet",
+  teamNames:"Team names", cardsEach:"Cards per team", secondsPer:"Seconds per card",
+  start:"Start game", players:"{n} in the room", player1:"1 in the room",
+  needTeams:"Each team needs at least one player.", pickYourTeam:"Pick a team first.",
+  waitHost:"Waiting for {h} to start the game", teamA:"Momo", teamB:"Chiya",
+  you:"you", host:"host",
+  yourTurn:"Your turn to read!", yourTurnLine:"Everyone else will see the answer. Read the card out loud until you hear it.",
+  flipIt:"Flip the card", otherReads:"{r} is reading", otherReadsLine:"You'll see the answer. Don't say it!",
+  waitFlip:"Waiting for {r} to flip the card", skipReader:"Skip this reader",
+  youRead:"You're reading", worth:"{n} pts", hint:"Hint", hintCost:"−{n} pts", noHints:"No more hints", pass:"Pass",
+  answerTag:"The answer", readerSees:"{r} sees", gotIt:"Got it!",
+  judgeNote:"Tap Got it when {r} says it.", mateNote:"Shh! {r} is on your team. No telling, only cheering.",
+  hFirst:"Starts with {np} · {ro}", hWords:"{n} words", hWord:"1 word",
+  gotBy:"{r} got it! +{n} for {t}", timeUp:"Time's up!", passed:"{r} passed",
   left:"{n} cards left", leftOne:"Last card next!", next:"Next card", seeResults:"See who won",
-  gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", home:"Home",
-  finalLine:"{n} cards played. Same teams again?",
-  showAnswer:"Show answer", hideAnswer:"Hide answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.",
-  flipCount:"{i} of {n}",
-  quitQ:"Quit this game?", quitSub:"Scores will be lost.", keepPlaying:"Keep playing", quit:"Quit",
-  tierPts:"{tier} · {n} pts"
+  gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", leave:"Leave room", waitAgain:"{h} can start a new game",
+  hideAnswer:"Hide answer", showAnswer:"Show answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.", flipCount:"{i} of {n}",
+  leaveQ:"Leave the room?", leaveSubHost:"You started this room. If you leave, the game stops for everyone.", leaveSub:"You can join again with the same code.", stay:"Stay",
+  hostGone:"Lost {h}'s phone. Waiting for it to come back…", offline:"Reconnecting…", readerGone:"{r} left the room, so the turn moved on.",
+  readerAway:"{r}'s phone dropped out. Waiting a few seconds…", hostClosed:"{h} ended the game.", waitTeam:"Waiting for someone from {t}",
+  waitTeamLine:"Nobody from {t} is in the room right now. When they come back, the game carries on.", endGame:"End game",
+  hostAsleep:"Found the room. Waiting for {h}'s phone to wake up…", codeHint:"Type the code in English letters, like ABCD.",
+  judgeFallback:"Nobody from the other team is here, so you can tap Got it.",
+  pts:"pts", tierPts:"{tier} · {n} pts"
 },
 ne:{
   langBtn:"English", sayIt:"छिटो भन्नुस्", tapFlip:"छोएर पल्टाउनुस्", itsActually:"उत्तर",
-  tagline:"Ladbad · अंग्रेजीमा लुकेको नेपाली", lede:"अंग्रेजी शब्दहरू ठूलो स्वरमा पढ्नुस्। अझ छिटो। अझ छिटो। कानले भित्र लुकेको नेपाली भेट्टाउँछ।",
-  play:"टोली बनाएर खेलौं", how:"कसरी खेल्ने?", practice:"अभ्यास",
-  gotIt:"बुझें, खेलौं",
+  tagline:"Ladbad · अंग्रेजीमा लुकेको नेपाली", lede:"एउटा फोनमा अनौठो अंग्रेजी, अरू सबै फोनमा असली नेपाली। पढ्नेलाई मात्र थाहा हुँदैन।",
+  create:"कोठा खोल्नुस्", join:"कोठामा जोडिनुस्", how:"कसरी खेल्ने?", practice:"एक्लै अभ्यास",
   steps:[
-    ["एक जनाले कार्ड ठूलो स्वरमा पढ्ने, उसको टोलीले अनुमान गर्ने।","सबैले पढ्ने पालो पाउने गरी फोन घुमाउनुस्।"],
-    ["फेरि फेरि पढ्नुस्, हरेक पटक अझ छिटो।","अंग्रेजी शब्दको अर्थ नसोच्नुस्। सुन्नुस् मात्र।"],
-    ["बुझाउन र अभिनय गर्न पाइँदैन। पढ्ने मात्र।","दोहोर्‍याउन, छिटो वा ढिलो पढ्न पाइन्छ।"],
-    ["अड्कियो? संकेत लिनुस्।","हरेक संकेतले केही अंक घटाउँछ।"],
-    ["समय सकियो? अर्को टोलीलाई एक पटक अनुमान गरेर चोर्ने मौका।","अन्त्यमा धेरै अंक हुने टोली जित्छ।"]
+    ["सबैले आ-आफ्नो फोनमा Ladbad खोलेर एउटै कोठामा जोडिने।","एक जनाले कोठा खोलेर ४ अक्षरको कोड सबैलाई दिने।"],
+    ["टोली छान्नुस्। दुई फोन भए पुग्छ, धेरै भए झन् रमाइलो।","टोलीहरू पालैपालो खेल्छन्। हरेक पालोमा एक जना पढ्ने।"],
+    ["पढ्नेको फोनमा अनौठो अंग्रेजी मात्र आउँछ।","नेपाली नसुनिउन्जेल ठूलो स्वरमा, छिटो छिटो पढ्नुस्।"],
+    ["अरू सबैको फोनमा उत्तर देखिन्छ।","पढ्ने अलमलिएको हेर्नुस्। उत्तर नभन्नुस्!"],
+    ["पढ्नेले भनेपछि अर्को टोलीले 'मिल्यो' थिच्ने।","संकेत लिँदा अंक घट्छ। अन्त्यमा धेरै अंक हुने जित्छ।"]
   ],
-  howTip:"फोन समात्ने मान्छेले प्रायः सबैभन्दा पछि बुझ्छ। ऊ अक्षर हेरिरहेको हुन्छ, अरूले आवाज मात्र सुन्छन्।",
-  setupTitle:"नयाँ खेल", teams:"टोली", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड", sound:"आवाज", on:"खुला", off:"बन्द",
-  start:"सुरु गरौं", teamA:"मम", teamB:"चिया",
-  passTo:"फोन दिनुस्", pickReader:"एक जना पढ्ने छान्नुस्। स्क्रिन उसले मात्र हेर्ने।", ready:"म पढ्छु। सुरु!",
-  pts:"अंक", worth:"{n} अंक", hint:"संकेत", hintCost:"−{n}", noHints:"संकेत सकियो",
-  peek:"थिचेर उत्तर हेर्नुस्", giveUp:"छोडौं", gotItBtn:"मिल्यो!",
-  hCat:"{c}", hFirst:"पहिलो अक्षर {np} · {ro}", hWords:"{n} शब्द", hWord:"१ शब्द",
-  timeUp:"समय सकियो!", stealLine:"एक पटक अनुमान गरेर चोर्नुस्। {n} अंक।", nope:"मिलेन", stolen:"चोर्यो!",
-  winA:"{t} लाई +{n}!", stoleB:"{t} ले चोर्यो! +{n}", nobody:"कसैले भेट्टाएन",
+  howTip:"असली तासजस्तै: पढ्नेले अगाडिको भाग हेर्छ, अरूले पछाडिको।",
+  createTitle:"कोठा खोल्नुस्", joinTitle:"कोठामा जोडिनुस्", yourName:"तपाईंको नाम", roomCode:"कोठाको कोड",
+  makeRoom:"कोठा बनाउनुस्", joinRoom:"जोडिनुस्", needName:"पहिले नाम लेख्नुस्।", needCode:"अंग्रेजी अक्षरमा ४ अक्षरको कोड लेख्नुस्, जस्तै ABCD।",
+  connecting:"जोडिँदै…", noRoom:"{c} कोठा भेटिएन। कोठा खोल्नेसँग कोड जाँच्नुस्।", netErr:"जोडिन सकिएन। इन्टरनेट जाँचेर फेरि प्रयास गर्नुस्।",
+  invite:"बोलाउनुस्", copied:"लिंक कपी भयो। अरूलाई पठाउनुस्।", shareText:"मेरो Ladbad कोठामा आउनुस्: {c}",
+  pickTeam:"टोलीमा छोएर जोडिनुस्", tapJoin:"छोएर जोडिनुस्", youHere:"तपाईं यहाँ", nobodyYet:"अहिले कोही छैन",
+  teamNames:"टोलीको नाम", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड",
+  start:"खेल सुरु", players:"कोठामा {n} जना", player1:"कोठामा १ जना",
+  needTeams:"हरेक टोलीमा कम्तीमा एक जना चाहिन्छ।", pickYourTeam:"पहिले टोली छान्नुस्।",
+  waitHost:"{h} ले खेल सुरु गर्ने प्रतीक्षा", teamA:"मम", teamB:"चिया",
+  you:"तपाईं", host:"खोल्ने",
+  yourTurn:"तपाईंको पढ्ने पालो!", yourTurnLine:"अरू सबैले उत्तर देख्छन्। नसुनिउन्जेल ठूलो स्वरमा पढ्नुस्।",
+  flipIt:"कार्ड पल्टाउनुस्", otherReads:"{r} पढ्दै", otherReadsLine:"तपाईं उत्तर देख्नुहुन्छ। नभन्नुस् है!",
+  waitFlip:"{r} ले कार्ड पल्टाउने प्रतीक्षा", skipReader:"यो पढ्नेलाई छोड्नुस्",
+  youRead:"तपाईं पढ्दै", worth:"{n} अंक", hint:"संकेत", hintCost:"−{n} अंक", noHints:"संकेत सकियो", pass:"छोड्ने",
+  answerTag:"उत्तर", readerSees:"{r} ले देख्ने", gotIt:"मिल्यो!",
+  judgeNote:"{r} ले सही भनेपछि 'मिल्यो' थिच्नुस्।", mateNote:"चुप! {r} तपाईंकै टोली। उत्तर नभन्नुस्, हौसला मात्र।",
+  hFirst:"पहिलो अक्षर {np} · {ro}", hWords:"{n} शब्द", hWord:"१ शब्द",
+  gotBy:"{r} ले भेट्टायो! {t} लाई +{n}", timeUp:"समय सकियो!", passed:"{r} ले छोड्यो",
   left:"{n} कार्ड बाँकी", leftOne:"अब अन्तिम कार्ड!", next:"अर्को कार्ड", seeResults:"को जित्यो हेरौं",
-  gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", home:"सुरुमा",
-  finalLine:"{n} कार्ड खेलियो। उही टोली फेरि?",
-  showAnswer:"उत्तर हेर्नुस्", hideAnswer:"उत्तर लुकाउनुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।",
-  flipCount:"{n} मध्ये {i}",
-  quitQ:"खेल छोड्ने?", quitSub:"अंक हराउँछ।", keepPlaying:"खेलिरहौं", quit:"छोड्ने",
-  tierPts:"{tier} · {n} अंक"
+  gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", leave:"कोठा छोड्नुस्", waitAgain:"{h} ले नयाँ खेल सुरु गर्न सक्छ",
+  hideAnswer:"उत्तर लुकाउनुस्", showAnswer:"उत्तर हेर्नुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।", flipCount:"{n} मध्ये {i}",
+  leaveQ:"कोठा छोड्ने?", leaveSubHost:"यो कोठा तपाईंले खोल्नुभएको हो। छोड्नुभयो भने सबैको खेल रोकिन्छ।", leaveSub:"उही कोडले फेरि जोडिन सक्नुहुन्छ।", stay:"बस्छु",
+  hostGone:"{h} को फोनसँग सम्पर्क टुट्यो। फर्कने प्रतीक्षा…", offline:"फेरि जोडिँदै…", readerGone:"{r} कोठाबाट गएकाले पालो अघि बढ्यो।",
+  readerAway:"{r} को फोनसँग सम्पर्क टुट्यो। केही सेकेन्ड पर्खँदै…", hostClosed:"{h} ले खेल बन्द गर्नुभयो।", waitTeam:"{t} बाट कोही आउने प्रतीक्षा",
+  waitTeamLine:"अहिले {t} बाट कोही कोठामा छैन। फर्केपछि खेल अघि बढ्छ।", endGame:"खेल सक्ने",
+  hostAsleep:"कोठा भेटियो। {h} को फोन ब्युँझने प्रतीक्षा…", codeHint:"कोड अंग्रेजी अक्षरमा लेख्नुस्, जस्तै ABCD।",
+  judgeFallback:"अर्को टोलीबाट कोही छैन, त्यसैले तपाईं 'मिल्यो' थिच्न सक्नुहुन्छ।",
+  pts:"अंक", tierPts:"{tier} · {n} अंक"
 }};
 
-/* ---------- storage (best effort) ---------- */
-const store = {
-  get(k, d){ try{ const v = localStorage.getItem("ladbad:"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
-  set(k, v){ try{ localStorage.setItem("ladbad:"+k, JSON.stringify(v)); }catch(e){} }
-};
-
-/* ---------- state ---------- */
-let S = {
-  lang: store.get("lang","en"),
-  screen:"home", prev:[],
-  teams:null, perTeam:store.get("perTeam",6), time:store.get("time",45), sound:store.get("sound",1),
-  deck:[], idx:0, hints:0, remaining:0, outcome:null,
-  flipDeck:[], flipIdx:0, flipShown:false
-};
+/* ---------- small helpers ---------- */
 const $ = id => document.getElementById(id);
-const L = () => T[S.lang];
-function t(key, vars){
-  let s = L()[key]; if (s == null) s = T.en[key] || key;
-  if (vars) for (const k in vars) s = s.split("{"+k+"}").join(vars[k]);
-  return s;
-}
-const li = () => S.lang === "ne" ? 1 : 0;
-const card = () => DECK[S.deck[S.idx]];
-const teamOf = i => S.teams[i % 2];
-const curTeam = () => S.idx % 2;
-
-/* ---------- sound + buzz ---------- */
-let AC = null;
-function tone(freq, dur, type, vol, when){
-  if (!S.sound) return;
-  try{
-    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
-    const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + (when||0);
-    o.type = type || "sine"; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol || .18, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + dur);
-    o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + .02);
-  }catch(e){}
-}
-const sfx = {
-  tick(){ tone(880,.08,"square",.06); },
-  win(){ [523,659,784,1046].forEach((f,i)=>tone(f,.22,"triangle",.16,i*.09)); },
-  buzz(){ tone(150,.5,"sawtooth",.12); tone(110,.6,"sawtooth",.1,.08); },
-  tap(){ tone(520,.05,"sine",.08); }
+/* ?p=2 gives a separate local identity, so one browser can act as several phones while testing */
+const NS = "ladbad" + ((new URLSearchParams(location.search).get("p") || "").replace(/[^a-z0-9]/gi,"").slice(0,8)) + ":";
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem(NS+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(NS+k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(NS+k); }catch(e){} }
 };
-function buzz(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
-
-let wake = null;
-async function keepAwake(){ try{ if ("wakeLock" in navigator && !wake){ wake = await navigator.wakeLock.request("screen"); wake.addEventListener("release",()=>{wake=null}); } }catch(e){} }
-document.addEventListener("visibilitychange",()=>{ if (document.visibilityState==="visible" && ["pass","play","steal","result"].includes(S.screen)) keepAwake(); });
-
-/* ---------- navigation ---------- */
-const SCREENS = ["home","how","setup","pass","play","steal","result","final","flip"];
-function go(name, opts){
-  if (!(opts && opts.noHistory) && S.screen !== name && ["home","how","setup","flip"].includes(S.screen)) S.prev.push(S.screen);
-  S.screen = name;
-  SCREENS.forEach(s => $("s-"+s).hidden = s !== name);
-  render();
-  const first = $("s-"+name).querySelector(".btn.primary, .btn");
-  window.scrollTo(0,0);
-}
-function back(){ stopTimer(); const p = S.prev.pop() || "home"; S.screen = p; SCREENS.forEach(s => $("s-"+s).hidden = s !== p); render(); }
-
-/* ---------- static text ---------- */
-function paintText(){
-  document.documentElement.lang = S.lang === "ne" ? "ne" : "en";
-  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
-  $("lang").textContent = t("langBtn");
-  const ol = $("how-steps"); ol.innerHTML = "";
-  L().steps.forEach((s,i) => {
-    const li_ = document.createElement("li");
-    li_.innerHTML = '<span class="n">'+(i+1)+'</span><div><p></p><p></p></div>';
-    li_.querySelectorAll("p")[0].textContent = s[0];
-    li_.querySelectorAll("p")[1].textContent = s[1];
-    ol.appendChild(li_);
-  });
-}
-
-/* ---------- deck building ---------- */
+let LANG = store.get("lang","en");
+const L = () => T[LANG];
+const li = () => LANG === "ne" ? 1 : 0;
+const NE_DIGITS = "०१२३४५६७८९";
+function num(v){ return LANG === "ne" ? String(v).replace(/[0-9]/g, d => NE_DIGITS[d]) : String(v); }
+function t(key, vars){ let s = L()[key]; if (s == null) s = T.en[key] || key; if (vars) for (const k in vars) s = s.split("{"+k+"}").join(k === "n" || k === "i" ? num(vars[k]) : vars[k]); return s; }
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function uid(){ return Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
+const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ";
+function newCode(){ let s=""; for (let i=0;i<4;i++) s += CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
+let toastT = null;
+function toast(msg, ms){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>el.hidden = true, ms || 2600); }
+
+/* ---------- sound + buzz + wake ---------- */
+let AC = null;
+function tone(f,d,type,vol,when){ try{ AC = AC || new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(), g=AC.createGain(), t0=AC.currentTime+(when||0); o.type=type||"sine"; o.frequency.value=f; g.gain.setValueAtTime(vol||.18,t0); g.gain.exponentialRampToValueAtTime(.001,t0+d); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0+d+.02); }catch(e){} }
+const sfx = { tick(){ tone(880,.08,"square",.06); }, win(){ [523,659,784,1046].forEach((f,i)=>tone(f,.22,"triangle",.16,i*.09)); }, buzz(){ tone(150,.5,"sawtooth",.12); tone(110,.6,"sawtooth",.1,.08); }, tap(){ tone(520,.05,"sine",.08); }, flip(){ tone(330,.08,"triangle",.12); tone(660,.12,"triangle",.12,.06); } };
+function vibe(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
+let wake = null;
+function releaseWake(){ if (wake){ const w = wake; wake = null; w.release().catch(()=>{}); } }
+async function keepAwake(){ try{ if ("wakeLock" in navigator && !wake){ wake = await navigator.wakeLock.request("screen"); wake.addEventListener("release",()=>{ wake=null; }); } }catch(e){} }
+
+/* ---------- identity ---------- */
+const ME = { id: store.get("id",null) || uid(), name: store.get("name",""), team: null };
+store.set("id", ME.id);
+
+/* ---------- room state ----------
+   The phone that starts the room is the host. It owns the game state (G),
+   applies every action, and broadcasts G to the room. Other phones only render G. */
+let ROOM = null, isHost = false, ch = null, sb = null, joined = false;
+let players = {};           // id -> {id,name,team,host,at}
+let G = null;               // shared game state
+let endAt = 0;              // local clock time when the current card's timer ends
+let uiTimer = null, hostMissingSince = 0, readerMissingSince = 0, lastSecShown = null, lastPhaseKey = "";
+
+function freshGame(){
+  return { seq:0, phase:"lobby", hostId:ME.id, hostName:ME.name,
+    teams:[{name:null,score:0},{name:null,score:0}],
+    perTeam:store.get("perTeam",6), time:store.get("time",45),
+    deck:[], idx:0, reader:null, waitTeam:null, notice:null, hints:0, outcome:null, turns:[0,0], roster:[[],[]], leftMs:0 };
+}
+
+const teamName = i => (G && G.teams[i].name) || t(i ? "teamB" : "teamA");
+/* deck: easy first, ukhaan last. Unplayed cards first; when a tier runs out, reuse the cards played longest ago. */
 function pick(tier, count){
   const all = DECK.map((c,i)=>i).filter(i => DECK[i][5]===tier);
-  let seen = store.get("seen",[]);
-  let fresh = all.filter(i => !seen.includes(i));
-  if (fresh.length < count){ seen = seen.filter(i => DECK[i][5]!==tier); store.set("seen",seen); fresh = all.slice(); }
-  return shuffle(fresh).slice(0,count);
+  const seen = store.get("seen",[]);
+  const fresh = shuffle(all.filter(i => !seen.includes(i)));
+  if (fresh.length >= count) return fresh.slice(0,count);
+  const oldest = seen.filter(i => DECK[i] && DECK[i][5]===tier).slice(0, count - fresh.length);
+  store.set("seen", seen.filter(i => !oldest.includes(i)));
+  return fresh.concat(shuffle(oldest));
 }
 function buildDeck(n){
-  const t4 = Math.max(1, Math.round(n*.2)), t1 = Math.ceil(n*.3), t3 = Math.round(n*.25), t2 = Math.max(1, n - t1 - t3 - t4);
-  const counts = [t1,t2,t3,t4];
-  let out = [];
-  counts.forEach((c,tier) => {
-    const got = pick(tier, c*2);
-    // keep each pair of turns at the same tier so both teams face equal odds
-    out = out.concat(got);
-  });
-  return out;
+  const t1 = Math.round(n*.3), t3 = Math.round(n*.25), t4 = Math.max(1,Math.round(n*.2)), t2 = Math.max(0, n-t1-t3-t4);
+  return [t1,t2,t3,t4].flatMap((c,tier) => pick(tier, c*2));
 }
 function markSeen(i){ const s = store.get("seen",[]); if (!s.includes(i)){ s.push(i); store.set("seen",s); } }
+const cardOf = g => DECK[g.deck[g.idx]];
+function worthOf(g){ return WORTH[cardOf(g)[5]][Math.min(2, g.hints)]; }
+function hintCostOf(g){ const w = WORTH[cardOf(g)[5]]; return w[g.hints] - w[Math.min(2, g.hints+1)]; }
 
-/* ---------- scoring ---------- */
-function worth(){ const base = POINTS[card()[5]]; return Math.max(5, Math.round(base * (1 - .25*S.hints) / 5) * 5); }
-function hintCost(){ const base = POINTS[card()[5]]; return worth() - Math.max(5, Math.round(base * (1 - .25*(S.hints+1)) / 5) * 5); }
-function stealWorth(){ return Math.max(5, Math.round(worth()/2/5)*5); }
+/* players sorted by when they joined, per team */
+function teamList(team){ return Object.values(players).filter(p => p.team === team).sort((a,b) => a.at - b.at || (a.id < b.id ? -1 : 1)); }
+function present(id){ return !!players[id]; }
+const hasTeam = p => !!p && (p.team === 0 || p.team === 1);
+/* who may tap Got it: the other team. If nobody from the other team is in the room, the reader's teammates may. */
+function canJudge(p){
+  if (!G || !G.reader || !hasTeam(p) || p.id === G.reader.id) return false;
+  return p.team !== G.reader.team || !teamList(1 - G.reader.team).length;
+}
 
-/* ---------- gibberish sizing ---------- */
+/* ---------- host: authoritative actions ---------- */
+function hostCommit(){
+  G.seq++;
+  G.leftMs = G.phase === "play" ? Math.max(0, endAt - Date.now()) : 0;
+  store.set("hostgame:"+ROOM, {G, endAt, savedAt:Date.now()});
+  send("state", {G, sentAt: Date.now()});
+  onStateChange();
+}
+/* The roster remembers everyone who has been on each team, in join order, so a phone that
+   drops for a moment keeps its place. Readers rotate through the roster, skipping anyone not here. */
+function mergeRoster(){
+  if (!G || !G.roster) return false;
+  let changed = false;
+  Object.values(players).forEach(p => {
+    if (!hasTeam(p)) return;
+    const other = G.roster[1-p.team], oi = other.findIndex(x => x.id === p.id);
+    if (oi >= 0){ other.splice(oi,1); changed = true; }
+    const mine = G.roster[p.team].find(x => x.id === p.id);
+    if (!mine){ G.roster[p.team].push({id:p.id, name:p.name}); changed = true; }
+    else if (mine.name !== p.name){ mine.name = p.name; changed = true; }
+  });
+  return changed;
+}
+function chooseReader(teamIdx){
+  const list = G.roster[teamIdx];
+  for (let k = 0; k < list.length; k++){
+    const pos = (G.turns[teamIdx] + k) % list.length, p = list[pos];
+    if (present(p.id)) return {id:p.id, name:p.name, team:teamIdx, pos};
+  }
+  return null;
+}
+function hostToReady(){
+  mergeRoster();
+  const teamIdx = G.idx % 2;
+  const r = chooseReader(teamIdx);
+  G.reader = r; G.waitTeam = r ? null : teamIdx;
+  G.hints = 0; G.outcome = null; G.phase = "ready"; endAt = 0; readerMissingSince = 0;
+}
+function hostSkipReader(notice){
+  if (G.reader) G.turns[G.reader.team] = G.reader.pos + 1;
+  hostToReady(); G.notice = notice || null;
+}
+function hostAct(a, fromId){
+  if (!G) return;
+  const from = players[fromId] || (fromId === ME.id ? {id:ME.id, team:ME.team} : null);
+  const isReader = G.reader && fromId === G.reader.id;
+  switch (a.type){
+    case "start": {
+      if (fromId !== ME.id || G.phase !== "lobby") return;
+      if (!teamList(0).length || !teamList(1).length) return;
+      G.teams.forEach(tm => tm.score = 0);
+      G.deck = buildDeck(G.perTeam); G.idx = 0; G.turns = [0,0];
+      G.roster = [teamList(0).map(p => ({id:p.id, name:p.name})), teamList(1).map(p => ({id:p.id, name:p.name}))];
+      G.notice = null; hostToReady(); break;
+    }
+    case "settings": {
+      if (fromId !== ME.id || G.phase !== "lobby") return;
+      if (a.perTeam) G.perTeam = a.perTeam;
+      if (a.time) G.time = a.time;
+      if (a.nameIdx === 0 || a.nameIdx === 1) G.teams[a.nameIdx].name = a.name ? String(a.name).slice(0,14) : null;
+      break;
+    }
+    case "flip": {
+      if (G.phase !== "ready" || a.idx !== G.idx || !isReader) return;
+      G.turns[G.reader.team] = G.reader.pos + 1; G.notice = null;
+      G.phase = "play"; endAt = Date.now() + G.time*1000; break;
+    }
+    case "hint": {
+      if (G.phase !== "play" || a.idx !== G.idx || !isReader || a.h !== G.hints || G.hints >= 2) return;
+      G.hints++; break;
+    }
+    case "got": {
+      if (G.phase !== "play" || a.idx !== G.idx || !canJudge(from)) return;
+      const pts = worthOf(G);
+      G.teams[G.reader.team].score += pts;
+      G.outcome = {kind:"got", pts, by: from.name || ""};
+      hostFinishCard(); break;
+    }
+    case "pass": {
+      if (G.phase !== "play" || a.idx !== G.idx || !isReader) return;
+      G.outcome = {kind:"pass"}; hostFinishCard(); break;
+    }
+    case "timeout": {
+      if (G.phase !== "play") return;
+      G.outcome = {kind:"time"}; hostFinishCard(); break;
+    }
+    case "skip": {
+      if (fromId !== ME.id || !["ready","play"].includes(G.phase) || a.idx !== G.idx) return;
+      hostSkipReader(); break;
+    }
+    case "next": {
+      if (G.phase !== "result" || a.idx !== G.idx) return;
+      if (G.idx + 1 >= G.deck.length){ G.phase = "final"; }
+      else { G.idx++; hostToReady(); }
+      break;
+    }
+    case "end": {
+      if (fromId !== ME.id || !["ready","play","result"].includes(G.phase)) return;
+      G.phase = "final"; endAt = 0; break;
+    }
+    case "again": {
+      if (fromId !== ME.id || G.phase !== "final") return;
+      G.phase = "lobby"; G.reader = null; G.outcome = null; break;
+    }
+    default: return;
+  }
+  hostCommit();
+}
+function hostFinishCard(){ G.phase = "result"; endAt = 0; markSeen(G.deck[G.idx]); }
+function hostTick(){
+  if (!isHost || !G) return;
+  if (G.phase === "play" && endAt && Date.now() >= endAt){ hostAct({type:"timeout"}, ME.id); return; }
+  // a reader whose phone has been gone for 8 seconds loses the turn to the next person on their team
+  if ((G.phase === "ready" || G.phase === "play") && G.reader && G.reader.id !== ME.id && !present(G.reader.id)){
+    if (!readerMissingSince){ readerMissingSince = Date.now(); render(); }
+    else if (Date.now() - readerMissingSince > 8000){ hostSkipReader({k:"readerGone", r:G.reader.name}); hostCommit(); }
+  } else if (readerMissingSince){ readerMissingSince = 0; render(); }
+}
+
+/* any phone: ask the host to do something */
+function act(type, extra){
+  const a = Object.assign({type, idx: G ? G.idx : 0}, extra||{});
+  sfx.tap();
+  if (isHost) hostAct(a, ME.id); else send("act", {a, from: ME.id});
+}
+
+/* ---------- transport ---------- */
+function send(event, payload){ if (ch) ch.send({type:"broadcast", event, payload}).catch(()=>{}); }
+function myPresence(){ return {id:ME.id, name:ME.name, team:ME.team, host:isHost, at: store.get("at:"+ROOM, Date.now())}; }
+function syncPlayers(){
+  const st = ch.presenceState(); const next = {};
+  Object.values(st).forEach(arr => arr.forEach(m => { if (m && m.id) next[m.id] = {id:m.id, name:m.name, team:m.team, host:!!m.host, at:m.at||0}; }));
+  players = next;
+  if (isHost && G && G.phase !== "lobby"){
+    const rosterChanged = mergeRoster();
+    if (G.phase === "ready" && !G.reader){ hostToReady(); if (G.reader){ hostCommit(); return; } }
+    if (rosterChanged) store.set("hostgame:"+ROOM, {G, endAt, savedAt:Date.now()});
+  }
+  if (!isHost && G){
+    const hostHere = Object.values(players).some(p => p.host);
+    if (!hostHere && !hostMissingSince) hostMissingSince = Date.now();
+    if (hostHere) hostMissingSince = 0;
+  }
+  render();
+}
+function connect(code, asHost){
+  return new Promise((resolve) => {
+    if (!window.supabase){ resolve("net"); return; }
+    sb = sb || window.supabase.createClient(SB_URL, SB_KEY, {realtime:{params:{eventsPerSecond:20}}});
+    ROOM = code; isHost = asHost;
+    if (!store.get("at:"+ROOM, null)) store.set("at:"+ROOM, Date.now());
+    ch = sb.channel("ladbad-"+code, {config:{broadcast:{self:false}, presence:{key:ME.id}}});
+    let settled = false, subscribed = false;
+    const done = v => { if (!settled){ settled = true; resolve(v); } };
+    ch.on("presence", {event:"sync"}, () => {
+      syncPlayers();
+      if (isHost && G) send("state", {G: Object.assign({}, G, {leftMs: G.phase==="play" ? Math.max(0,endAt-Date.now()) : 0}), sentAt: Date.now()});
+    });
+    ch.on("broadcast", {event:"state"}, ({payload}) => {
+      if (isHost || !payload || !payload.G) return;
+      const g = payload.G;
+      if (G && g.hostId === G.hostId && g.seq < G.seq) return;
+      const was = G; G = g;
+      endAt = g.phase === "play" ? Date.now() + g.leftMs : 0;
+      if (!joined){ joined = true; done("ok"); }
+      onStateChange(was);
+    });
+    ch.on("broadcast", {event:"act"}, ({payload}) => { if (isHost && payload && payload.a) hostAct(payload.a, payload.from); });
+    ch.on("broadcast", {event:"hello"}, () => { if (isHost && G) hostCommit(); });
+    ch.on("broadcast", {event:"closed"}, () => { if (!isHost){ const h = G ? G.hostName : ""; leaveRoom(true).then(() => toast(t("hostClosed",{h}), 6000)); } });
+    ch.subscribe(async (status) => {
+      if (status === "SUBSCRIBED"){
+        subscribed = true; $("netbar").hidden = true;
+        await ch.track(myPresence());
+        if (isHost){ joined = true; done("ok"); hostCommit(); }
+        else {
+          send("hello", {from: ME.id});
+          // ask again a few times in case the first hello raced the host's join
+          // if the host's phone is asleep but still in the room, keep waiting for it instead of saying "no room"
+          let tries = 0, max = 5;
+          const iv = setInterval(() => {
+            if (joined || settled){ clearInterval(iv); return; }
+            if (++tries > max){
+              const hostP = Object.values(players).find(p => p.host);
+              if (hostP && max < 30){ max = 30; $("me-err").textContent = t("hostAsleep",{h:hostP.name}); }
+              else { clearInterval(iv); done("noroom"); return; }
+            }
+            send("hello", {from: ME.id});
+          }, 1000);
+        }
+      } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT"){
+        if (!joined) done("net"); else { $("netbar").textContent = t("offline"); $("netbar").hidden = false; }
+      } else if (status === "CLOSED" && joined){ /* closed on leave */ }
+    });
+    setTimeout(() => done(joined ? "ok" : subscribed ? "noroom" : "net"), 40000);
+  });
+}
+async function leaveRoom(silent){
+  if (isHost && ch && !silent) send("closed", {});
+  if (isHost && ROOM) store.del("hostgame:"+ROOM);
+  store.del("room"); releaseWake();
+  try{ if (ch) await ch.unsubscribe(); }catch(e){}
+  ch = null; ROOM = null; isHost = false; joined = false; G = null; players = {}; ME.team = null; endAt = 0; hostMissingSince = 0;
+  $("netbar").hidden = true;
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  show("home");
+}
+
+/* ---------- screens ---------- */
+const SCREENS = ["home","how","me","lobby","ready","read","watch","result","final","flip"];
+let CUR = "home", MODE = "create";
+function show(name){ CUR = name; SCREENS.forEach(s => $("s-"+s).hidden = s !== name); paintText(); renderScreen(); }
+
+function paintText(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
+  document.querySelectorAll("[data-lang]").forEach(b => b.textContent = t("langBtn"));
+  const ol = $("how-steps"); ol.innerHTML = "";
+  L().steps.forEach((s,i) => { const x = document.createElement("li"); x.innerHTML = '<span class="n">'+(i+1)+'</span><div><p></p><p></p></div>'; const ps = x.querySelectorAll("p"); ps[0].textContent = s[0]; ps[1].textContent = s[1]; ol.appendChild(x); });
+}
 function fitGib(el, text){
   el.textContent = text;
   const n = text.length, longest = Math.max(...text.split(" ").map(w=>w.length));
-  let px = n <= 10 ? 68 : n <= 16 ? 60 : n <= 24 ? 50 : n <= 32 ? 42 : 36;
-  const w = Math.min(window.innerWidth, 460) - 80;
-  px = Math.min(px, w / (longest * .56));
+  let px = (n <= 10 ? 68 : n <= 16 ? 60 : n <= 24 ? 50 : n <= 32 ? 42 : 36) * (window.innerHeight < 700 ? .85 : 1);
+  px = Math.min(px, (Math.min(window.innerWidth,460) - 80) / (longest*.56));
   el.style.fontSize = Math.round(px) + "px";
 }
-
-/* ---------- timer ---------- */
-let timerId = null, endAt = 0, lastSec = null, stealId = null;
-function stopTimer(){ clearInterval(timerId); timerId = null; clearInterval(stealId); stealId = null; }
-function startTimer(secs){
-  stopTimer(); endAt = Date.now() + secs*1000; lastSec = null;
-  timerId = setInterval(tickTimer, 100); tickTimer();
+function fitNp(el, text){
+  el.textContent = text;
+  const n = Array.from(text).length;
+  const short = window.innerHeight < 700 ? .82 : 1;
+  el.style.fontSize = Math.round((n <= 8 ? 52 : n <= 14 ? 44 : n <= 22 ? 36 : 30) * short) + "px";
 }
-function tickTimer(){
-  const ms = Math.max(0, endAt - Date.now()); S.remaining = ms/1000;
-  const sec = Math.ceil(ms/1000), low = sec <= 5;
-  $("secs").textContent = sec; $("secs").classList.toggle("low", low && sec>0);
-  $("timer").classList.toggle("low", low);
-  $("timer-fill").style.transform = "scaleX(" + (ms/(S.time*1000)) + ")";
-  if (sec !== lastSec){ if (low && sec>0 && lastSec!==null) sfx.tick(); lastSec = sec; }
-  if (ms <= 0){ stopTimer(); sfx.buzz(); buzz([200,80,200]); toSteal(); }
-}
-
-/* ---------- renderers ---------- */
 function scoreChips(id){
   const box = $(id); box.innerHTML = "";
-  S.teams.forEach((tm,i) => {
+  G.teams.forEach((tm,i) => {
     const c = document.createElement("div");
-    c.className = "chip" + (i === curTeam() ? " on" : "");
+    const turnTeam = G.reader ? G.reader.team : G.waitTeam;
+    c.className = "chip" + (turnTeam === i ? " on" : "");
     c.innerHTML = '<span class="dot '+(i?'b':'a')+'"></span><span class="nm"></span><span class="pts"></span>';
-    c.querySelector(".nm").textContent = tm.name; c.querySelector(".pts").textContent = tm.score;
+    c.querySelector(".nm").textContent = teamName(i); c.querySelector(".pts").textContent = num(tm.score);
     box.appendChild(c);
   });
 }
-function render(){
-  paintText();
-  const s = S.screen;
-  if (s === "setup"){
-    const def = [t("teamA"), t("teamB")];
-    if (!$("team-a").value) $("team-a").value = (S.teams && S.teams[0].name) || def[0];
-    if (!$("team-b").value) $("team-b").value = (S.teams && S.teams[1].name) || def[1];
-    setSeg("seg-cards", S.perTeam); setSeg("seg-time", S.time); setSeg("seg-sound", S.sound);
+function hintsInto(id){
+  const c = cardOf(G), box = $(id); box.innerHTML = "";
+  const add = s => { const e = document.createElement("span"); e.className = "hint pop"; e.textContent = s; box.appendChild(e); };
+  if (G.hints >= 1) add(CAT[c[4]][li()]);
+  if (G.hints >= 2){ const w = c[2].replace(/[?!।]/g,"").trim().split(/\s+/).length; add(t("hFirst",{np:Array.from(c[2])[0], ro:c[1][0].toUpperCase()})); add(w===1 ? t("hWord") : t("hWords",{n:w})); }
+}
+
+/* which screen this phone should be on, given G */
+function screenFor(){
+  if (!G) return null;
+  if (G.phase === "lobby") return "lobby";
+  if (G.phase === "ready") return "ready";
+  if (G.phase === "play") return G.reader && G.reader.id === ME.id ? "read" : "watch";
+  if (G.phase === "result") return "result";
+  if (G.phase === "final") return "final";
+  return "lobby";
+}
+function onStateChange(was){
+  const key = G.phase + ":" + G.idx + ":" + (G.reader ? G.reader.id : "");
+  if (key !== lastPhaseKey){
+    lastPhaseKey = key; lastSecShown = null;
+    if (G.phase === "play"){ sfx.flip(); keepAwake(); if (G.reader && G.reader.id === ME.id) vibe(40); }
+    if (G.phase === "result"){ if (G.outcome && G.outcome.kind === "got"){ sfx.win(); vibe(60); } else { sfx.buzz(); vibe([200,80,200]); } }
+    if (G.phase === "ready" && G.reader && G.reader.id === ME.id){ vibe([60,60,60]); sfx.tap(); }
+    if (G.phase === "final"){ sfx.win(); releaseWake(); }
+    if (G.phase === "lobby") releaseWake();
   }
-  if (s === "pass"){
-    scoreChips("score-pass");
-    $("pass-team").textContent = teamOf(S.idx).name;
-    $("pass-tier").textContent = t("tierPts",{tier:TIER[card()[5]][li()], n:POINTS[card()[5]]});
+  const s = screenFor(); if (s && s !== CUR) show(s); else render();
+}
+function render(){ paintText(); renderScreen(); }
+
+function renderScreen(){
+  const s = CUR;
+  if (s === "me"){
+    $("me-title").textContent = MODE === "create" ? t("createTitle") : t("joinTitle");
+    $("code-field").hidden = MODE === "create";
+    $("me-go").textContent = MODE === "create" ? t("makeRoom") : t("joinRoom");
   }
-  if (s === "play"){
-    scoreChips("score-play");
-    const c = card();
-    $("play-tier").textContent = TIER[c[5]][li()];
-    $("play-worth").textContent = t("worth",{n:worth()});
-    fitGib($("play-gib"), c[0]);
-    $("peek-np").textContent = c[2]; $("peek-ro").textContent = c[1];
-    paintHints();
+  if (s === "lobby" && G){
+    $("lobby-code").textContent = ROOM;
+    const n = Object.keys(players).length;
+    $("lobby-count").textContent = t("players",{n});
+    [0,1].forEach(i => {
+      const btn = $("team-"+i), list = teamList(i);
+      btn.querySelector(".tn span:last-child").textContent = teamName(i);
+      btn.classList.toggle("mine", ME.team === i);
+      const ul = btn.querySelector("ul"); ul.innerHTML = "";
+      if (!list.length){ const x = document.createElement("li"); x.className = "muted"; x.textContent = t("nobodyYet"); ul.appendChild(x); }
+      list.forEach(p => { const x = document.createElement("li"); x.textContent = p.name + (p.id === ME.id ? " ("+t("you")+")" : "") + (p.host ? " ★" : ""); if (p.id === ME.id) x.className = "me"; ul.appendChild(x); });
+      btn.querySelector(".join").textContent = ME.team === i ? t("youHere") : t("tapJoin");
+    });
+    $("host-settings").hidden = !isHost; $("start").hidden = !isHost;
+    $("lobby-wait").hidden = isHost; $("lobby-wait").textContent = t("waitHost",{h:G.hostName});
+    if (isHost){
+      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time);
+      [0,1].forEach(i => { const inp = $("tn-"+i); if (document.activeElement !== inp) inp.value = teamName(i); });
+      const ok = teamList(0).length && teamList(1).length;
+      $("start").disabled = !ok; $("lobby-err").textContent = ok ? "" : t("needTeams");
+    } else $("lobby-err").textContent = ME.team == null ? t("pickYourTeam") : "";
   }
-  if (s === "steal"){
-    scoreChips("score-steal");
-    $("steal-team").textContent = teamOf(S.idx+1).name;
-    $("steal-line").textContent = t("stealLine",{n:stealWorth()});
-    $("steal-gib").textContent = card()[0];
+  if (s === "ready" && G){
+    scoreChips("score-ready");
+    const c = cardOf(G);
+    $("ready-tier").textContent = t("tierPts",{tier:TIER[c[5]][li()], n:POINTS[c[5]]});
+    const note = G.notice && G.notice.k === "readerGone" ? t("readerGone",{r:G.notice.r}) + " " : "";
+    if (!G.reader){
+      $("ready-big").textContent = t("waitTeam",{t:teamName(G.waitTeam)});
+      $("ready-line").textContent = note + t("waitTeamLine",{t:teamName(G.waitTeam)});
+      $("ready-go").hidden = true; $("ready-wait").hidden = true; $("ready-skip").hidden = true;
+      $("ready-end").hidden = !isHost; $("ready-mini").textContent = "…";
+    } else {
+      const mine = G.reader.id === ME.id, away = !mine && !present(G.reader.id);
+      $("ready-big").textContent = mine ? t("yourTurn") : t("otherReads",{r:G.reader.name});
+      $("ready-line").textContent = note + (mine ? t("yourTurnLine") : t("otherReadsLine"));
+      $("ready-go").hidden = !mine;
+      $("ready-wait").hidden = mine; $("ready-wait").textContent = away ? t("readerAway",{r:G.reader.name}) : t("waitFlip",{r:G.reader.name});
+      $("ready-skip").hidden = !isHost || mine; $("ready-end").hidden = true;
+      $("ready-mini").textContent = mine ? "?" : "!";
+    }
   }
-  if (s === "result"){
+  if (s === "read" && G){
+    scoreChips("score-read");
+    const c = cardOf(G);
+    fitGib($("read-gib"), c[0]);
+    $("read-worth").textContent = t("worth",{n:worthOf(G)}); $("read-hint").dataset.h = G.hints;
+    hintsInto("read-hints");
+    const h = $("read-hint");
+    if (G.hints >= 2){ h.disabled = true; h.textContent = t("noHints"); }
+    else { h.disabled = false; h.innerHTML = '<span class="col"><span></span><small></small></span>'; h.querySelector(".col span").textContent = t("hint"); h.querySelector("small").textContent = t("hintCost",{n:hintCostOf(G)}); }
+    paintTimer("read");
+  }
+  if (s === "watch" && G){
+    scoreChips("score-watch");
+    const c = cardOf(G), judge = canJudge({id:ME.id, team:ME.team});
+    fitNp($("watch-np"), c[2]); $("watch-ro").textContent = c[1]; $("watch-me").textContent = c[3];
+    $("watch-reads").innerHTML = ""; const r = document.createElement("span"); r.textContent = t("readerSees",{r:G.reader.name}); const b = document.createElement("b"); b.textContent = c[0]; $("watch-reads").append(r,b);
+    $("watch-worth").textContent = t("worth",{n:worthOf(G)});
+    hintsInto("watch-hints");
+    $("watch-got").hidden = !judge;
+    $("watch-shh").textContent = !judge ? t("mateNote",{r:G.reader.name}) : ME.team === G.reader.team ? t("judgeFallback") : t("judgeNote",{r:G.reader.name});
+    $("watch-skip").hidden = !isHost;
+    paintTimer("watch");
+  }
+  if (s === "result" && G){
     scoreChips("score-result");
-    const c = card(), o = S.outcome || {};
-    const b = $("res-banner");
-    b.className = "banner pop" + (o.who != null ? " win" : "");
-    b.textContent = o.who == null ? t("nobody") : o.stole ? t("stoleB",{t:S.teams[o.who].name, n:o.pts}) : t("winA",{t:S.teams[o.who].name, n:o.pts});
-    $("res-decoy").textContent = c[0]; $("res-np").textContent = c[2]; $("res-ro").textContent = c[1]; $("res-me").textContent = c[3];
-    const left = S.deck.length - S.idx - 1;
+    const c = cardOf(G), o = G.outcome || {}, b = $("res-banner");
+    b.className = "banner pop" + (o.kind === "got" ? " win" : "");
+    b.textContent = o.kind === "got" ? t("gotBy",{r:G.reader.name, n:o.pts, t:teamName(G.reader.team)}) : o.kind === "pass" ? t("passed",{r:G.reader.name}) : t("timeUp");
+    $("res-decoy").textContent = c[0]; fitNp($("res-np"), c[2]); $("res-ro").textContent = c[1]; $("res-me").textContent = c[3];
+    const left = G.deck.length - G.idx - 1;
     $("res-left").textContent = left === 0 ? "" : left === 1 ? t("leftOne") : t("left",{n:left});
     $("next").textContent = left === 0 ? t("seeResults") : t("next");
   }
-  if (s === "final"){
-    const [a,b] = S.teams, ranked = [...S.teams].sort((x,y)=>y.score-x.score);
-    $("final-win").textContent = a.score === b.score ? t("tie") : t("wins",{t:ranked[0].name});
+  if (s === "final" && G){
+    const [a,bb] = G.teams, ranked = [0,1].sort((x,y) => G.teams[y].score - G.teams[x].score);
+    $("final-win").textContent = a.score === bb.score ? t("tie") : t("wins",{t:teamName(ranked[0])});
     const pod = $("podium"); pod.innerHTML = "";
-    ranked.forEach((tm,i) => {
-      const r = document.createElement("div"); r.className = "prow" + (i===0 && a.score!==b.score ? " first" : "");
-      r.innerHTML = '<span class="nm"></span><span class="pts"></span>';
-      r.querySelector(".nm").textContent = tm.name; r.querySelector(".pts").textContent = tm.score + " " + t("pts");
-      pod.appendChild(r);
-    });
-    $("final-line").textContent = t("finalLine",{n:S.deck.length});
+    ranked.forEach((ti,i) => { const r = document.createElement("div"); r.className = "prow" + (i===0 && a.score!==bb.score ? " first" : ""); r.innerHTML = '<span class="nm"></span><span class="pts"></span>'; r.querySelector(".nm").textContent = teamName(ti); r.querySelector(".pts").textContent = num(G.teams[ti].score)+" "+t("pts"); pod.appendChild(r); });
+    $("again").hidden = !isHost; $("final-wait").hidden = isHost; $("final-wait").textContent = t("waitAgain",{h:G.hostName});
   }
   if (s === "flip") paintFlip();
 }
-function setSeg(id, v){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == v))); }
-function paintHints(){
-  const c = card(), box = $("hints"); box.innerHTML = "";
-  const add = txt => { const s = document.createElement("span"); s.className = "hint pop"; s.textContent = txt; box.appendChild(s); };
-  if (S.hints >= 1) add(CAT[c[4]][li()]);
-  if (S.hints >= 2){
-    const words = c[1].split(" ").length;
-    add(t("hFirst",{np:Array.from(c[2])[0], ro:c[1][0].toUpperCase()}));
-    add(words === 1 ? t("hWord") : t("hWords",{n:words}));
-  }
-  const h = $("hint");
-  if (S.hints >= 2){ h.disabled = true; h.textContent = t("noHints"); }
-  else { h.disabled = false; h.innerHTML = '<span class="col"><span></span><small></small></span>'; h.querySelector("span span").textContent = t("hint"); h.querySelector("small").textContent = t("hintCost",{n:hintCost()}); }
+function setSeg(id,v){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == v))); }
+function paintTimer(prefix){
+  if (!G || G.phase !== "play") return;
+  const ms = Math.max(0, endAt - Date.now()), sec = Math.ceil(ms/1000), low = sec <= 5;
+  const secs = $(prefix+"-secs"), bar = $(prefix+"-timer");
+  secs.textContent = num(sec); secs.classList.toggle("low", low && sec > 0); bar.classList.toggle("low", low);
+  bar.firstElementChild.style.transform = "scaleX(" + Math.min(1, ms/(G.time*1000)) + ")";
+  if (sec !== lastSecShown){ if (low && sec > 0 && lastSecShown !== null && CUR === "read") sfx.tick(); lastSecShown = sec; }
 }
+function uiTick(){
+  if (CUR === "read") paintTimer("read");
+  if (CUR === "watch") paintTimer("watch");
+  hostTick();
+  if (!isHost && G && hostMissingSince && Date.now() - hostMissingSince > 6000){ $("netbar").textContent = t("hostGone",{h:G.hostName}); $("netbar").hidden = false; }
+  else if (!isHost && G && !hostMissingSince && $("netbar").textContent === t("hostGone",{h:G.hostName})) $("netbar").hidden = true;
+}
+
+/* ---------- practice mode ---------- */
+let FLIP = {deck:[], i:0, shown:false};
 function paintFlip(){
-  const c = DECK[S.flipDeck[S.flipIdx]];
-  $("flip-count").textContent = t("flipCount",{i:S.flipIdx+1, n:S.flipDeck.length});
+  const c = DECK[FLIP.deck[FLIP.i]];
+  $("flip-count").textContent = t("flipCount",{i:FLIP.i+1, n:FLIP.deck.length});
   $("flip-tier").textContent = TIER[c[5]][li()];
-  $("flip-cat").textContent = S.flipShown ? CAT[c[4]][li()] : "";
+  $("flip-cat").textContent = FLIP.shown ? CAT[c[4]][li()] : "";
   fitGib($("flip-gib"), c[0]);
-  $("flip-ans").hidden = !S.flipShown;
-  $("flip-np").textContent = c[2]; $("flip-ro").textContent = c[1]; $("flip-me").textContent = c[3];
-  $("flip-show").textContent = S.flipShown ? t("hideAnswer") : t("showAnswer");
+  $("flip-ans").hidden = !FLIP.shown;
+  fitNp($("flip-np"), c[2]); $("flip-ro").textContent = c[1]; $("flip-me").textContent = c[3];
+  $("flip-show").textContent = FLIP.shown ? t("hideAnswer") : t("showAnswer");
 }
 
-/* ---------- game flow ---------- */
-function newGame(){
-  const a = $("team-a").value.trim() || t("teamA"), b = $("team-b").value.trim() || t("teamB");
-  S.teams = [{name:a, score:0},{name:b, score:0}];
-  S.deck = buildDeck(S.perTeam); S.idx = 0; S.hints = 0; S.outcome = null; S.prev = ["home"];
-  keepAwake(); sfx.tap();
-  go("pass",{noHistory:true});
+/* ---------- entering a room ---------- */
+async function enter(){
+  const name = $("my-name").value.trim();
+  const code = $("room-code").value.trim().toUpperCase();
+  const err = $("me-err"); err.textContent = "";
+  if (!name){ err.textContent = t("needName"); $("my-name").focus(); return; }
+  if (MODE === "join" && !/^[A-Z]{4}$/.test(code)){ err.textContent = t("needCode"); $("room-code").focus(); return; }
+  ME.name = name; store.set("name", name);
+  keepAwake();
+  if (MODE === "join"){ const st = store.get("team:"+code, null); ME.team = (st === 0 || st === 1) ? st : null; }
+  const go = $("me-go"); go.disabled = true; go.textContent = t("connecting");
+  let res;
+  if (MODE === "create"){
+    G = freshGame(); G.hostName = name;
+    res = await connect(newCode(), true);
+  } else {
+    G = null;
+    res = await connect(code, false);
+  }
+  go.disabled = false;
+  if (res !== "ok"){
+    try{ if (ch) await ch.unsubscribe(); }catch(e){}
+    ch = null; ROOM = null; G = null; joined = false;
+    err.textContent = res === "noroom" ? t("noRoom",{c:code}) : t("netErr");
+    renderScreen(); return;
+  }
+  store.set("room", {code:ROOM, host:isHost});
+  history.replaceState(null, "", "#"+ROOM);
+  if (isHost){ ME.team = 0; store.set("team:"+ROOM, 0); await ch.track(myPresence()); }
+  else await autoTeam();
+  show(screenFor() || "lobby");
 }
-function beginCard(){ S.hints = 0; go("play",{noHistory:true}); startTimer(S.time); sfx.tap(); }
-function toSteal(){ hidePeek(); go("steal",{noHistory:true}); let n = STEAL_SECS; $("steal-secs").textContent = n;
-  clearInterval(stealId); stealId = setInterval(()=>{ n--; $("steal-secs").textContent = Math.max(0,n); if (n>0 && n<=3) sfx.tick(); if (n<=0){ clearInterval(stealId); stealId=null; } },1000); }
-function finishCard(outcome){
-  stopTimer(); hidePeek(); S.outcome = outcome;
-  if (outcome.who != null){ S.teams[outcome.who].score += outcome.pts; sfx.win(); buzz(60); }
-  markSeen(S.deck[S.idx]);
-  go("result",{noHistory:true});
+async function resume(){
+  const saved = store.get("room", null);
+  if (!saved || !saved.code || !ME.name) return false;
+  if (saved.host){
+    const hg = store.get("hostgame:"+saved.code, null);
+    if (!hg || !hg.G || !hg.G.roster || Date.now() - hg.savedAt > 6*3600*1000) return false;
+    G = hg.G; G.hostName = ME.name;
+    if (G.phase === "play"){ endAt = hg.endAt; }
+  }
+  const p = store.get("team:"+saved.code, null); if (p === 0 || p === 1) ME.team = p;
+  const res = await connect(saved.code, !!saved.host);
+  if (res !== "ok"){ try{ if (ch) await ch.unsubscribe(); }catch(e){} ch = null; ROOM = null; G = null; joined = false; store.del("room"); return false; }
+  if (!isHost) await autoTeam();
+  keepAwake();
+  show(screenFor() || "lobby");
+  return true;
 }
-function nextCard(){
-  if (S.idx + 1 >= S.deck.length){ stopTimer(); go("final",{noHistory:true}); sfx.win(); return; }
-  S.idx++; S.outcome = null; go("pass",{noHistory:true});
+/* a phone that joins without a team goes to the smaller team; it can still switch in the lobby */
+async function autoTeam(){
+  if (hasTeam(ME)) return;
+  const c0 = teamList(0).length, c1 = teamList(1).length;
+  ME.team = c1 <= c0 ? 1 : 0; store.set("team:"+ROOM, ME.team);
+  try{ await ch.track(myPresence()); }catch(e){}
 }
-
-/* ---------- peek (press and hold) ---------- */
-function showPeek(e){ if (e) e.preventDefault(); $("peekbox").hidden = false; $("peek").classList.add("on"); }
-function hidePeek(){ $("peekbox").hidden = true; $("peek").classList.remove("on"); }
-const pk = $("peek");
-pk.addEventListener("pointerdown", e => { pk.setPointerCapture && pk.setPointerCapture(e.pointerId); showPeek(e); });
-["pointerup","pointercancel","lostpointercapture"].forEach(ev => pk.addEventListener(ev, hidePeek));
-pk.addEventListener("contextmenu", e => e.preventDefault());
-pk.addEventListener("keydown", e => { if (e.key===" "||e.key==="Enter") showPeek(e); });
-pk.addEventListener("keyup", hidePeek);
 
 /* ---------- wiring ---------- */
-$("lang").onclick = () => {
-  const old = L(); S.lang = S.lang === "en" ? "ne" : "en"; store.set("lang", S.lang);
-  // swap default team names if the user never changed them
-  [["team-a","teamA"],["team-b","teamB"]].forEach(([id,k]) => { if ($(id).value === old[k]) $(id).value = t(k); });
-  render();
+function toggleLang(){ LANG = LANG === "en" ? "ne" : "en"; store.set("lang", LANG); render(); }
+document.querySelectorAll("[data-lang]").forEach(b => b.onclick = toggleLang);
+const hero = $("hero"); const flipHero = () => { hero.classList.toggle("flipped"); sfx.tap(); };
+hero.onclick = flipHero; hero.onkeydown = e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); flipHero(); } };
+function openMe(mode, code){ MODE = mode; $("my-name").value = ME.name || ""; $("room-code").value = code || ""; $("me-err").textContent = ""; show("me"); setTimeout(()=>{ (ME.name && mode==="join" && !code ? $("room-code") : $("my-name")).focus(); }, 50); }
+$("go-create").onclick = () => openMe("create");
+$("how-go").onclick = () => openMe("create");
+$("go-join").onclick = () => openMe("join");
+$("go-how").onclick = () => show("how");
+$("go-flip").onclick = () => { FLIP = {deck: shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]), i:0, shown:false}; show("flip"); };
+document.querySelectorAll("[data-home]").forEach(b => b.onclick = () => show("home"));
+$("me-go").onclick = enter;
+$("my-name").addEventListener("keydown", e => { if (e.key === "Enter"){ if (MODE==="join") $("room-code").focus(); else enter(); } });
+$("room-code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
+$("room-code").addEventListener("input", e => {
+  if (e.isComposing) return;
+  const raw = e.target.value, clean = raw.toUpperCase().replace(/[^A-Z]/g,"").slice(0,4);
+  if (raw.replace(/\s/g,"").length > clean.length && /[^A-Za-z\s]/.test(raw)) $("me-err").textContent = t("codeHint");
+  e.target.value = clean;
+});
+
+[0,1].forEach(i => $("team-"+i).onclick = async () => {
+  if (!ch) return; ME.team = i; store.set("team:"+ROOM, i); sfx.tap();
+  await ch.track(myPresence()); render();
+});
+$("share").onclick = async () => {
+  const url = location.origin + location.pathname + "#" + ROOM;
+  const text = t("shareText",{c:ROOM});
+  try{ if (navigator.share){ await navigator.share({title:"Ladbad", text, url}); return; } }catch(e){ if (e && e.name === "AbortError") return; }
+  try{ await navigator.clipboard.writeText(text + "\n" + url); toast(t("copied")); }
+  catch(e){ toast(url); }
 };
-const hero = $("hero");
-const flipHero = () => { hero.classList.toggle("flipped"); sfx.tap(); };
-hero.onclick = flipHero;
-hero.onkeydown = e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); flipHero(); } };
-$("go-setup").onclick = () => go("setup");
-$("go-how").onclick = () => go("how");
-$("go-flip").onclick = () => { S.flipDeck = shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]); S.flipIdx = 0; S.flipShown = false; go("flip"); };
-document.querySelectorAll("[data-back]").forEach(b => b.onclick = back);
-document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => { stopTimer(); if (b.dataset.goto==="home") S.prev = []; go(b.dataset.goto, b.dataset.goto==="home" ? {noHistory:true} : undefined); });
-[["seg-cards","perTeam"],["seg-time","time"],["seg-sound","sound"]].forEach(([id,key]) => {
-  $(id).querySelectorAll("button").forEach(b => b.onclick = () => { S[key] = Number(b.dataset.v); store.set(key, S[key]); setSeg(id, S[key]); sfx.tap(); });
-});
-$("start").onclick = newGame;
-$("ready").onclick = beginCard;
-$("hint").onclick = () => { if (S.hints < 2){ S.hints++; $("play-worth").textContent = t("worth",{n:worth()}); paintHints(); sfx.tap(); } };
-$("gotit").onclick = () => finishCard({who:curTeam(), pts:worth(), stole:false});
-$("giveup").onclick = () => { stopTimer(); sfx.buzz(); toSteal(); };
-$("steal-yes").onclick = () => finishCard({who:(curTeam()+1)%2, pts:stealWorth(), stole:true});
-$("steal-no").onclick = () => finishCard({who:null});
-$("next").onclick = nextCard;
-$("again").onclick = () => { S.teams.forEach(tm => tm.score = 0); S.deck = buildDeck(S.perTeam); S.idx = 0; S.outcome = null; keepAwake(); go("pass",{noHistory:true}); };
-$("flip-show").onclick = () => { S.flipShown = !S.flipShown; paintFlip(); sfx.tap(); };
-$("flip-card").onclick = () => { S.flipShown = !S.flipShown; paintFlip(); };
-$("flip-next").onclick = () => { S.flipIdx = (S.flipIdx + 1) % S.flipDeck.length; S.flipShown = false; paintFlip(); sfx.tap(); };
+[["seg-cards","perTeam"],["seg-time","time"]].forEach(([id,key]) => $(id).querySelectorAll("button").forEach(b => b.onclick = () => { const v = Number(b.dataset.v); store.set(key, v); hostAct({type:"settings", [key]: v}, ME.id); sfx.tap(); }));
+[0,1].forEach(i => $("tn-"+i).addEventListener("change", e => {
+  const v = e.target.value.trim(), isDefault = !v || v === T.en[i?"teamB":"teamA"] || v === T.ne[i?"teamB":"teamA"];
+  hostAct({type:"settings", nameIdx:i, name: isDefault ? null : v}, ME.id);
+}));
+$("start").onclick = () => { keepAwake(); act("start"); };
+$("ready-go").onclick = () => { keepAwake(); act("flip"); };
+$("ready-skip").onclick = () => act("skip");
+$("watch-skip").onclick = () => act("skip");
+$("ready-end").onclick = () => act("end");
+$("read-hint").onclick = () => { if (!G || G.hints >= 2) return; $("read-hint").disabled = true; act("hint", {h: G.hints}); };
+$("read-pass").onclick = () => act("pass");
+$("watch-got").onclick = () => act("got");
+$("next").onclick = () => act("next");
+$("again").onclick = () => act("again");
+$("flip-show").onclick = () => { FLIP.shown = !FLIP.shown; paintFlip(); sfx.tap(); };
+$("flip-card").onclick = () => { FLIP.shown = !FLIP.shown; paintFlip(); };
+$("flip-next").onclick = () => { FLIP.i = (FLIP.i+1) % FLIP.deck.length; FLIP.shown = false; paintFlip(); sfx.tap(); };
+document.querySelectorAll("[data-leave]").forEach(b => b.onclick = () => { $("leave-sub").textContent = isHost ? t("leaveSubHost") : t("leaveSub"); $("leave-veil").hidden = false; });
+$("leave-no").onclick = () => $("leave-veil").hidden = true;
+$("leave-yes").onclick = () => { $("leave-veil").hidden = true; leaveRoom(false); };
+window.addEventListener("resize", () => { if (CUR === "read" && G) fitGib($("read-gib"), cardOf(G)[0]); if (CUR === "flip") paintFlip(); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && ROOM && G && G.phase !== "final") keepAwake(); });
 
-/* quit sheet */
-let pausedLeft = null;
-document.querySelectorAll("[data-quit]").forEach(b => b.onclick = () => {
-  if (timerId){ pausedLeft = S.remaining; stopTimer(); } else pausedLeft = null;
-  $("quit-veil").hidden = false;
-});
-$("quit-no").onclick = () => { $("quit-veil").hidden = true; if (pausedLeft != null && S.screen==="play") startTimerFrom(pausedLeft); };
-$("quit-yes").onclick = () => { $("quit-veil").hidden = true; stopTimer(); S.prev = []; go("home",{noHistory:true}); };
-function startTimerFrom(left){ stopTimer(); endAt = Date.now() + left*1000; lastSec = null; timerId = setInterval(tickTimer,100); tickTimer(); }
-
-window.addEventListener("resize", () => { if (S.screen==="play") fitGib($("play-gib"), card()[0]); if (S.screen==="flip") fitGib($("flip-gib"), DECK[S.flipDeck[S.flipIdx]][0]); });
-
-/* ---------- boot (survives live updates) ---------- */
-function start(data){
-  if (data && data.S && data.S.screen){
-    S = Object.assign(S, data.S);
-    if (S.screen === "play"){ SCREENS.forEach(s => $("s-"+s).hidden = s !== "play"); render(); startTimerFrom(Math.max(1, S.remaining || S.time)); return; }
-    if (S.screen === "steal"){ S.outcome = {who:null}; go("result",{noHistory:true}); return; }
-    go(S.screen,{noHistory:true}); return;
+/* ---------- boot ---------- */
+uiTimer = setInterval(uiTick, 200);
+(async function boot(){
+  show("home");
+  const hashCode = (location.hash || "").replace("#","").toUpperCase();
+  const saved = store.get("room", null);
+  if (saved && (!/^[A-Z]{4}$/.test(hashCode) || hashCode === saved.code)){
+    if (await resume()) return;
   }
-  go("home",{noHistory:true});
-}
-window.claude?.hot?.snapshot?.(() => ({S}));
-window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+  if (/^[A-Z]{4}$/.test(hashCode)) openMe("join", hashCode);
+})();
 })();
 </script>
 
