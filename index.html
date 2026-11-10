@@ -62,12 +62,13 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .gib{font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
 
 /* home */
-.hero{position:relative;height:250px;margin:6px 6px 4px}
-.hero .card{position:absolute;width:74%;padding:18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.hero .c1{left:0;top:18px;transform:rotate(-5deg);z-index:2}
-.hero .c2{right:0;top:0;transform:rotate(4deg);box-shadow:8px 8px 0 var(--orange)}
-.hero.flipped .c1{transform:rotate(-9deg) translate(-8px,26px)}
-.hero.flipped .c2{transform:rotate(2deg) translate(0,-6px);z-index:3}
+/* both cards share one grid cell, so the hero is always as tall as its cards and never overlaps the title */
+.hero{display:grid;width:100%;max-width:400px;margin:0 auto;padding:22px 10px 44px;cursor:pointer}
+.hero .card{grid-area:1/1;align-self:start;width:min(78%,300px);padding:18px;display:flex;flex-direction:column;gap:10px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.hero .c1{justify-self:start;transform:translateY(14px) rotate(-5deg);z-index:2}
+.hero .c2{justify-self:end;transform:translateY(-8px) rotate(4deg);box-shadow:8px 8px 0 var(--orange)}
+.hero.flipped .c1{transform:translate(-6px,22px) rotate(-8deg);z-index:1}
+.hero.flipped .c2{transform:translateY(-4px) rotate(2deg);z-index:3}
 .hero .gib{font-size:clamp(30px,9vw,40px)}
 .hero .ans{font-size:clamp(30px,9vw,38px);font-weight:800;line-height:1.1}
 .hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
@@ -187,7 +188,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .netbar{position:fixed;left:0;right:0;top:0;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;background:var(--orange);color:#fff;font-weight:800;font-size:15px;text-align:center;z-index:40}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-height:640px){.hero{height:210px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}.btn.huge{min-height:76px}.secs{font-size:30px}}
+@media (max-height:640px){.hero{padding-block:14px 36px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}.btn.huge{min-height:76px}.secs{font-size:30px}}
 </style>
 
 <div class="app" id="app">
