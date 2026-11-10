@@ -15,7 +15,7 @@ It plays like a real card game: the reader holds the front of the card, everyone
 4. The host picks **categories** (Places, Food, Festivals, Heard at home, Everyday talk, Family, Ukhaan, Songs & movies) and a **difficulty**: Easy to hard, Hard, or Impossible.
 5. Cards go Warm-up → Slippery → Brain melt → Boss round → **Impossible** (decoys that read like real English sentences). Hints cost points.
 
-Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 166 cards.
+Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 165 cards.
 
 ## How phones connect
 
