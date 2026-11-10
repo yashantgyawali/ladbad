@@ -34,7 +34,7 @@ After each card (and in Practice), every phone can vote **Love it** or **Whack**
 
 Votes go to the `ladbad_votes` table in the `akabare-panipuri` Supabase project, through the `ladbad_vote()` function only. The public key cannot read votes.
 
-To see the best and worst prompts, open the Supabase dashboard → Table Editor → `ladbad_card_scores` (sorted best first), or run in the SQL editor:
+To see the best and worst prompts, open the Supabase dashboard → Table Editor → `ladbad_card_scores`. It lists every card with the players' votes next to Claude's own ratings (`claude_fun`, `claude_difficulty`, `claude_sound`, `claude_weird`, `claude_seconds`, `claude_note`). Claude's ratings live in `ladbad_card_ratings`. Or run in the SQL editor:
 
 ```sql
 select decoy, answer, loves, whacks, score, love_pct from ladbad_card_scores;            -- best first
