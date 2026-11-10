@@ -1260,7 +1260,7 @@ function paintFlip(){
   $("flip-ans").hidden = !FLIP.shown;
   fitNp($("flip-np"), c[2]); $("flip-ro").textContent = c[1]; $("flip-me").textContent = c[3];
   $("flip-show").textContent = FLIP.shown ? t("hideAnswer") : t("showAnswer");
-  $("flip-rate").hidden = !FLIP.shown; paintRate("flip", c);
+  paintRate("flip", c);
 }
 
 /* ---------- entering a room ---------- */
