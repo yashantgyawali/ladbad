@@ -1330,8 +1330,18 @@ $("go-create").onclick = () => openMe("create");
 $("how-go").onclick = () => openMe("create");
 $("go-join").onclick = () => openMe("join");
 $("go-how").onclick = () => show("how");
-$("go-flip").onclick = () => { FLIP = {deck: shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]), i:0, shown:false}; show("flip"); };
-document.querySelectorAll("[data-home]").forEach(b => b.onclick = () => show("home"));
+/* Practice has its own address (#practice, or /practice/ which redirects here) so it can be shared and bookmarked */
+function openPractice(){
+  FLIP = {deck: shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]), i:0, shown:false};
+  if (location.hash !== "#practice") history.replaceState(null, "", location.pathname + location.search + "#practice");
+  show("flip");
+}
+$("go-flip").onclick = openPractice;
+document.querySelectorAll("[data-home]").forEach(b => b.onclick = () => {
+  if (location.hash === "#practice") history.replaceState(null, "", location.pathname + location.search);
+  show("home");
+});
+window.addEventListener("hashchange", () => { if (location.hash === "#practice" && !ROOM && CUR !== "flip") openPractice(); });
 $("me-go").onclick = enter;
 $("my-name").addEventListener("keydown", e => { if (e.key === "Enter"){ if (MODE==="join") $("room-code").focus(); else enter(); } });
 $("room-code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
@@ -1382,6 +1392,7 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
 uiTimer = setInterval(uiTick, 200);
 (async function boot(){
   show("home");
+  if (location.hash === "#practice"){ openPractice(); return; }
   const hashCode = (location.hash || "").replace("#","").toUpperCase();
   const saved = store.get("room", null);
   if (saved && (!/^[A-Z]{4}$/.test(hashCode) || hashCode === saved.code)){
