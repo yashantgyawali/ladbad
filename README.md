@@ -4,6 +4,13 @@ A Nepali gibberish party game for phones. Read silly English out loud ("Ill Lamb
 
 It plays like a real card game: the reader holds the front of the card, everyone else sees the back.
 
+## Links
+
+- Play: https://ladbad.tumlet.com
+- Practice alone: https://ladbad.tumlet.com/practice/
+
+The site is hosted on Netlify, which serves this repo's `main` branch, so pushing to `main` updates it.
+
 ## How a game works
 
 1. One person taps **Start a room** and shares the 4-letter code (or the Invite link).
