@@ -66,10 +66,8 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .hero .gib{font-size:clamp(30px,9vw,40px)}
 .hero .ans{font-size:clamp(30px,9vw,38px);font-weight:800;line-height:1.1}
 .hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
-.title{font-size:clamp(50px,15vw,64px);font-weight:800;line-height:.95;letter-spacing:-.035em}
-.title span{display:block;font-size:.5em;color:var(--orange);letter-spacing:0;margin-top:6px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:clamp(76px,24vw,96px);height:auto;flex:none;margin-left:-6px;animation:wob 2.4s ease-in-out infinite}
+.brand{margin:0;display:flex;justify-content:center}
+.brand img{width:min(70%,260px);height:auto;display:block}
 .lede{font-size:19px;line-height:1.4}
 
 /* forms */
@@ -184,18 +182,18 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .netbar{position:fixed;left:0;right:0;top:0;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;background:var(--orange);color:#fff;font-weight:800;font-size:15px;text-align:center;z-index:40}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-height:640px){.hero{padding-block:14px 36px}.title{font-size:46px}.btn{min-height:54px;padding:11px 16px}.btn.huge{min-height:76px}.secs{font-size:30px}}
+@media (max-height:640px){.hero{padding-block:14px 36px}.btn{min-height:54px;padding:11px 16px}.btn.huge{min-height:76px}.secs{font-size:30px}}
 </style>
 
 <div class="app" id="app">
 
   <!-- HOME -->
   <section class="screen" id="s-home">
-    <div class="bar">
+    <div class="bar" style="min-height:0">
       <button class="pill corner" id="lang" type="button" data-lang aria-label="Switch language"></button>
     </div>
     <div class="stack">
-      <div class="brand"><img class="logo" src="logo.png" alt="" width="96" height="96"><h1 class="title">लडबड</h1></div>
+      <h1 class="brand"><img src="logo-full.png" alt="लडबड Ladbad" width="560" height="423"></h1>
     </div>
     <div class="hero" id="hero" role="button" tabindex="0" aria-label="Flip the example card">
       <div class="card c1">
