@@ -41,6 +41,10 @@ select decoy, answer, loves, whacks, score, love_pct from ladbad_card_scores;   
 select decoy, answer, loves, whacks, score from ladbad_card_scores order by score asc;   -- the whackest
 ```
 
+## Analytics
+
+Google Analytics (measurement ID `G-RBBW0WK1B4`) is added by `build.sh` in the page head. It does not load on localhost, so local testing is not counted.
+
 ## Edit it
 
 **Before writing new cards, read [CARDS.md](CARDS.md).** It has the card-writing rules learned from the votes, plus the Love it and Whack lists.
