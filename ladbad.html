@@ -21,7 +21,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);f
 /* text stays selectable; only buttons opt out so a quick tap never highlights them */
 button{-webkit-user-select:none;user-select:none}
 /* screens span the full window so their scroll bar sits on the window's right edge; the padding keeps the content in a 460px column */
-.app{height:100%;display:flex;flex-direction:column}
+.app{height:100%;height:100dvh;display:flex;flex-direction:column}
 .screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;padding-block:14px 22px;overflow-y:auto;
   padding-left:max(16px,env(safe-area-inset-left,0px),calc(50% - 230px));padding-right:max(16px,env(safe-area-inset-right,0px),calc(50% - 230px))}
 .screen.fixed{overflow:hidden}
@@ -58,7 +58,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 /* home */
 /* both cards share one grid cell, so the hero is always as tall as its cards and never overlaps the title */
 .hero{display:grid;width:100%;max-width:400px;margin:0 auto;padding:22px 10px 44px;cursor:pointer}
-.hero .card{grid-area:1/1;align-self:start;width:min(78%,300px);padding:18px;display:flex;flex-direction:column;gap:10px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.hero .card{grid-area:1/1;align-self:start;width:min(78%,300px);padding:18px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .hero .c1{justify-self:start;transform:translateY(14px) rotate(-5deg);z-index:2}
 .hero .c2{justify-self:end;transform:translateY(-8px) rotate(4deg);box-shadow:8px 8px 0 var(--orange)}
 .hero.flipped .c1{transform:translate(-6px,22px) rotate(-8deg);z-index:1}
@@ -66,9 +66,21 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .hero .gib{font-size:clamp(30px,9vw,40px)}
 .hero .ans{font-size:clamp(30px,9vw,38px);font-weight:800;line-height:1.1}
 .hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
+.hero .tag{align-self:center}
 .brand{margin:0;display:flex;justify-content:center}
 .brand img{width:min(56%,210px);height:auto;display:block}
 .lede{font-size:19px;line-height:1.4;text-align:center}
+/* phones: the home screen fits exactly one screen (100dvh, no scrolling); sizes follow the screen height */
+@media (max-width:520px){
+  #s-home{gap:clamp(8px,1.8dvh,18px);padding-block:10px 14px}
+  #s-home .brand img{width:auto;height:clamp(84px,17dvh,160px)}
+  #s-home .hero{padding:clamp(8px,1.8dvh,22px) 10px clamp(22px,4.5dvh,44px)}
+  #s-home .hero .card{padding:clamp(12px,1.8dvh,18px);gap:clamp(6px,1dvh,10px)}
+  #s-home .hero .gib,#s-home .hero .ans{font-size:clamp(26px,4.6dvh,40px)}
+  #s-home .lede{font-size:clamp(15px,2.3dvh,19px);line-height:1.35}
+  #s-home .btn{min-height:clamp(48px,7.2dvh,62px);padding-block:clamp(8px,1.4dvh,15px);font-size:clamp(18px,2.6dvh,21px)}
+  #s-home .stack{gap:clamp(8px,1.3dvh,12px)}
+}
 
 /* forms */
 .field{display:flex;flex-direction:column;gap:8px}
