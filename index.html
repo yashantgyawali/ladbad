@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image" content="https://yashantgyawali.github.io/ladbad/icon-192.png">
 </head>
 <body>
 <title>Ladbad</title>
@@ -41,7 +44,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .stack{display:flex;flex-direction:column;gap:12px}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
 .mark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-.02em}
-.mark i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--sun) 0 50%,var(--orange) 50% 100%);display:block;transform:rotate(-6deg)}
+.mark img{width:34px;height:34px;display:block}
 .pill{font:inherit;font-size:15px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .icon{width:44px;height:44px;flex:none;border-radius:12px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:inherit;font-size:22px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
 .btn{font:inherit;font-weight:800;font-size:21px;line-height:1.15;border:2.5px solid var(--ink);border-radius:16px;padding:15px 18px;min-height:62px;background:var(--card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;transition:transform .08s ease,box-shadow .08s ease;width:100%}
@@ -75,6 +78,8 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .hero .cap{font-size:14px;font-weight:700;color:var(--muted)}
 .title{font-size:clamp(50px,15vw,64px);font-weight:800;line-height:.95;letter-spacing:-.035em}
 .title span{display:block;font-size:.5em;color:var(--orange);letter-spacing:0;margin-top:6px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:clamp(76px,24vw,96px);height:auto;flex:none;margin-left:-6px;animation:wob 2.4s ease-in-out infinite}
 .lede{font-size:19px;line-height:1.4}
 
 /* forms */
@@ -197,7 +202,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
   <!-- HOME -->
   <section class="screen" id="s-home">
     <div class="bar">
-      <div class="mark"><i></i>Ladbad</div>
+      <div class="mark"><img src="favicon.png" alt="" width="34" height="34">Ladbad</div>
       <button class="pill" id="lang" type="button" data-lang aria-label="Switch language"></button>
     </div>
     <div class="hero" id="hero" role="button" tabindex="0" aria-label="Flip the example card">
@@ -213,7 +218,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
       </div>
     </div>
     <div class="stack">
-      <h1 class="title">लडबड<span data-t="tagline"></span></h1>
+      <div class="brand"><img class="logo" src="logo.png" alt="" width="96" height="96"><h1 class="title">लडबड<span data-t="tagline"></span></h1></div>
       <p class="lede" data-t="lede"></p>
     </div>
     <div class="grow"></div>
