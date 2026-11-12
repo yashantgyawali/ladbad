@@ -408,7 +408,6 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
   <section class="screen" id="s-flip" hidden>
     <div class="bar">
       <button class="icon" type="button" data-home aria-label="Back">←</button>
-      <span class="muted" id="flip-count"></span>
     </div>
     <div class="playcard">
       <div class="card bigcard" id="flip-card" style="cursor:pointer">
@@ -622,7 +621,7 @@ en:{
   gotBy:"{r} got it! +{n} for {t}", timeUp:"Time's up!", passed:"{r} passed",
   left:"{n} cards left", leftOne:"Last card next!", next:"Next card", seeResults:"See who won",
   gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", leave:"Leave room", waitAgain:"Waiting for {h} to start a new game",
-  hideAnswer:"Hide answer", showAnswer:"Show answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.", flipCount:"{i} of {n}",
+  hideAnswer:"Hide answer", showAnswer:"Show answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.",
   leaveQ:"Leave the room?", leaveSubHost:"You started this room. If you leave, the game stops for everyone.", leaveSub:"You can join again with the same code.", stay:"Stay",
   hostGone:"Lost {h}'s phone. Waiting for it to come back…", offline:"Reconnecting…", readerGone:"{r} left the room, so the turn passed to the next player.",
   readerAway:"{r}'s phone dropped out. Waiting a few seconds…", hostClosed:"{h} ended the game.", waitTeam:"Waiting for someone from {t}",
@@ -664,7 +663,7 @@ ne:{
   gotBy:"{r} ले भेट्टायो! {t} लाई +{n}", timeUp:"समय सकियो!", passed:"{r} ले छोड्यो",
   left:"{n} कार्ड बाँकी", leftOne:"अब अन्तिम कार्ड!", next:"अर्को कार्ड", seeResults:"को जित्यो हेरौं",
   gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", leave:"कोठा छोड्नुस्", waitAgain:"{h} ले नयाँ खेल सुरु गर्नुहुन्छ। पर्खनुस्।",
-  hideAnswer:"उत्तर लुकाउनुस्", showAnswer:"उत्तर हेर्नुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।", flipCount:"{n} मध्ये {i}",
+  hideAnswer:"उत्तर लुकाउनुस्", showAnswer:"उत्तर हेर्नुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।",
   leaveQ:"कोठा छोड्ने?", leaveSubHost:"यो कोठा तपाईंले खोल्नुभएको हो। छोड्नुभयो भने सबैको खेल रोकिन्छ।", leaveSub:"उही कोडले फेरि जोडिन सक्नुहुन्छ।", stay:"बस्छु",
   hostGone:"{h} को फोनसँग सम्पर्क टुट्यो। फर्कुन्जेल पर्खँदै…", offline:"फेरि जोडिँदै…", readerGone:"{r} कोठाबाट गएकाले पालो अघि बढ्यो।",
   readerAway:"{r} को फोनसँग सम्पर्क टुट्यो। केही सेकेन्ड पर्खँदै…", hostClosed:"{h} ले खेल बन्द गर्नुभयो।", waitTeam:"{t} टोलीबाट कोही आउनुपर्छ",
@@ -1196,7 +1195,6 @@ document.querySelectorAll("[data-rate]").forEach(box => box.querySelectorAll("bu
 let FLIP = {deck:[], i:0, shown:false};
 function paintFlip(){
   const c = DECK[FLIP.deck[FLIP.i]];
-  $("flip-count").textContent = t("flipCount",{i:FLIP.i+1, n:FLIP.deck.length});
   $("flip-tier").textContent = TIER[c[5]][li()];
   $("flip-cat").textContent = FLIP.shown ? CAT[c[4]][li()] : "";
   fitGib($("flip-gib"), c[0]);
@@ -1275,7 +1273,7 @@ $("go-join").onclick = () => openMe("join");
 $("go-how").onclick = () => show("how");
 /* Practice has its own address (#practice, or /practice/ which redirects here) so it can be shared and bookmarked */
 function openPractice(){
-  FLIP = {deck: shuffle(DECK.map((c,i)=>i)).sort((a,b)=>DECK[a][5]-DECK[b][5]), i:0, shown:false};
+  FLIP = {deck: shuffle(DECK.map((c,i)=>i)), i:0, shown:false};  // random order, any difficulty
   if (location.hash !== "#practice") history.replaceState(null, "", location.pathname + location.search + "#practice");
   show("flip");
 }
@@ -1322,7 +1320,12 @@ $("next").onclick = () => act("next");
 $("again").onclick = () => act("again");
 $("flip-show").onclick = () => { FLIP.shown = !FLIP.shown; paintFlip(); sfx.tap(); };
 $("flip-card").onclick = e => { if (e.target.closest(".rate")) return; FLIP.shown = !FLIP.shown; paintFlip(); };
-$("flip-next").onclick = () => { FLIP.i = (FLIP.i+1) % FLIP.deck.length; FLIP.shown = false; paintFlip(); sfx.tap(); };
+$("flip-next").onclick = () => {
+  FLIP.i++;
+  // after the last card, shuffle again (never repeating the card just shown)
+  if (FLIP.i >= FLIP.deck.length){ const last = FLIP.deck[FLIP.deck.length-1]; FLIP.deck = shuffle(DECK.map((c,i)=>i)); if (FLIP.deck[0] === last) FLIP.deck.push(FLIP.deck.shift()); FLIP.i = 0; }
+  FLIP.shown = false; paintFlip(); sfx.tap();
+};
 document.querySelectorAll("[data-leave]").forEach(b => b.onclick = () => { $("leave-sub").textContent = isHost ? t("leaveSubHost") : t("leaveSub"); $("leave-veil").hidden = false; });
 $("leave-no").onclick = () => $("leave-veil").hidden = true;
 $("leave-yes").onclick = () => { $("leave-veil").hidden = true; leaveRoom(false); };
