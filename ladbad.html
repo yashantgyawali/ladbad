@@ -561,30 +561,27 @@ const POINTS = [10,20,30,50,80];
 const WORTH = [[10,6,3],[20,14,8],[30,20,12],[50,35,20],[80,55,30]];
 /* share of cards per tier for each difficulty setting */
 const LEVELS = { mix:[.15,.2,.25,.2,.2], hard:[0,0,.35,.35,.3], insane:[0,0,0,.4,.6] };
-
 /* ---------- words ---------- */
 const T = {
 en:{
   langBtn:"नेपाली", sayIt:"Say it fast", tapFlip:"Tap to flip", itsActually:"It's actually",
-  tagline:"Ladbad · gibberish", lede:"The active player's phone shows gibberish words. Every other player sees a real Nepali word or phrase. The reader has to land on the right word to get points.",
+  lede:"The reader's phone shows English gibberish. Everyone else sees the real Nepali. Read it out loud until the Nepali comes out, and your team scores.",
   create:"Start a room", join:"Join a room", how:"How to play", practice:"Practice alone",
   steps:[
     ["Everyone opens Ladbad on their own phone and joins one room.","One person starts the room and shares the 4-letter code."],
-    ["Pick a team. Two phones is enough, more is better.","Teams take turns. Each turn, one player is the reader."],
+    ["Pick a team. Two phones are enough, but more is better.","Teams take turns, and each turn one player reads."],
     ["The reader's phone shows only the gibberish.","Read it out loud, faster and faster, until you hear the Nepali."],
-    ["Every other phone shows the answer.","Watch the reader struggle. No telling!"],
-    ["When the reader says it, the other team taps Got it.","Hints cost points. Most points at the end wins."]
+    ["Every other phone shows the answer.","Watch the reader struggle, and don't give it away!"],
+    ["When the reader says it, the other team taps Got it.","Hints cost points. The team with the most points at the end wins."]
   ],
-  howTip:"Like a real card game: the reader holds the front, everyone else sees the back.",
+  howTip:"It works like a real card game. The reader holds the front of the card and everyone else sees the back.",
   createTitle:"Start a room", joinTitle:"Join a room", yourName:"Your name", roomCode:"Room code",
   makeRoom:"Make the room", joinRoom:"Join", needName:"Type your name first.", needCode:"Type the 4-letter code in English letters, like ABCD.",
   connecting:"Connecting…", noRoom:"No room {c} found. Check the code with the person who started it.", netErr:"Can't connect. Check your internet and try again.",
-  invite:"Invite", copied:"Link copied. Send it to the others.", shareText:"Join my Ladbad room: {c}",
+  invite:"Invite", copied:"Link copied. Send it to everyone playing.", shareText:"Join my Ladbad room: {c}",
   pickTeam:"Tap a team to join it", tapJoin:"Tap to join", youHere:"You're here", nobodyYet:"Nobody yet",
-  teamNames:"Team names", cardsEach:"Cards per team", secondsPer:"Seconds per card",
-  categories:"Categories", allCats:"All", difficulty:"Difficulty", lvMix:"Easy to hard", lvHard:"Hard", lvInsane:"Impossible",
-  playing:"Difficulty: {l}",
-  rateQ:"Rate this card", love:"Like", whack:"Dislike", voteFail:"Couldn't save your vote. Check the internet.",
+  teamNames:"Team names",
+  love:"Like", whack:"Dislike", voteFail:"Couldn't save your vote. Check your internet.",
   start:"Start game", players:"{n} in the room", player1:"1 in the room",
   needTeams:"Each team needs at least one player.", pickYourTeam:"Pick a team first.",
   waitHost:"Waiting for {h} to start the game", teamA:"Momo", teamB:"Chiya",
@@ -594,23 +591,23 @@ en:{
   waitFlip:"Waiting for {r} to flip the card", skipReader:"Skip this reader",
   youRead:"You're reading", worth:"{n} pts", hint:"Hint", hintCost:"−{n} pts", noHints:"No more hints", pass:"Pass",
   answerTag:"The answer", readerSees:"{r} sees", gotIt:"Got it!",
-  judgeNote:"Tap Got it when {r} says it.", mateNote:"Shh! {r} is on your team. No telling, only cheering.",
+  judgeNote:"Tap Got it when {r} says it.", mateNote:"Shh! {r} is on your team. Cheer all you like, but don't say the answer.",
   hFirst:"Starts with {np} · {ro}", hWords:"{n} words", hWord:"1 word",
   gotBy:"{r} got it! +{n} for {t}", timeUp:"Time's up!", passed:"{r} passed",
   left:"{n} cards left", leftOne:"Last card next!", next:"Next card", seeResults:"See who won",
-  gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", leave:"Leave room", waitAgain:"{h} can start a new game",
+  gameOver:"Game over", wins:"{t} wins!", tie:"It's a tie!", again:"Play again", leave:"Leave room", waitAgain:"Waiting for {h} to start a new game",
   hideAnswer:"Hide answer", showAnswer:"Show answer", nextCard:"Next", flipTip:"Read it out loud. Tap the card to check.", flipCount:"{i} of {n}",
   leaveQ:"Leave the room?", leaveSubHost:"You started this room. If you leave, the game stops for everyone.", leaveSub:"You can join again with the same code.", stay:"Stay",
-  hostGone:"Lost {h}'s phone. Waiting for it to come back…", offline:"Reconnecting…", readerGone:"{r} left the room, so the turn moved on.",
+  hostGone:"Lost {h}'s phone. Waiting for it to come back…", offline:"Reconnecting…", readerGone:"{r} left the room, so the turn passed to the next player.",
   readerAway:"{r}'s phone dropped out. Waiting a few seconds…", hostClosed:"{h} ended the game.", waitTeam:"Waiting for someone from {t}",
-  waitTeamLine:"Nobody from {t} is in the room right now. When they come back, the game carries on.", endGame:"End game",
+  waitTeamLine:"Nobody from {t} is in the room right now. The game carries on when someone comes back.", endGame:"End game",
   hostAsleep:"Found the room. Waiting for {h}'s phone to wake up…", codeHint:"Type the code in English letters, like ABCD.",
   judgeFallback:"Nobody from the other team is here, so you can tap Got it.",
   pts:"pts", tierPts:"{tier} · {n} pts"
 },
 ne:{
   langBtn:"English", sayIt:"छिटो भन्नुस्", tapFlip:"छोएर पल्टाउनुस्", itsActually:"उत्तर",
-  tagline:"Ladbad · अंग्रेजीमा लुकेको नेपाली", lede:"पढ्ने खेलाडीको फोनमा अनौठा अंग्रेजी शब्द आउँछन्। अरू सबैले असली नेपाली शब्द वा वाक्य देख्छन्। सही शब्द भन्न सके मात्र अंक पाइन्छ।",
+  lede:"पढ्नेको फोनमा अनौठो अंग्रेजी, अरू सबैको फोनमा असली नेपाली। नेपाली ननिस्कुन्जेल ठूलो स्वरमा पढ्नुस्, अनि टोलीले अंक पाउँछ।",
   create:"कोठा खोल्नुस्", join:"कोठामा जोडिनुस्", how:"कसरी खेल्ने?", practice:"एक्लै अभ्यास",
   steps:[
     ["सबैले आ-आफ्नो फोनमा Ladbad खोलेर एउटै कोठामा जोडिने।","एक जनाले कोठा खोलेर ४ अक्षरको कोड सबैलाई दिने।"],
@@ -623,36 +620,33 @@ ne:{
   createTitle:"कोठा खोल्नुस्", joinTitle:"कोठामा जोडिनुस्", yourName:"तपाईंको नाम", roomCode:"कोठाको कोड",
   makeRoom:"कोठा बनाउनुस्", joinRoom:"जोडिनुस्", needName:"पहिले नाम लेख्नुस्।", needCode:"अंग्रेजी अक्षरमा ४ अक्षरको कोड लेख्नुस्, जस्तै ABCD।",
   connecting:"जोडिँदै…", noRoom:"{c} कोठा भेटिएन। कोठा खोल्नेसँग कोड जाँच्नुस्।", netErr:"जोडिन सकिएन। इन्टरनेट जाँचेर फेरि प्रयास गर्नुस्।",
-  invite:"बोलाउनुस्", copied:"लिंक कपी भयो। अरूलाई पठाउनुस्।", shareText:"मेरो Ladbad कोठामा आउनुस्: {c}",
+  invite:"बोलाउनुस्", copied:"लिंक कपी भयो। खेल्ने सबैलाई पठाउनुस्।", shareText:"मेरो Ladbad कोठामा आउनुस्: {c}",
   pickTeam:"टोलीमा छोएर जोडिनुस्", tapJoin:"छोएर जोडिनुस्", youHere:"तपाईं यहाँ", nobodyYet:"अहिले कोही छैन",
-  teamNames:"टोलीको नाम", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड",
-  categories:"किसिम", allCats:"सबै", difficulty:"कठिनाइ", lvMix:"सजिलोदेखि गाह्रो", lvHard:"गाह्रो", lvInsane:"असम्भव",
-  playing:"कठिनाइ: {l}",
-  rateQ:"यो कार्ड कस्तो लाग्यो?", love:"मन पर्‍यो", whack:"मन परेन", voteFail:"भोट सेभ भएन। इन्टरनेट जाँच्नुस्।",
+  teamNames:"टोलीको नाम",
+  love:"मन पर्‍यो", whack:"मन परेन", voteFail:"भोट सेभ भएन। इन्टरनेट जाँच्नुस्।",
   start:"खेल सुरु", players:"कोठामा {n} जना", player1:"कोठामा १ जना",
   needTeams:"हरेक टोलीमा कम्तीमा एक जना चाहिन्छ।", pickYourTeam:"पहिले टोली छान्नुस्।",
-  waitHost:"{h} ले खेल सुरु गर्ने प्रतीक्षा", teamA:"मम", teamB:"चिया",
+  waitHost:"{h} ले खेल सुरु गर्नुहुन्छ। पर्खनुस्।", teamA:"मम", teamB:"चिया",
   you:"तपाईं", host:"खोल्ने",
   yourTurn:"तपाईंको पढ्ने पालो!", yourTurnLine:"अरू सबैले उत्तर देख्छन्। नसुनिउन्जेल ठूलो स्वरमा पढ्नुस्।",
   flipIt:"कार्ड पल्टाउनुस्", otherReads:"{r} पढ्दै", otherReadsLine:"तपाईं उत्तर देख्नुहुन्छ। नभन्नुस् है!",
-  waitFlip:"{r} ले कार्ड पल्टाउने प्रतीक्षा", skipReader:"यो पढ्नेलाई छोड्नुस्",
+  waitFlip:"{r} ले कार्ड पल्टाउनुहुन्छ। पर्खनुस्।", skipReader:"यो पढ्नेलाई छोड्नुस्",
   youRead:"तपाईं पढ्दै", worth:"{n} अंक", hint:"संकेत", hintCost:"−{n} अंक", noHints:"संकेत सकियो", pass:"छोड्ने",
   answerTag:"उत्तर", readerSees:"{r} ले देख्ने", gotIt:"मिल्यो!",
-  judgeNote:"{r} ले सही भनेपछि 'मिल्यो' थिच्नुस्।", mateNote:"चुप! {r} तपाईंकै टोली। उत्तर नभन्नुस्, हौसला मात्र।",
+  judgeNote:"{r} ले सही भनेपछि 'मिल्यो' थिच्नुस्।", mateNote:"चुप! {r} तपाईंकै टोलीमा हुनुहुन्छ। हौसला दिनुस्, तर उत्तर नभन्नुस्।",
   hFirst:"पहिलो अक्षर {np} · {ro}", hWords:"{n} शब्द", hWord:"१ शब्द",
   gotBy:"{r} ले भेट्टायो! {t} लाई +{n}", timeUp:"समय सकियो!", passed:"{r} ले छोड्यो",
   left:"{n} कार्ड बाँकी", leftOne:"अब अन्तिम कार्ड!", next:"अर्को कार्ड", seeResults:"को जित्यो हेरौं",
-  gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", leave:"कोठा छोड्नुस्", waitAgain:"{h} ले नयाँ खेल सुरु गर्न सक्छ",
+  gameOver:"खेल सकियो", wins:"{t} जित्यो!", tie:"बराबरी!", again:"फेरि खेलौं", leave:"कोठा छोड्नुस्", waitAgain:"{h} ले नयाँ खेल सुरु गर्नुहुन्छ। पर्खनुस्।",
   hideAnswer:"उत्तर लुकाउनुस्", showAnswer:"उत्तर हेर्नुस्", nextCard:"अर्को", flipTip:"ठूलो स्वरमा पढ्नुस्। जाँच्न कार्ड छुनुस्।", flipCount:"{n} मध्ये {i}",
   leaveQ:"कोठा छोड्ने?", leaveSubHost:"यो कोठा तपाईंले खोल्नुभएको हो। छोड्नुभयो भने सबैको खेल रोकिन्छ।", leaveSub:"उही कोडले फेरि जोडिन सक्नुहुन्छ।", stay:"बस्छु",
-  hostGone:"{h} को फोनसँग सम्पर्क टुट्यो। फर्कने प्रतीक्षा…", offline:"फेरि जोडिँदै…", readerGone:"{r} कोठाबाट गएकाले पालो अघि बढ्यो।",
-  readerAway:"{r} को फोनसँग सम्पर्क टुट्यो। केही सेकेन्ड पर्खँदै…", hostClosed:"{h} ले खेल बन्द गर्नुभयो।", waitTeam:"{t} बाट कोही आउने प्रतीक्षा",
+  hostGone:"{h} को फोनसँग सम्पर्क टुट्यो। फर्कुन्जेल पर्खँदै…", offline:"फेरि जोडिँदै…", readerGone:"{r} कोठाबाट गएकाले पालो अघि बढ्यो।",
+  readerAway:"{r} को फोनसँग सम्पर्क टुट्यो। केही सेकेन्ड पर्खँदै…", hostClosed:"{h} ले खेल बन्द गर्नुभयो।", waitTeam:"{t} टोलीबाट कोही आउनुपर्छ",
   waitTeamLine:"अहिले {t} बाट कोही कोठामा छैन। फर्केपछि खेल अघि बढ्छ।", endGame:"खेल सक्ने",
-  hostAsleep:"कोठा भेटियो। {h} को फोन ब्युँझने प्रतीक्षा…", codeHint:"कोड अंग्रेजी अक्षरमा लेख्नुस्, जस्तै ABCD।",
+  hostAsleep:"कोठा भेटियो। {h} को फोन खुलुन्जेल पर्खँदै…", codeHint:"कोड अंग्रेजी अक्षरमा लेख्नुस्, जस्तै ABCD।",
   judgeFallback:"अर्को टोलीबाट कोही छैन, त्यसैले तपाईं 'मिल्यो' थिच्न सक्नुहुन्छ।",
   pts:"अंक", tierPts:"{tier} · {n} अंक"
 }};
-
 /* ---------- small helpers ---------- */
 const $ = id => document.getElementById(id);
 /* ?p=2 gives a separate local identity, so one browser can act as several phones while testing */
@@ -674,7 +668,6 @@ const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ";
 function newCode(){ let s=""; for (let i=0;i<4;i++) s += CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
 let toastT = null;
 function toast(msg, ms){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>el.hidden = true, ms || 2600); }
-
 /* ---------- sound + buzz + wake ---------- */
 let AC = null;
 function tone(f,d,type,vol,when){ try{ AC = AC || new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(), g=AC.createGain(), t0=AC.currentTime+(when||0); o.type=type||"sine"; o.frequency.value=f; g.gain.setValueAtTime(vol||.18,t0); g.gain.exponentialRampToValueAtTime(.001,t0+d); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0+d+.02); }catch(e){} }
