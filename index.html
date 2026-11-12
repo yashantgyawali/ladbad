@@ -43,8 +43,8 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .row>*{min-width:0}
 .stack{display:flex;flex-direction:column;gap:12px}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
-.mark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-.02em}
-.mark img{width:34px;height:34px;display:block}
+/* home: the language pill sits in the window's top-right corner, not the content column */
+.pill.corner{position:fixed;z-index:5;top:max(14px,env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px))}
 .pill{font:inherit;font-size:15px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .icon{width:44px;height:44px;flex:none;border-radius:12px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:inherit;font-size:22px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
 .btn{font:inherit;font-weight:800;font-size:21px;line-height:1.15;border:2.5px solid var(--ink);border-radius:16px;padding:15px 18px;min-height:62px;background:var(--card);color:var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;transition:transform .08s ease,box-shadow .08s ease;width:100%}
@@ -202,8 +202,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
   <!-- HOME -->
   <section class="screen" id="s-home">
     <div class="bar">
-      <div class="mark"><img src="favicon.png" alt="" width="34" height="34">Ladbad</div>
-      <button class="pill" id="lang" type="button" data-lang aria-label="Switch language"></button>
+      <button class="pill corner" id="lang" type="button" data-lang aria-label="Switch language"></button>
     </div>
     <div class="hero" id="hero" role="button" tabindex="0" aria-label="Flip the example card">
       <div class="card c1">
