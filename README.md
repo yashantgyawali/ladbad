@@ -12,7 +12,7 @@ It plays like a real card game: the reader holds the front of the card, everyone
    - the **reader's phone** shows only the gibberish, a timer, Hint and Pass;
    - **every other phone** shows the answer in नेपाली, romanised and in English;
    - the **other team** taps **Got it!** when the reader says it.
-4. The host picks **categories** (Places, Food, Festivals, Heard at home, Everyday talk, Family, Ukhaan, Songs & movies) and a **difficulty**: Easy to hard, Hard, or Impossible.
+4. The host picks cards per team and 10, 15 or 20 seconds per card. Every game draws from all categories. Cards come in pairs from the same tier, one for each team, so both teams climb the same ladder from easy to hard.
 5. Cards go Warm-up → Slippery → Brain melt → Boss round → **Impossible** (decoys that read like real English sentences). Hints cost points.
 
 Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 165 cards.
@@ -30,7 +30,7 @@ Note: Supabase free projects pause after about a week without use. If rooms stop
 
 ## Card votes
 
-After each card (and in Practice), every phone can vote **Love it** or **Whack**. One vote per phone per card; tapping the other button changes it.
+Each card has 👍 and 👎 buttons inside it: on the result card after each turn, and on the card in Practice. Each phone gets one vote per card; tapping the other button changes it. In the database a 👍 counts as a "love" and a 👎 as a "whack".
 
 Votes go to the `ladbad_votes` table in the `akabare-panipuri` Supabase project, through the `ladbad_vote()` function only. The public key cannot read votes.
 
@@ -43,7 +43,9 @@ select decoy, answer, loves, whacks, score from ladbad_card_scores order by scor
 
 ## Edit it
 
-`ladbad.html` is the source. The deck is the `DECK` array: `[decoy, romanised answer, नेपाली answer, meaning, category, tier]` (tier 0-4, 4 = Impossible). Add new cards at the end so saved play history stays valid.
+**Before writing new cards, read [CARDS.md](CARDS.md).** It has the card-writing rules learned from the votes, plus the Love it and Whack lists.
+
+`ladbad.html` is the source. The deck is the `DECK` array: `[decoy, romanised answer, नेपाली answer, meaning, category, tier]` (tier 0-4, 4 = Impossible). Add new cards at the end. Removing a card only reshuffles which cards count as "already played" for a while, which does no harm. Also add each new card to `ladbad_card_ratings`; a card missing from that table shows as `retired` in `ladbad_card_scores`.
 After editing, run `./build.sh` to regenerate `index.html`.
 
 To test several "phones" in one browser, add `?p=anything` to the URL; each value gets its own identity.

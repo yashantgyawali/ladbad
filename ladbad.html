@@ -17,12 +17,13 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{height:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.45;overscroll-behavior:none;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-input{-webkit-user-select:text;user-select:text}
-.app{max-width:460px;margin:0 auto;height:100%;display:flex;flex-direction:column}
-.screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;padding-block:14px 22px;overflow-y:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.45;overscroll-behavior:none}
+/* text stays selectable; only buttons opt out so a quick tap never highlights them */
+button{-webkit-user-select:none;user-select:none}
+/* screens span the full window so their scroll bar sits on the window's right edge; the padding keeps the content in a 460px column */
+.app{height:100%;display:flex;flex-direction:column}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;padding-block:14px 22px;overflow-y:auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px),calc(50% - 230px));padding-right:max(16px,env(safe-area-inset-right,0px),calc(50% - 230px))}
 .screen.fixed{overflow:hidden}
 h1,h2,h3,p{margin:0}
 h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spacing:-.01em}
@@ -81,13 +82,13 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .err{color:var(--orange);font-weight:700;font-size:16px;min-height:1.4em}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.rate{display:flex;flex-direction:column;gap:8px;width:100%}
-.rate p{font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
-.rate div{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rate button{font:inherit;font-size:19px;font-weight:800;border:2.5px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);min-height:52px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.rate{display:flex;justify-content:center;gap:16px;margin-top:14px;flex:none}
+.rate button{width:52px;height:52px;border-radius:50%;border:2.5px solid var(--ink);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .15s}
+.rate svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.rate button[aria-pressed="true"] svg{fill:currentColor}
 .rate button[data-v="1"][aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:#fff}
-.rate button[data-v="-1"][aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:#fff}
-.rate button:active{transform:scale(.97)}
+.rate button[data-v="-1"][aria-pressed="true"]{background:var(--ink);color:#fff}
+.rate button:active{transform:scale(.9)}
 .chips button{font:inherit;font-size:16px;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;min-height:42px;cursor:pointer}
 .chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .chips button.all{border-style:dashed}
@@ -284,16 +285,8 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
         <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
       </div>
       <div class="field">
-        <span class="label" data-t="categories"></span>
-        <div class="chips" id="cat-chips"></div>
-      </div>
-      <div class="field">
-        <span class="label" data-t="difficulty"></span>
-        <div class="seg seg-sm" id="seg-level"><button type="button" data-v="mix" data-t="lvMix"></button><button type="button" data-v="hard" data-t="lvHard"></button><button type="button" data-v="insane" data-t="lvInsane"></button></div>
-      </div>
-      <div class="field">
         <span class="label" data-t="secondsPer"></span>
-        <div class="seg" id="seg-time"><button type="button" data-v="30">30</button><button type="button" data-v="45">45</button><button type="button" data-v="60">60</button></div>
+        <div class="seg" id="seg-time"><button type="button" data-v="10">10</button><button type="button" data-v="15">15</button><button type="button" data-v="20">20</button></div>
       </div>
     </div>
     <div class="grow"></div>
@@ -370,8 +363,8 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
           <div class="ro" id="res-ro"></div>
           <div class="me" id="res-me"></div>
         </div>
+        <div class="rate" data-rate="result"><button type="button" data-v="1" data-ta="love"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm2 11h8.6a2 2 0 0 0 2-1.6l1.3-7A2 2 0 0 0 18.9 10H14l.8-4.2a1.8 1.8 0 0 0-3.3-1.3L9 9.5V21z"/></svg></button><button type="button" data-v="-1" data-ta="whack"><svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(180deg)"><path d="M7 10v11H3V10h4zm2 11h8.6a2 2 0 0 0 2-1.6l1.3-7A2 2 0 0 0 18.9 10H14l.8-4.2a1.8 1.8 0 0 0-3.3-1.3L9 9.5V21z"/></svg></button></div>
       </div>
-<div class="rate" data-rate="result"><p data-t="rateQ"></p><div><button type="button" data-v="1"><span aria-hidden="true">♥</span><span data-t="love"></span></button><button type="button" data-v="-1"><span aria-hidden="true">✕</span><span data-t="whack"></span></button></div></div>
       <p class="muted" id="res-left"></p>
     </div>
     <button class="btn primary" id="next" type="button"></button>
@@ -409,6 +402,7 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
             <div class="me" id="flip-me"></div>
           </div>
         </div>
+        <div class="rate" data-rate="flip"><button type="button" data-v="1" data-ta="love"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm2 11h8.6a2 2 0 0 0 2-1.6l1.3-7A2 2 0 0 0 18.9 10H14l.8-4.2a1.8 1.8 0 0 0-3.3-1.3L9 9.5V21z"/></svg></button><button type="button" data-v="-1" data-ta="whack"><svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(180deg)"><path d="M7 10v11H3V10h4zm2 11h8.6a2 2 0 0 0 2-1.6l1.3-7A2 2 0 0 0 18.9 10H14l.8-4.2a1.8 1.8 0 0 0-3.3-1.3L9 9.5V21z"/></svg></button></div>
       </div>
       <p class="muted" style="text-align:center" data-t="flipTip"></p>
     </div>
@@ -416,7 +410,6 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
       <button class="btn" id="flip-show" type="button"></button>
       <button class="btn primary" id="flip-next" type="button" data-t="nextCard"></button>
     </div>
-    <div class="rate" id="flip-rate" data-rate="flip"><p data-t="rateQ"></p><div><button type="button" data-v="1"><span aria-hidden="true">♥</span><span data-t="love"></span></button><button type="button" data-v="-1"><span aria-hidden="true">✕</span><span data-t="whack"></span></button></div></div>
   </section>
 </div>
 
@@ -445,45 +438,25 @@ const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
    [decoy, romanised answer, नेपाली answer, meaning, category, tier]
    tier 0 warm-up · 1 slippery · 2 brain melt · 3 boss            */
 const DECK = [
-["Cheetah Won","Chitwan","चितवन","Rhino country","place",0],
-["Yom? Harry!","Yomari","योमरी","Newari sweet dumpling","food",0],
-["Tamale","Thamel","ठमेल","Kathmandu's busiest streets","place",0],
-["Gee Ow","Jhyau","झ्याउ","Boring, a total drag","talk",0],
-["Chut! Putt, Eh!","Chatpate","चटपटे","Spicy puffed-rice snack","food",1],
 ["Thus, Sign!","Dashain","दशैं","The big autumn festival","fest",0],
-["Poker? Rah!","Pokhara","पोखरा","The lake city","place",0],
 ["Lump Beanie","Lumbini","लुम्बिनी","Birthplace of the Buddha","place",0],
-["Done, Yeah? Bad.","Dhanyabad","धन्यवाद","Thank you","talk",1],
-["Rum, I'll Owe!","Ramailo","रमाइलो","Fun","talk",0],
-["Cells Rot, Eh?","Sel Roti","सेल रोटी","Ring-shaped rice bread","food",0],
-["Tea? Harr!","Tihar","तिहार","Festival of lights","fest",0],
 ["Buy Teak, Ah!","Bhaitika","भाइटीका","Brothers' day in Tihar","fest",0],
 ["Ouch Are","Achar","अचार","Pickle","food",0],
 ["Moose Tongue","Mustang","मुस्ताङ","Beyond the Himalaya","place",0],
-["Zoom Some","Jomsom","जोमसोम","Windy town in Mustang","place",0],
-["Loafing","Laphing","लाफिङ","Cold, spicy noodle snack","food",0],
 ["Hedge Your Bah!","Hajurba","हजुरबा","Grandpa","family",1],
-["Ha! Zoo-rama!","Hajuraama","हजुरआमा","Grandma","family",0],
-["Chee! You, Ra!","Chiura","च्युरा","Beaten rice","food",0],
-["Boot? Wall!","Butwal","बुटवल","City in Rupandehi","place",0],
 ["Gaze At Ra","Gaijatra","गाईजात्रा","The cow festival","fest",0],
 ["Tea Edge","Teej","तीज","Festival of red saris","fest",0],
 ["Two Cup, Ah!","Thukpa","थुक्पा","Noodle soup","food",0],
 ["Low, Czar!","Lhosar","ल्होसार","New Year festival","fest",0],
 ["Go, Rock! Ha!","Gorkha","गोरखा","Prithvi Narayan Shah's home","place",0],
-["Pud, Ha!","Padha!","पढ!","Study! (said a thousand times)","home",0],
 ["Bubba? All!","Babaal","बबाल","Awesome","talk",0],
 
 ["Beret? Nag Her!","Biratnagar","विराटनगर","Big city in the east","place",2],
-["Egg Cup? Cheer!","Ek cup chiya","एक कप चिया","One cup of tea","talk",2],
-["Keg, Urn, Eh?","Ke garne","के गर्ने","What to do","talk",2],
-["Phew! Atoll!","Phewa Tal","फेवा ताल","Pokhara's lake","place",2],
 ["Pie? Such Hyena!","Paisa chhaina","पैसा छैन","No money","home",3],
 ["Bah! Hacked A Purr!","Bhaktapur","भक्तपुर","City of devotees","place",3],
 ["Ma's Sock? Dinner!","Ma sakdina","म सक्दिन","I can't","talk",2],
 ["Cut Ham And Ow!","Kathmandu","काठमाडौं","The capital","place",2],
 ["Ill? Um... Buzzer!","Ilam Bazar","इलाम बजार","Tea town market","place",2],
-["Penny Purée","Panipuri","पानीपुरी","Street snack","food",1],
 ["Ma! Mug? Harr!","Mamaghar","मामाघर","Mum's brother's house","family",2],
 ["Hey, Town? Duh!","Hetauda","हेटौंडा","City in Makwanpur","place",2],
 ["Barley Water","Baluwatar","बालुवाटार","Where the PM lives","place",2],
@@ -491,37 +464,21 @@ const DECK = [
 ["Catch a cab? Arr!","Ke chha khabar?","के छ खबर?","What's new?","talk",1],
 ["Thick, I Itch, Ah!","Thikai chha","ठिकै छ","It's okay","talk",1],
 ["Chit? Oh! Ow!","Chhito aau","छिटो आऊ","Come quickly","home",1],
-["Goon Drew Cue","Gundruk","गुन्द्रुक","Fermented greens","food",1],
-["Jude, Jude! How?","Juju Dhau","जुजु धौ","King curd of Bhaktapur","food",1],
 ["Sue Cooked Tea","Sukuti","सुकुटी","Dried meat","food",1],
-["Sick Arnie","Sikarni","सिकर्नी","Sweet spiced yoghurt","food",1],
-["'Allo, Tom? Ah!","Aalu Tama","आलु तामा","Potato and bamboo shoot curry","food",2],
-["In Drudge, A Tram","Indrajatra","इन्द्रजात्रा","Kumari's chariot festival","fest",2],
-["Bisque, Ate, Jet Ray","Bisket Jatra","बिस्केट जात्रा","Bhaktapur's New Year","fest",1],
-["Nag? Ark? Oat!","Nagarkot","नगरकोट","Sunrise hill","place",2],
-["Ban The Pure!","Bandipur","बन्दीपुर","Hilltop bazaar town","place",1],
 ["Sway, Iamb, Hoo!","Swayambhu","स्वयम्भू","The monkey temple","place",2],
 ["Lol, It Purrs!","Lalitpur","ललितपुर","Patan","place",1],
 ["Cur, Tip Her!","Kirtipur","कीर्तिपुर","Hill town next to TU","place",2],
-["Done Coot Ah","Dhankuta","धनकुटा","Eastern hill town","place",0],
-["Shirk Hate","Surkhet","सुर्खेत","Karnali's capital","place",1],
 ["Thumb? Bah!","Tongba","तोङ्बा","Millet drink in a wooden pot","food",1],
 ["Deed? Oh!","Dhido","ढिंडो","Thick flour porridge","food",2],
 ["Sam, I Budgie!","Samaybaji","समयबजी","Newari feast plate","food",2],
 ["Ma's Sub Hut","Masu bhat","मासु भात","Meat and rice","food",1],
-["Choy? Lah!","Choila","छोयला","Spiced grilled meat","food",2],
-["Jute? Hold!","Jutho","जुठो","Already eaten from","home",1],
-["Cook Two Macs! Cook Two!","Kutuma kutu","कुटुमा कुटु","The song everyone danced to","song",3],
-["But Moss","Bhatmas","भटमास","Soybeans","food",0],
-["Quad? Tea!","Kwati","क्वाटी","Nine-bean soup","food",1],
+["Cook Two, Ma! Cook Two!","Kutuma kutu","कुटुमा कुटु","The song everyone danced to","song",3],
 
 ["Sir, Angie!","Sarangi","सारंगी","Folk fiddle","song",2],
 ["Jury Swore, He...","Jeri swari","जेरी स्वारी","Jalebi with fried bread","food",2],
 ["Tuck Echo Chew","Thakeko chhu","थाकेको छु","I'm tired","talk",1],
 ["Push Up A Tin, Nat!","Pashupatinath","पशुपतिनाथ","Shiva's temple on the Bagmati","place",3],
 ["Budge, Noob! Hi-Yo!","Bujhnubhayo?","बुझ्नुभयो?","Understood?","home",3],
-["Dull? But Tar Carries!","Dal bhat tarkari","दाल भात तरकारी","Rice, lentils, veg. 24-hour power.","food",2],
-["Race Ham Ferrari","Resham Firiri","रेशम फिरिरी","The folk song","song",1],
 ["Fur, Rib? Hey! Towel, Ah!","Pheri bhetaula","फेरि भेटौंला","See you again","talk",4],
 ["Keen? Adi Hello! Buy Yo?","Kina dhilo bhayo?","किन ढिलो भयो?","Why are you late?","home",3],
 ["Car? Nah! Tire! Bayou!","Khana tayar bhayo","खाना तयार भयो","Food's ready","home",3],
@@ -542,23 +499,17 @@ const DECK = [
 ["Dewy Dunk Gum? Ack, Hoot, Ah!","Dui dungama khutta","दुई डुंगामा खुट्टा","A foot in two boats","ukhaan",3],
 ["Honey, Brew a Coach! Ill? Low Pot!","Hune biruwako chillo paat","हुने बिरुवाको चिल्लो पात","A promising sapling shows shiny leaves","ukhaan",4],
 ["Hot tea, I owe Hutt. Tia, yo! Puff, sir!","Hatti aayo hatti aayo phussa","हात्ती आयो हात्ती आयो फुस्सा","All that hype, then nothing","ukhaan",3],
-["Up, who? Bah! Lotta jug? A tub? Hello!","Aaphu bhalo ta jagat bhalo","आफू भलो त जगत भलो","Be good and the world is good to you","ukhaan",3],
 
 /* added: harder cards by category; tier 4 = Impossible. Appended so saved "seen" indexes stay valid. */
 ["Cue, Panda! Lol!","Kupondole","कुपण्डोल","Lalitpur neighbourhood by the bridge","place",1],
 ["Dual leak? Help!","Dhulikhel","धुलिखेल","Hill town east of Kathmandu","place",1],
 ["Tilly, chortle!","Tilicho Tal","तिलिचो ताल","High lake on the Annapurna circuit","place",1],
-["Nora, yawning hot!","Narayanghat","नारायणघाट","Chitwan's big bus-stop town","place",1],
-["Saga, Martha!","Sagarmatha","सगरमाथा","Mount Everest","place",1],
-["Lazy imp? Pot!","Lazimpat","लाजिम्पाट","Embassy-lined Kathmandu area","place",1],
 ["Duck! Sink! Ollie!","Dakshinkali","दक्षिणकाली","Temple south of Kathmandu","place",2],
-["Sarong? Cut!","Sarangkot","सराङकोट","Sunrise viewpoint above Pokhara","place",1],
 ["Bunny shower!","Baneshwor","बानेश्वर","Busy Kathmandu chowk","place",1],
 ["Ma hand ran a car!","Mahendranagar","महेन्द्रनगर","Far-west city near Mahakali river","place",2],
 ["Mitchy, Deck Him, Mohawk Kelly!","Mechidekhi Mahakali","मेचीदेखि महाकाली","East to west, all of Nepal","place",2],
 ["Call Lanky Johnny: 'Ow, Nose! Ow, Nose!'","Kalanki jane, aaunus aaunus!","कलंकी जाने, आउनुस् आउनुस्!","Bus conductor: Kalanki riders, come on!","place",2],
 ["Tribe Who Won Beeman's Stall","Tribhuvan Bimansthal","त्रिभुवन विमानस्थल","Kathmandu airport","place",3],
-["Match Up, Pooch Ray! He Mauls!","Machhapuchhre Himal","माछापुच्छ्रे हिमाल","Fishtail mountain over Pokhara","place",2],
 ["Pushed A Curry","Pustakari","पुस्तकारी","Hard caramel milk sweet","food",1],
 ["Chee? Yak! Hanoi? Hunch, huh?","Chiya khanu hunchha?","चिया खानु हुन्छ?","Will you have some tea?","food",2],
 ["Can A Cheese Obey You?","Khana chiso bhayo","खाना चिसो भयो","The food has gone cold","food",2],
@@ -590,18 +541,11 @@ const DECK = [
 ["Tool, Oboe, Ah!","Thulobuwa","ठूलोबुवा","Father's elder brother","family",2],
 ["Sass, you boo! Hurry!","Sasu buhari","सासू बुहारी","Mother-in-law and daughter-in-law","family",1],
 ["My lid, Eddie!","Maili didi","माइली दिदी","Second-eldest sister","family",1],
-["Dad, you buy Dee Dee? Buy honey!","Dajubhai didibahini","दाजुभाइ दिदीबहिनी","Brothers and sisters (speech opener)","family",1],
-["Joy, now you cook! Hurrah! Cut!","Jwain aayo, kukhura kaat","ज्वाइँ आयो, कुखुरा काट","Son-in-law's here, kill the chicken","family",4],
 ["A cash cop, Hal, on car? Tarry, Ma!","Aakashko phal aankha tari mar","आकाशको फल आँखा तरी मर","Dying while staring at fruit in the sky","ukhaan",4],
-["Ghee? Ooh, carhop! Okie, yodel, my!","Ghiu kaha pokhiyo, daalmai","घिउ कहाँ पोखियो, दालमै","Where did the ghee spill? In the daal","ukhaan",4],
 ["Sun, a moo! Cut Hulu, Cora!","Sano mukh thulo kura","सानो मुख ठूलो कुरा","Small mouth, big talk","ukhaan",4],
-["A cup on Thaddeus' car, Jay!","Ek pantha dui kaaj","एक पन्थ दुई काज","One trip, two jobs done","ukhaan",4],
-["Go, Ma! Nunchuck char canoe!","Ghaauma nunchuk chharkanu","घाउमा नुनचुक छर्कनु","Rub salt into the wound","ukhaan",2],
 ["Ache, condo! We con Maid Ann!","Ek kaan dui kaan maidan","एक कान दुई कान मैदान","A secret spreads ear to ear, to all","ukhaan",4],
 ["Ah, go lug a patchy inner can, eh?","Aago lagepachhi inaar khanne","आगो लागेपछि इनार खन्ने","Digging a well after the fire starts","ukhaan",4],
 ["Carlo, a shark, buys a barber.","Kalo akshar bhainsi barabar","कालो अक्षर भैंसी बराबर","To the illiterate, black letters are no different from a buffalo","ukhaan",4],
-["Jabba's Amma's sauce? Tubby's Amma's!","Jabasamma saas, tabasamma aas","जबसम्म सास, तबसम्म आस","While there's breath, there's hope","ukhaan",4],
-["Come, Gurney! Call Uma, Connie, Ballou!","Kaam garne Kalu, maam khaane bhalu","काम गर्ने कालु, माम खाने भालु","Kalu does the work, the bear eats","ukhaan",4],
 ["Off, no, Dahlia! Kiss Sally a mellow bun, Dinah!","Aaphno dahilai kasaile amilo bhandaina","आफ्नो दहीलाई कसैले अमिलो भन्दैन","No one calls their own curd sour","ukhaan",4],
 ["Come, Cora! A cutter! Come low, Bucky! Timmy, tear!","Kaam kuro ekatir, kumlo boki Thimitir","काम कुरो एकातिर, कुम्लो बोकी थिमीतिर","Ignore the real job, wander off elsewhere","ukhaan",4],
 ["Thor punch? Hi-ya!","Darpan Chhaya","दर्पण छाया","Blockbuster Nepali film (2001)","song",2],
@@ -646,8 +590,8 @@ en:{
   pickTeam:"Tap a team to join it", tapJoin:"Tap to join", youHere:"You're here", nobodyYet:"Nobody yet",
   teamNames:"Team names", cardsEach:"Cards per team", secondsPer:"Seconds per card",
   categories:"Categories", allCats:"All", difficulty:"Difficulty", lvMix:"Easy to hard", lvHard:"Hard", lvInsane:"Impossible",
-  playing:"Cards: {c} · {l}",
-  rateQ:"Rate this card", love:"Love it", whack:"Whack", voteFail:"Couldn't save your vote. Check the internet.",
+  playing:"Difficulty: {l}",
+  rateQ:"Rate this card", love:"Like", whack:"Dislike", voteFail:"Couldn't save your vote. Check the internet.",
   start:"Start game", players:"{n} in the room", player1:"1 in the room",
   needTeams:"Each team needs at least one player.", pickYourTeam:"Pick a team first.",
   waitHost:"Waiting for {h} to start the game", teamA:"Momo", teamB:"Chiya",
@@ -690,8 +634,8 @@ ne:{
   pickTeam:"टोलीमा छोएर जोडिनुस्", tapJoin:"छोएर जोडिनुस्", youHere:"तपाईं यहाँ", nobodyYet:"अहिले कोही छैन",
   teamNames:"टोलीको नाम", cardsEach:"प्रति टोली कार्ड", secondsPer:"प्रति कार्ड सेकेन्ड",
   categories:"किसिम", allCats:"सबै", difficulty:"कठिनाइ", lvMix:"सजिलोदेखि गाह्रो", lvHard:"गाह्रो", lvInsane:"असम्भव",
-  playing:"कार्ड: {c} · {l}",
-  rateQ:"यो कार्ड कस्तो लाग्यो?", love:"मन पर्‍यो", whack:"झ्याउ", voteFail:"भोट सेभ भएन। इन्टरनेट जाँच्नुस्।",
+  playing:"कठिनाइ: {l}",
+  rateQ:"यो कार्ड कस्तो लाग्यो?", love:"मन पर्‍यो", whack:"मन परेन", voteFail:"भोट सेभ भएन। इन्टरनेट जाँच्नुस्।",
   start:"खेल सुरु", players:"कोठामा {n} जना", player1:"कोठामा १ जना",
   needTeams:"हरेक टोलीमा कम्तीमा एक जना चाहिन्छ।", pickYourTeam:"पहिले टोली छान्नुस्।",
   waitHost:"{h} ले खेल सुरु गर्ने प्रतीक्षा", teamA:"मम", teamB:"चिया",
@@ -763,13 +707,14 @@ let uiTimer = null, hostMissingSince = 0, readerMissingSince = 0, lastSecShown =
 function freshGame(){
   return { seq:0, phase:"lobby", hostId:ME.id, hostName:ME.name,
     teams:[{name:null,score:0},{name:null,score:0}],
-    perTeam:store.get("perTeam",6), time:store.get("time",45),
-    cats: validCats(store.get("cats", CAT_KEYS)), level: LEVELS[store.get("level","mix")] ? store.get("level","mix") : "mix",
+    perTeam:store.get("perTeam",6), time:[10,15,20].includes(store.get("time",15)) ? store.get("time",15) : 15,
+    cats: CAT_KEYS.slice(), level: "mix",
     deck:[], idx:0, reader:null, waitTeam:null, notice:null, hints:0, outcome:null, turns:[0,0], roster:[[],[]], leftMs:0 };
 }
 
 const teamName = i => (G && G.teams[i].name) || t(i ? "teamB" : "teamA");
-function validCats(a){ const v = (Array.isArray(a) ? a : []).filter(k => CAT[k]); return v.length ? v : CAT_KEYS.slice(); }
+/* every game uses every category; the picker was removed */
+function validCats(){ return CAT_KEYS.slice(); }
 /* How many cards of each tier one team gets, for n cards per team (largest remainder, so it always adds up to n). */
 function tierCounts(n, level){
   const w = LEVELS[level] || LEVELS.mix, raw = w.map(x => x*n), out = raw.map(Math.floor);
@@ -786,16 +731,17 @@ function buildDeck(n, cats, level){
     return shuffle(pool.filter(i => !seen.includes(i))).concat(seen.filter(i => pool.includes(i)));
   });
   const slots = tierCounts(n, level).flatMap((c,tier) => Array(c*2).fill(tier));
-  const hardFirst = level !== "mix";
   const deck = [];
-  slots.forEach(tier => {
-    const order = [0,1,2,3,4].sort((a,b) => Math.abs(a-tier) - Math.abs(b-tier) || (hardFirst ? b-a : a-b));
-    const q = order.map(x => queues[x]).find(x => x.length);
-    if (q) deck.push(q.shift());
-  });
-  // keep the two teams' cards side by side in difficulty order; an even count keeps it fair
+  // cards go in pairs from the same tier, one per team (teams alternate cards), so both teams
+  // climb the same difficulty ladder card for card
+  for (let k = 0; k < slots.length; k += 2){
+    const tier = slots[k];
+    const order = [0,1,2,3,4].sort((a,b) => Math.abs(a-tier) - Math.abs(b-tier) || a-b);
+    const q = order.map(x => queues[x]).find(x => x.length >= 2);
+    if (q) deck.push(q.shift(), q.shift());
+  }
+  // easiest pairs first; each tier group is even, so pairs stay together
   deck.sort((a,b) => DECK[a][5] - DECK[b][5]);
-  if (deck.length % 2) deck.shift();
   return deck;
 }
 function markSeen(i){ const s = store.get("seen",[]).filter(x => x !== i); s.push(i); store.set("seen",s); }
@@ -872,7 +818,7 @@ function hostAct(a, fromId){
     case "settings": {
       if (fromId !== ME.id || G.phase !== "lobby") return;
       if (a.perTeam) G.perTeam = a.perTeam;
-      if (a.time) G.time = a.time;
+      if ([10,15,20].includes(a.time)) G.time = a.time;
       if (a.cats) G.cats = validCats(a.cats);
       if (a.level && LEVELS[a.level]) G.level = a.level;
       if (a.nameIdx === 0 || a.nameIdx === 1) G.teams[a.nameIdx].name = a.name ? String(a.name).slice(0,14) : null;
@@ -1032,6 +978,7 @@ function show(name){ CUR = name; SCREENS.forEach(s => $("s-"+s).hidden = s !== n
 function paintText(){
   document.documentElement.lang = LANG;
   document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
+  document.querySelectorAll("[data-ta]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.ta)); el.title = t(el.dataset.ta); });
   document.querySelectorAll("[data-lang]").forEach(b => b.textContent = t("langBtn"));
   const ol = $("how-steps"); ol.innerHTML = "";
   L().steps.forEach((s,i) => { const x = document.createElement("li"); x.innerHTML = '<span class="n">'+(i+1)+'</span><div><p></p><p></p></div>'; const ps = x.querySelectorAll("p"); ps[0].textContent = s[0]; ps[1].textContent = s[1]; ol.appendChild(x); });
@@ -1117,11 +1064,9 @@ function renderScreen(){
     });
     $("host-settings").hidden = !isHost; $("start").hidden = !isHost;
     $("lobby-wait").hidden = isHost; $("lobby-wait").textContent = t("waitHost",{h:G.hostName});
-    $("lobby-deck").hidden = isHost;
-    $("lobby-deck").textContent = t("playing",{c: G.cats.length === CAT_KEYS.length ? t("allCats") : G.cats.map(k => CAT[k][li()]).join(", "), l: t({mix:"lvMix",hard:"lvHard",insane:"lvInsane"}[G.level])});
+    $("lobby-deck").hidden = true;
     if (isHost){
-      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time); setSeg("seg-level", G.level);
-      paintCats();
+      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time);
       [0,1].forEach(i => { const inp = $("tn-"+i); if (document.activeElement !== inp) inp.value = teamName(i); });
       const ok = teamList(0).length && teamList(1).length;
       $("start").disabled = !ok; $("lobby-err").textContent = ok ? "" : t("needTeams");
@@ -1190,19 +1135,6 @@ function renderScreen(){
   }
   if (s === "flip") paintFlip();
 }
-function paintCats(){
-  const box = $("cat-chips"); box.innerHTML = "";
-  const all = G.cats.length === CAT_KEYS.length;
-  const mk = (label, pressed, onClick, cls) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.setAttribute("aria-pressed", String(pressed)); if (cls) b.className = cls; b.onclick = onClick; box.appendChild(b); };
-  mk(t("allCats"), all, () => setCats(CAT_KEYS.slice()), "all");
-  CAT_KEYS.forEach(k => mk(CAT[k][li()] + " " + num(DECK.filter(c => c[4]===k).length), !all && G.cats.includes(k), () => {
-    // from "all", tapping one category picks just that one; otherwise toggle it
-    let next = all ? [k] : G.cats.includes(k) ? G.cats.filter(x => x !== k) : G.cats.concat(k);
-    if (!next.length) next = CAT_KEYS.slice();
-    setCats(next);
-  }));
-}
-function setCats(cats){ store.set("cats", cats); hostAct({type:"settings", cats}, ME.id); sfx.tap(); }
 function setSeg(id,v){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == v))); }
 function paintTimer(prefix){
   if (!G || G.phase !== "play") return;
@@ -1301,7 +1233,7 @@ async function resume(){
   if (saved.host){
     const hg = store.get("hostgame:"+saved.code, null);
     if (!hg || !hg.G || !hg.G.roster || Date.now() - hg.savedAt > 6*3600*1000) return false;
-    G = hg.G; G.hostName = ME.name; G.cats = validCats(G.cats); if (!LEVELS[G.level]) G.level = "mix";
+    G = hg.G; G.hostName = ME.name; G.cats = validCats(); G.level = "mix"; if (![10,15,20].includes(G.time)) G.time = 15;
     if (G.phase === "play"){ endAt = hg.endAt; }
   }
   const p = store.get("team:"+saved.code, null); if (p === 0 || p === 1) ME.team = p;
@@ -1363,7 +1295,6 @@ $("share").onclick = async () => {
   try{ await navigator.clipboard.writeText(text + "\n" + url); toast(t("copied")); }
   catch(e){ toast(url); }
 };
-$("seg-level").querySelectorAll("button").forEach(b => b.onclick = () => { store.set("level", b.dataset.v); hostAct({type:"settings", level:b.dataset.v}, ME.id); sfx.tap(); });
 [["seg-cards","perTeam"],["seg-time","time"]].forEach(([id,key]) => $(id).querySelectorAll("button").forEach(b => b.onclick = () => { const v = Number(b.dataset.v); store.set(key, v); hostAct({type:"settings", [key]: v}, ME.id); sfx.tap(); }));
 [0,1].forEach(i => $("tn-"+i).addEventListener("change", e => {
   const v = e.target.value.trim(), isDefault = !v || v === T.en[i?"teamB":"teamA"] || v === T.ne[i?"teamB":"teamA"];
@@ -1380,7 +1311,7 @@ $("watch-got").onclick = () => act("got");
 $("next").onclick = () => act("next");
 $("again").onclick = () => act("again");
 $("flip-show").onclick = () => { FLIP.shown = !FLIP.shown; paintFlip(); sfx.tap(); };
-$("flip-card").onclick = () => { FLIP.shown = !FLIP.shown; paintFlip(); };
+$("flip-card").onclick = e => { if (e.target.closest(".rate")) return; FLIP.shown = !FLIP.shown; paintFlip(); };
 $("flip-next").onclick = () => { FLIP.i = (FLIP.i+1) % FLIP.deck.length; FLIP.shown = false; paintFlip(); sfx.tap(); };
 document.querySelectorAll("[data-leave]").forEach(b => b.onclick = () => { $("leave-sub").textContent = isHost ? t("leaveSubHost") : t("leaveSub"); $("leave-veil").hidden = false; });
 $("leave-no").onclick = () => $("leave-veil").hidden = true;
