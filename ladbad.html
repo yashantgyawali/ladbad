@@ -282,14 +282,6 @@ h2{font-size:30px;font-weight:800;line-height:1.1;text-wrap:balance;letter-spaci
         <span class="label" data-t="teamNames"></span>
         <div class="tnames"><input class="in" id="tn-0" maxlength="14" autocomplete="off"><input class="in" id="tn-1" maxlength="14" autocomplete="off"></div>
       </div>
-      <div class="field">
-        <span class="label" data-t="cardsEach"></span>
-        <div class="seg" id="seg-cards"><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button><button type="button" data-v="10">10</button></div>
-      </div>
-      <div class="field">
-        <span class="label" data-t="secondsPer"></span>
-        <div class="seg" id="seg-time"><button type="button" data-v="10">10</button><button type="button" data-v="15">15</button><button type="button" data-v="20">20</button></div>
-      </div>
     </div>
     <div class="grow"></div>
     <p class="err" id="lobby-err" role="status"></p>
@@ -709,7 +701,7 @@ let uiTimer = null, hostMissingSince = 0, readerMissingSince = 0, lastSecShown =
 function freshGame(){
   return { seq:0, phase:"lobby", hostId:ME.id, hostName:ME.name,
     teams:[{name:null,score:0},{name:null,score:0}],
-    perTeam:store.get("perTeam",6), time:[10,15,20].includes(store.get("time",15)) ? store.get("time",15) : 15,
+    perTeam:PER_TEAM, time:SECONDS,
     cats: CAT_KEYS.slice(), level: "mix",
     deck:[], idx:0, reader:null, waitTeam:null, notice:null, hints:0, outcome:null, turns:[0,0], roster:[[],[]], leftMs:0 };
 }
@@ -718,6 +710,8 @@ const teamName = i => (G && G.teams[i].name) || t(i ? "teamB" : "teamA");
 /* every game uses every category; the picker was removed */
 function validCats(){ return CAT_KEYS.slice(); }
 /* How many cards of each tier one team gets, for n cards per team (largest remainder, so it always adds up to n). */
+/* fixed game length: 10 cards per team (two of each tier, easy to hard), 20 seconds a card */
+const PER_TEAM = 10, SECONDS = 20;
 function tierCounts(n, level){
   const w = LEVELS[level] || LEVELS.mix, raw = w.map(x => x*n), out = raw.map(Math.floor);
   let left = n - out.reduce((a,b)=>a+b,0);
@@ -819,8 +813,6 @@ function hostAct(a, fromId){
     }
     case "settings": {
       if (fromId !== ME.id || G.phase !== "lobby") return;
-      if (a.perTeam) G.perTeam = a.perTeam;
-      if ([10,15,20].includes(a.time)) G.time = a.time;
       if (a.cats) G.cats = validCats(a.cats);
       if (a.level && LEVELS[a.level]) G.level = a.level;
       if (a.nameIdx === 0 || a.nameIdx === 1) G.teams[a.nameIdx].name = a.name ? String(a.name).slice(0,14) : null;
@@ -1068,7 +1060,6 @@ function renderScreen(){
     $("lobby-wait").hidden = isHost; $("lobby-wait").textContent = t("waitHost",{h:G.hostName});
     $("lobby-deck").hidden = true;
     if (isHost){
-      setSeg("seg-cards", G.perTeam); setSeg("seg-time", G.time);
       [0,1].forEach(i => { const inp = $("tn-"+i); if (document.activeElement !== inp) inp.value = teamName(i); });
       const ok = teamList(0).length && teamList(1).length;
       $("start").disabled = !ok; $("lobby-err").textContent = ok ? "" : t("needTeams");
@@ -1235,7 +1226,7 @@ async function resume(){
   if (saved.host){
     const hg = store.get("hostgame:"+saved.code, null);
     if (!hg || !hg.G || !hg.G.roster || Date.now() - hg.savedAt > 6*3600*1000) return false;
-    G = hg.G; G.hostName = ME.name; G.cats = validCats(); G.level = "mix"; if (![10,15,20].includes(G.time)) G.time = 15;
+    G = hg.G; G.hostName = ME.name; G.cats = validCats(); G.level = "mix"; G.perTeam = PER_TEAM; G.time = SECONDS;
     if (G.phase === "play"){ endAt = hg.endAt; }
   }
   const p = store.get("team:"+saved.code, null); if (p === 0 || p === 1) ME.team = p;
@@ -1297,7 +1288,6 @@ $("share").onclick = async () => {
   try{ await navigator.clipboard.writeText(text + "\n" + url); toast(t("copied")); }
   catch(e){ toast(url); }
 };
-[["seg-cards","perTeam"],["seg-time","time"]].forEach(([id,key]) => $(id).querySelectorAll("button").forEach(b => b.onclick = () => { const v = Number(b.dataset.v); store.set(key, v); hostAct({type:"settings", [key]: v}, ME.id); sfx.tap(); }));
 [0,1].forEach(i => $("tn-"+i).addEventListener("change", e => {
   const v = e.target.value.trim(), isDefault = !v || v === T.en[i?"teamB":"teamA"] || v === T.ne[i?"teamB":"teamA"];
   hostAct({type:"settings", nameIdx:i, name: isDefault ? null : v}, ME.id);

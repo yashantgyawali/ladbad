@@ -12,7 +12,7 @@ It plays like a real card game: the reader holds the front of the card, everyone
    - the **reader's phone** shows only the gibberish, a timer, Hint and Pass;
    - **every other phone** shows the answer in नेपाली, romanised and in English;
    - the **other team** taps **Got it!** when the reader says it.
-4. The host picks cards per team and 10, 15 or 20 seconds per card. Every game draws from all categories. Cards come in pairs from the same tier, one for each team, so both teams climb the same ladder from easy to hard.
+4. No settings to pick: each team gets 10 cards, 20 seconds a card, from all categories. Cards come in pairs from the same tier, one for each team, so both teams climb the same ladder from easy to hard.
 5. Cards go Warm-up → Slippery → Brain melt → Boss round → **Impossible** (decoys that read like real English sentences). Hints cost points.
 
 Also: full English / नेपाली switch (with Nepali numerals), a solo Practice mode, and 165 cards.
